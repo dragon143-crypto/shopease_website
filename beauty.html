@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ShopEase — Beauty Shopping</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff5f9;
+  --text:#2b2b2b;
+  --muted:#7c7c7c;
+  --accent1:#ff77c2;
+  --accent2:#b97fff;
+  --accent3:#ffa7e3;
+  --panel:#fff;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#fff5f9,#f4ecff);color:var(--text);}
+header{
+  position:sticky;top:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 22px;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.3);
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--accent1);}
+.brand img{width:36px;height:36px;border-radius:8px;}
+.chip{border:1px solid rgba(255,255,255,0.3);padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--muted);}
+.hero{
+  position:relative;overflow:hidden;height:380px;display:flex;align-items:center;padding:40px 6%;
+  background:linear-gradient(90deg,#fff0f6,#f9ecff);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(800px 400px at 15% 20%,rgba(255,119,194,0.12),transparent 25%),
+             radial-gradient(600px 300px at 85% 70%,rgba(185,127,255,0.15),transparent 30%);
+}
+.hero-left{width:60%;position:relative;z-index:2;}
+.hero-title{font-size:42px;margin:0 0 10px;color:#2a2a2a;}
+.hero-sub{color:var(--muted);}
+.btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;border:none;cursor:pointer;margin-right:10px;box-shadow:0 4px 14px rgba(255,119,194,0.4);}
+.btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.1);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;}
+.hero-right{position:relative;}
+.hero-right img{width:340px;height:240px;border-radius:20px;object-fit:cover;box-shadow:0 20px 50px rgba(0,0,0,0.15);position:relative;z-index:2;}
+.hero-right::after{
+  content:"";position:absolute;inset:-30px;
+  background:radial-gradient(circle,rgba(255,119,194,0.3) 0%,transparent 70%);
+  filter:blur(40px);
+  z-index:1;
+  animation:floatGlow 4s ease-in-out infinite alternate;
+}
+@keyframes floatGlow{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
+.layout{display:flex;gap:22px;padding:28px 6% 80px;}
+.sidebar{width:260px;background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.5);box-shadow:0 5px 25px rgba(255,119,194,0.08);}
+.sidebar h3{margin-bottom:14px;color:var(--accent1);}
+.filter-section{margin-bottom:18px;}
+.filter-section h4{margin:0 0 8px;color:var(--muted);}
+.filter-section label{display:block;margin:6px 0;}
+.area{flex:1;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.search{flex:1;display:flex;align-items:center;background:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.6);padding:8px 12px;border-radius:10px;backdrop-filter:blur(10px);}
+.search input{background:transparent;border:none;outline:none;color:#333;width:100%;}
+.badge{background:#fdf0f6;padding:8px 12px;border-radius:10px;color:var(--muted);font-size:13px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.card{
+  background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);
+  border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.5);
+  transition:transform .3s ease,box-shadow .3s ease;
+  position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+.card:hover{transform:translateY(-8px);box-shadow:0 18px 50px rgba(255,119,194,0.2);}
+.imgwrap{height:170px;position:relative;overflow:hidden;}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.card:hover img{transform:scale(1.1);}
+.card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.3) 50%,transparent 100%);
+  transform:translateX(-100%);
+  transition:transform 0.8s ease;
+}
+.card:hover::after{transform:translateX(100%);}
+.glow{
+  position:absolute;top:10px;left:0;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;font-weight:500;font-size:11px;padding:4px 10px;border-radius:0 6px 6px 0;
+  letter-spacing:0.3px;text-transform:capitalize;
+}
+.card-body{padding:14px;}
+.title{font-weight:600;font-size:15px;margin-bottom:6px;}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;}
+.price{color:var(--accent1);font-weight:700;}
+.actions{display:flex;gap:8px;margin-top:8px;}
+.actions button{flex:1;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+.add{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;}
+.wish{background:transparent;border:1px solid rgba(0,0,0,0.1);color:var(--muted);}
+footer{text-align:center;padding:24px;border-top:1px solid rgba(255,255,255,0.4);color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" alt="logo">
+    ShopEase — Beauty
+  </div>
+  <div>
+    <span class="chip">🛒 Cart <b id="cart-num">0</b></span>
+    <span class="chip">💖 Wish <b id="wish-num">0</b></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Glow, Glam, and Grace — Your Beauty Store 💅</h1>
+    <p class="hero-sub">Luxury skincare, premium cosmetics, and haircare essentials all in one place.</p>
+    <button class="btn-primary">Shop Now</button>
+    <button class="btn-ghost">Discover More</button>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.pexels.com/photos/3737589/pexels-photo-3737589.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="beauty">
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    <div class="filter-section">
+      <h4>Category</h4>
+      <label><input type="checkbox" class="f" data-filter="skincare"> Skincare</label>
+      <label><input type="checkbox" class="f" data-filter="makeup"> Makeup</label>
+      <label><input type="checkbox" class="f" data-filter="haircare"> Haircare</label>
+      <label><input type="checkbox" class="f" data-filter="fragrance"> Fragrance</label>
+      <label><input type="checkbox" class="f" data-filter="accessory"> Accessories</label>
+    </div>
+    <div class="filter-section">
+      <h4>Type</h4>
+      <label><input type="checkbox" class="f" data-material="organic"> Organic</label>
+      <label><input type="checkbox" class="f" data-material="premium"> Premium</label>
+      <label><input type="checkbox" class="f" data-material="budget"> Budget</label>
+    </div>
+  </aside>
+
+  <main class="area">
+    <div class="topbar">
+      <div class="search"><input id="q" placeholder="Search beauty items..."></div>
+      <div class="badge" id="activeFilters">All items</div>
+    </div>
+    <section id="productsGrid" class="grid"></section>
+    <div id="emptyState" style="display:none;text-align:center;color:var(--muted);padding:30px;">No items found.</div>
+  </main>
+</div>
+
+<footer>© 2025 ShopEase — Beauty Collection</footer>
+
+<script>
+const PRODUCTS=[
+  {id:1,title:"Hydrating Face Serum",category:"skincare",price:1599,material:"premium",img:"https://t4.ftcdn.net/jpg/17/83/46/11/240_F_1783461192_oodFPreT6zIiYsSP5cxEBI0TAtSUW2wo.jpg",badge:"New"},
+  {id:2,title:"Velvet Matte Lipstick",category:"makeup",price:899,material:"organic",img:"https://t3.ftcdn.net/jpg/16/02/70/26/240_F_1602702637_I13NJmfzlUjNEsCs74fBjgx21vSmrDNL.jpg",badge:"Bestseller"},
+  {id:3,title:"Aloe Vera Hair Mask",category:"haircare",price:1199,material:"organic",img:"https://t4.ftcdn.net/jpg/15/58/93/51/240_F_1558935124_79jnpbBLbac3V2LzCzOP0fjeG5FFxg9W.jpg",badge:"Trending"},
+  {id:4,title:"Luxury Perfume Set",category:"fragrance",price:4999,material:"premium",img:"https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Premium"},
+  {id:5,title:"Makeup Brush Kit",category:"accessory",price:1299,material:"budget",img:"https://t4.ftcdn.net/jpg/18/36/42/85/240_F_1836428517_tDaJVEFgyFp3Q6XG4KEgI4GaH6Lj8nWa.jpg",badge:"Hot"},
+  {id:6,title:"Organic Face Mask Combo",category:"skincare",price:1399,material:"organic",img:"https://t4.ftcdn.net/jpg/13/17/41/53/240_F_1317415302_dIw0XSK6QRi4eKMLkc8YM5Ig0ig9jkam.jpg",badge:"Limited"}
+];
+
+let cart=JSON.parse(localStorage.getItem('beauty_cart')||'[]');
+let wishlist=JSON.parse(localStorage.getItem('beauty_wish')||'[]');
+const grid=document.getElementById('productsGrid');
+const q=document.getElementById('q');
+const emptyState=document.getElementById('emptyState');
+const cartNum=document.getElementById('cart-num');
+const wishNum=document.getElementById('wish-num');
+
+function render(items){
+  grid.innerHTML='';
+  if(!items.length){emptyState.style.display='block';return}
+  emptyState.style.display='none';
+  items.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="imgwrap">
+        <img src="${p.img}" alt="${p.title}">
+        ${p.badge?`<div class="glow">${p.badge}</div>`:''}
+      </div>
+      <div class="card-body">
+        <div class="title">${p.title}</div>
+        <div class="meta"><span class="price">₹${p.price.toLocaleString()}</span><span>${p.material}</span></div>
+        <div class="actions">
+          <button class="add" onclick="addToCart(${p.id})">Buy now</button>
+          <button class="wish" onclick="toggleWish(${p.id},this)">${wishlist.includes(p.id)?'♥':'♡'} Wish</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function addToCart(id){
+  const product=PRODUCTS.find(p=>p.id===id);
+  cart.push(product);
+  localStorage.setItem('beauty_cart',JSON.stringify(cart));
+  updateCounts();
+}
+function toggleWish(id,btn){
+  const i=wishlist.indexOf(id);
+  if(i===-1){wishlist.push(id);btn.textContent='♥ Wish'}
+  else{wishlist.splice(i,1);btn.textContent='♡ Wish'}
+  localStorage.setItem('beauty_wish',JSON.stringify(wishlist));
+  updateCounts();
+}
+function updateCounts(){cartNum.textContent=cart.length;wishNum.textContent=wishlist.length;}
+function applyFilters(){
+  const term=q.value.toLowerCase();
+  const filters=document.querySelectorAll('.f:checked');
+  const cats=[...filters].filter(f=>f.dataset.filter).map(f=>f.dataset.filter);
+  const mats=[...filters].filter(f=>f.dataset.material).map(f=>f.dataset.material);
+  const items=PRODUCTS.filter(p=>
+    (!cats.length||cats.includes(p.category)) &&
+    (!mats.length||mats.includes(p.material)) &&
+    (!term||p.title.toLowerCase().includes(term))
+  );
+  render(items);
+}
+document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',applyFilters));
+q.addEventListener('input',()=>setTimeout(applyFilters,200));
+updateCounts();
+render(PRODUCTS);
+</script>
+</body>
+</html>

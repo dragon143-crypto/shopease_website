@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women's Fashion</title>
+  <link rel="stylesheet" href="womens-fashion.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fef6f9;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #ff4081, #ff79a8);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd47') no-repeat center/cover;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    /* MAIN SECTION */
+    .products-section {
+      padding: 50px 5%;
+    }
+
+    .products-section h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff4081;
+    }
+
+    /* GRID */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    /* PRODUCT CARD */
+    .product-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card img:hover {
+      transform: scale(1.05);
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff4081;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .product-name {
+      margin: 15px 0 5px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 1.1rem;
+      color: #ff4081;
+      font-weight: bold;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn.cart { background: #ff79a8; color: white; }
+    .btn.buy { background: #ff4081; color: white; }
+    .btn.save { background: #ffc107; color: #333; }
+
+    .btn:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>👗 Women's Fashion</header>
+
+  <div class="hero">
+    <p>Discover the Latest Trends</p>
+  </div>
+
+  <section class="products-section">
+    <h2>Top Picks for You</h2>
+    <div class="products-grid">
+      
+      <!-- Product 1 -->
+      <div class="product-card">
+        <span class="discount-badge">-30%</span>
+        <img src="https://i5.walmartimages.com/seo/MOA-USA-Women-s-PLUS-trendy-style-solid-3-4-sleeve-dress_1aaef0d3-9892-4579-9907-cf7e2daab890.82f392f953f22603f5dab7b97baf861a.jpeg?odnHeight=180&odnWidth=180&odnBg=FFFFFF" alt="Red Dress">
+        <h3 class="product-name">Red Evening Dress</h3>
+        <p class="price">$89.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <span class="discount-badge">-20%</span>
+        <img src="https://i.pinimg.com/736x/97/11/1f/97111f74099335cb5182d3020081e246.jpg" alt="Handbag">
+        <h3 class="product-name">Luxury Handbag</h3>
+        <p class="price">$149.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <span class="discount-badge">-25%</span>
+        <img src="https://m.media-amazon.com/images/I/51KDN-J75TL._UF350,350_QL80_.jpg" alt="High Heels">
+        <h3 class="product-name">Stylish High Heels</h3>
+        <p class="price">$79.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+         <a href="buy.html" class="btn buy">Buy Now</a>
+
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <span class="discount-badge">-40%</span>
+        <img src="https://www.littlefingersindia.com/wp-content/uploads/2024/11/IMG_20240726_133933-1.jpg" alt="Jewelry Set">
+        <h3 class="product-name">Gold Jewelry Set</h3>
+        <p class="price">$199.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

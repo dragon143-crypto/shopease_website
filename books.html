@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Books & Stationery — ReadMore Store</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
+
+:root{
+  --bg1:#fff3e0;
+  --bg2:#ffe0b2;
+  --card-bg:rgba(255,255,255,0.25);
+  --text:#2c1810;
+  --accent1:#f9a825;
+  --accent2:#ff7043;
+  --accent3:#4caf50;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Quicksand',sans-serif;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  overflow-x:hidden;
+  color:var(--text);
+  min-height:100vh;
+  position:relative;
+}
+
+/* Floating papers and pencils */
+.floating{
+  position:absolute;opacity:0.25;animation:float 18s linear infinite;
+}
+.floating img{width:60px;filter:drop-shadow(0 0 4px rgba(0,0,0,0.2))}
+.floating:nth-child(1){top:20%;left:-15%;animation-delay:0s}
+.floating:nth-child(2){top:50%;left:-20%;animation-delay:6s}
+.floating:nth-child(3){top:70%;left:-10%;animation-delay:12s}
+@keyframes float{
+  from{transform:translateX(-10%) translateY(0);}
+  to{transform:translateX(110vw) translateY(-20px);}
+}
+
+/* header */
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 28px;position:relative;z-index:2;
+}
+.logo{
+  width:60px;height:60px;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:22px;color:white;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+header h1{font-size:24px;margin-left:14px}
+.controls{display:flex;gap:12px;align-items:center}
+.search{
+  padding:10px 14px;border-radius:999px;border:none;
+  background:rgba(255,255,255,0.6);outline:none;min-width:220px;
+}
+.select,.btn{
+  padding:10px 14px;border-radius:10px;border:none;
+  background:rgba(255,255,255,0.6);cursor:pointer;
+}
+.btn:hover{transform:scale(1.05);background:var(--accent1);color:white}
+
+/* banner */
+.banner{
+  margin:20px 28px;padding:24px;
+  background:rgba(255,255,255,0.55);
+  border-radius:16px;display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.banner h2{font-size:22px}
+.cta{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  border:none;padding:10px 18px;border-radius:12px;font-weight:600;color:white;cursor:pointer;transition:.3s;
+}
+.cta:hover{transform:scale(1.05)}
+
+/* grid */
+main{padding:20px 28px;position:relative;z-index:1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;}
+.card{
+  background:var(--card-bg);
+  border-radius:18px;padding:16px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  transition:all .3s ease;
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-6px) rotate(-1deg) scale(1.02);box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+.thumb{
+  height:170px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.4);border-radius:12px;margin-bottom:10px;
+  overflow:hidden;position:relative;
+}
+.thumb img{
+  max-height:160px;border-radius:8px;transition:transform .6s ease;
+}
+.card:hover .thumb img{
+  transform:rotateY(15deg) scale(1.1);
+}
+h3{margin:6px 0;font-size:16px}
+.brand{font-size:13px;color:#5a4032;}
+.desc{font-size:13px;color:#3e2723;min-height:36px;}
+.price{font-weight:700;color:var(--accent2);margin-top:6px;}
+.rating{color:#ffb300;font-size:13px;margin-top:4px;}
+.actions{display:flex;gap:8px;margin-top:10px;}
+.buy{
+  flex:1;padding:10px;border-radius:8px;border:none;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;font-weight:600;cursor:pointer;
+}
+.buy:hover{transform:scale(1.05);}
+.wish{
+  padding:10px;border-radius:8px;background:transparent;border:2px solid rgba(0,0,0,0.2);cursor:pointer;
+}
+.footer{text-align:center;padding:18px;color:#5d4037;}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  display:flex;justify-content:center;align-items:center;
+  backdrop-filter:blur(8px);z-index:100;
+}
+.modal{
+  background:#fff;border-radius:18px;padding:24px;
+  width:90%;max-width:460px;text-align:center;animation:pop .4s ease forwards;
+  color:#3e2723;position:relative;
+}
+@keyframes pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal img{width:100%;border-radius:10px;margin-bottom:10px;}
+.close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:24px;color:#3e2723;cursor:pointer;}
+.modal h2{font-size:20px;margin-bottom:6px}
+.modal p{font-size:13px;color:#5d4037;margin-bottom:8px}
+.modal .price{font-size:18px;color:var(--accent2);margin-bottom:10px}
+.modal .actions{justify-content:center}
+
+@media(max-width:640px){header{flex-direction:column;align-items:flex-start}.search{min-width:100%}}
+</style>
+</head>
+<body>
+<!-- floating images -->
+<div class="floating"><img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png"></div>
+<div class="floating"><img src="https://cdn-icons-png.flaticon.com/512/2972/2972238.png"></div>
+<div class="floating"><img src="https://cdn-icons-png.flaticon.com/512/2972/2972209.png"></div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="logo">BS</div>
+    <h1>Books & Stationery Store</h1>
+  </div>
+  <div class="controls">
+    <input id="search" class="search" placeholder="Search books, notebooks...">
+    <select id="sort" class="select">
+      <option value="pop">Sort: Popular</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+    </select>
+    <button id="shuffle" class="btn">Shuffle Glow</button>
+  </div>
+</header>
+
+<div class="banner">
+  <div>
+    <h2>📚 Knowledge Corner</h2>
+    <p>Up to <strong>30% OFF</strong> on books and stationery</p>
+  </div>
+  <button class="cta" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</div>
+
+<main>
+  <section class="grid" id="grid"></section>
+</main>
+<div class="footer">Showing <span id="count">0</span> items • Learn, Write & Create!</div>
+
+<script>
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const sort=document.getElementById('sort');
+const shuffle=document.getElementById('shuffle');
+const count=document.getElementById('count');
+
+const books=[
+  {brand:"Penguin",name:"The Alchemist",desc:"Paulo Coelho • Fiction Bestseller",price:299,rating:4.8,img:"https://m.media-amazon.com/images/I/71aFt4+OTOL._SL1500_.jpg"},
+  {brand:"HarperCollins",name:"Atomic Habits",desc:"James Clear • Self Improvement",price:499,rating:4.9,img:"https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg"},
+  {brand:"Classmate",name:"Spiral Notebook A4",desc:"Single Line • 200 pages",price:89,rating:4.6,img:"https://m.media-amazon.com/images/I/61IhKf8qGKL._SL1500_.jpg"},
+  {brand:"Faber-Castell",name:"Color Pencil Set",desc:"24 Shades • Smooth coloring",price:299,rating:4.7,img:"https://m.media-amazon.com/images/I/71uZql5D6uL._SL1500_.jpg"},
+  {brand:"Camlin",name:"Geometry Box",desc:"Durable • Compass, Scale, Pencil",price:149,rating:4.5,img:"https://m.media-amazon.com/images/I/71mVQfDBHfL._SL1500_.jpg"},
+  {brand:"Oxford",name:"English Dictionary",desc:"Pocket Edition • 100K words",price:199,rating:4.6,img:"https://m.media-amazon.com/images/I/71Dy49TjrcL._SL1500_.jpg"},
+  {brand:"Paperkraft",name:"Premium Diary",desc:"Leather cover • 192 pages",price:349,rating:4.8,img:"https://m.media-amazon.com/images/I/61oRU+YvVEL._SL1500_.jpg"},
+  {brand:"Pilot",name:"G2 Gel Pens",desc:"Pack of 5 • Smooth Writing",price:249,rating:4.7,img:"https://m.media-amazon.com/images/I/61Ucvp3a8pL._SL1500_.jpg"},
+  {brand:"Rupa",name:"Rich Dad Poor Dad",desc:"Robert Kiyosaki • Finance Book",price:399,rating:4.8,img:"https://m.media-amazon.com/images/I/71pu++sfEfL._SL1500_.jpg"},
+  {brand:"Nataraj",name:"Pencils & Erasers Set",desc:"12 pencils + 2 erasers",price:69,rating:4.5,img:"https://m.media-amazon.com/images/I/61pTQJm1FPL._SL1500_.jpg"}
+];
+
+function createCard(it){
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <div class="thumb"><img src="${it.img}" alt="${it.name}"></div>
+    <div class="brand">${it.brand}</div>
+    <h3>${it.name}</h3>
+    <div class="desc">${it.desc}</div>
+    <div class="price">₹${it.price.toLocaleString()}</div>
+    <div class="rating">★ ${it.rating}</div>
+    <div class="actions">
+      <button class="buy">Buy Now</button>
+      <button class="wish">♡</button>
+    </div>`;
+  card.querySelector('.buy').onclick=(e)=>{e.stopPropagation();alert('Buying '+it.name)};
+  card.querySelector('.wish').onclick=(e)=>{e.stopPropagation();e.target.textContent='♥'};
+  card.onclick=()=>openModal(it);
+  grid.appendChild(card);
+}
+
+function render(list){grid.innerHTML='';list.forEach(createCard);count.textContent=list.length;}
+
+function openModal(it){
+  const bg=document.createElement('div');
+  bg.className='modal-bg';
+  bg.innerHTML=`
+    <div class="modal">
+      <button class="close">&times;</button>
+      <img src="${it.img}" alt="${it.name}">
+      <h2>${it.name}</h2>
+      <p>${it.desc}</p>
+      <div class="price">₹${it.price.toLocaleString()}</div>
+      <div class="rating">★ ${it.rating}</div>
+      <div class="actions">
+        <button class="buy">Buy Now</button>
+        <button class="wish">♡</button>
+      </div>
+    </div>`;
+  document.body.appendChild(bg);
+  bg.querySelector('.close').onclick=()=>bg.remove();
+  bg.addEventListener('click',e=>{if(e.target===bg)bg.remove()});
+}
+
+search.addEventListener('input',()=>{
+  const q=search.value.toLowerCase();
+  const filtered=books.filter(it=>it.name.toLowerCase().includes(q)||it.brand.toLowerCase().includes(q));
+  applySort(filtered);
+});
+sort.addEventListener('change',()=>applySort(books.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase()))));
+function applySort(list){
+  const val=sort.value;
+  const copy=[...list];
+  if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
+  else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
+  render(copy);
+}
+shuffle.onclick=()=>{
+  document.querySelectorAll('.card').forEach(c=>{
+    const glow=`0 0 15px hsl(${Math.random()*360},80%,70%)`;
+    c.style.boxShadow=glow;
+  });
+};
+render(books);
+</script>
+</body>
+</html>

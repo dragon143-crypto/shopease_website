@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopEase</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* === Profile Dropdown Styles === */
+    .profile-btn {
+      background: #2874f0;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      transition: 0.3s ease;
+    }
+    .profile-btn:hover {
+      background: #1a5fd1;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      width: 220px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+    .profile-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .profile-dropdown a {
+      display: block;
+      padding: 12px 18px;
+      text-decoration: none;
+      color: #333;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+    .profile-dropdown a:hover {
+      background: #f0f0f5;
+      padding-left: 25px;
+    }
+  </style>
+</head>
+<body>
+<!-- ===================== HEADER START ===================== -->
+
+<header class="pro-header">
+
+  <!-- LEFT: LOGO -->
+  <div class="pro-logo" data-lang="brand">ShopEase</div>
+
+  <!-- CENTER: SEARCH BAR -->
+  <div class="pro-search">
+    <div id="searchResults" class="search-results"></div>
+
+
+    <input id="searchInput" type="text" placeholder="Search products..." data-lang="search_placeholder" />
+
+    <!-- Voice Search Icon (LEFT SIDE OF SEARCH BUTTON) -->
+    <span class="voice-btn" id="voiceBtn">
+      <i class="fas fa-microphone"></i>
+    </span>
+
+    <button><i class="fas fa-search"></i></button>
+
+    <!-- AI Autocomplete Suggestions -->
+    <div id="searchResults" class="search-results"></div>
+  </div>
+
+  <!-- RIGHT: ACTIONS -->
+  <div class="pro-actions">
+
+    <!-- Multi-language Dropdown -->
+    <select class="lang-select" id="langChange">
+      <option value="en">EN</option>
+      <option value="hi">हिं</option>
+      <option value="te">తెలు</option>
+      <option value="ta">தமி</option>
+    </select>
+
+  <!-- Cart -->
+<div class="pro-icon" onclick="window.location.href='cart.html'">
+  <i class="fas fa-shopping-cart"></i>
+ 
+</div>
+
+<!-- Profile Dropdown -->
+<div class="profile-wrapper">
+  <!-- Make the whole icon clickable for profile page -->
+  <a href="profile.html" class="profile-btn pro-icon">
+    <i class="fas fa-user"></i> Profile
+  </a>
+
+  <!-- Dropdown menu -->
+  <div class="profile-menu">
+    <a href="orders.html" data-lang="orders">My Orders</a>
+    <a href="wishlist.html" data-lang="wishlist">Wishlist</a>
+    <a href="account.html" data-lang="account">Account Settings</a>
+    <a href="logout.html" data-lang="logout">Logout</a>
+  </div>
+</div>
+
+
+<!-- Sign In Button -->
+<a href="signin.html" class="signin-btn" data-lang="signin">Sign In</a>
+
+  </div>
+
+</header>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===================== BASE HEADER ===================== */
+.pro-header {
+  width: 100%;
+  background: #ffffff;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* LOGO */
+.pro-logo {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #2874f0;
+}
+
+/* SEARCH BAR */
+.pro-search {
+  flex: 1;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  background: #f1f3f6;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  position: relative;
+}
+
+.pro-search input {
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+}
+
+.pro-search button {
+  background: #2874f0;
+  border: none;
+  padding: 10px 14px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.voice-btn {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: #555;
+}
+
+.voice-btn:hover {
+  color: #2874f0;
+}
+
+/* SUGGESTIONS BOX */
+.suggestions-box {
+  position: absolute;
+  top: 46px;
+  width: 100%;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+/* RIGHT ACTIONS */
+.pro-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pro-icon {
+  font-size: 22px;
+  position: relative;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #ff3d3d;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+/* Language Dropdown */
+.lang-select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+}
+
+.profile-wrapper .profile-btn {
+  text-decoration: none;
+  color: #2874f0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #eef5ff;
+  border: 1px solid #d4e4ff;
+  cursor: pointer;
+  transition: background 0.2s ease; /* Only background transition, no scale */
+}
+
+.profile-wrapper .profile-btn:hover {
+  background: #ddecff; /* Slightly darker on hover */
+  transform: none;      /* Remove scale effect */
+}
+
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  top: 40px;
+  width: 180px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.profile-menu a {
+  display: block;
+  padding: 12px;
+  color: #222;
+  text-decoration: none;
+}
+
+.profile-menu a:hover { background: #f3f3f3; }
+
+/* PROFILE BUTTON UPDATED (Flipkart Style) */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  color: #2874f0 !important; /* FLIPKART BLUE */
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+  background: #eef5ff;
+  border: 1px solid #d4e4ff;
+}
+
+.profile-btn:hover {
+  background: #ddecff;
+  transform: scale(1.05);
+}
+
+/* Alternative Light Blue Sign-In (perfect match with profile-btn) */
+.signin-btn {
+  padding: 8px 18px;
+  background: #eef5ff;             /* light blue background */
+  color: #2874f0 !important;       /* Flipkart blue text */
+  border: 1px solid #d4e4ff;       /* light border */
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.signin-btn:hover {
+  background: #ddecff;             /* slightly darker on hover */
+}
+.search-results {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  display: none;
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.search-results div {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.search-results div:hover {
+  background: #f1f3f6;
+}
+
+
+</style>
+<script>
+
+/* ================== PROFILE DROPDOWN ================== */
+document.querySelector(".profile-btn").addEventListener("click", () => {
+  const menu = document.querySelector(".profile-menu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+});
+
+// Close profile menu when clicked outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".profile-wrapper")) {
+    document.querySelector(".profile-menu").style.display = "none";
+  }
+});
+
+
+/* ================== DYNAMIC SEARCH RESULTS ================== */
+
+const products = [
+  { name: "iPhone 15 Pro", link: "products.html#iphone15" },
+  { name: "Samsung S24", link: "products.html#samsungs24" },
+  { name: "Smartwatch", link: "products.html#smartwatch" },
+  { name: "Laptop Bag", link: "products.html#laptopbag" },
+  { name: "Boat Airdopes", link: "products.html#airdopes" },
+  { name: "Sony Camera", link: "products.html#sonycamera" }
+];
+
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase().trim();
+  searchResults.innerHTML = "";
+
+  if (!query) {
+    searchResults.style.display = "none";
+    return;
+  }
+
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(query)
+  );
+
+  if (filtered.length === 0) {
+    searchResults.style.display = "none";
+    return;
+  }
+
+  filtered.forEach(item => {
+    const div = document.createElement("div");
+    div.textContent = item.name;
+    div.onclick = () => {
+      searchInput.value = item.name;
+      searchResults.style.display = "none";
+      window.location.href = item.link;
+    };
+    searchResults.appendChild(div);
+  });
+
+  searchResults.style.display = "block";
+});
+
+// Close search results when clicked outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".pro-search")) {
+    searchResults.style.display = "none";
+  }
+});
+
+
+/* ================== VOICE SEARCH ================== */
+document.getElementById("voiceBtn").onclick = () => {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    searchInput.value = event.results[0][0].transcript;
+  };
+};
+
+
+/* ================== LANGUAGE ENGINE ================== */
+
+const dictionary = {
+  en: {
+    brand: "ShopEase",
+    search_placeholder: "Search for products, brands and more...",
+    orders: "My Orders",
+    wishlist: "Wishlist",
+    account: "Account Settings",
+    logout: "Logout",
+    signin: "Sign In"
+  },
+
+  hi: {
+    brand: "शॉपईज़",
+    search_placeholder: "उत्पाद, ब्रांड और अधिक खोजें...",
+    orders: "मेरे ऑर्डर",
+    wishlist: "विशलिस्ट",
+    account: "खाता सेटिंग्स",
+    logout: "लॉग आउट",
+    signin: "साइन इन"
+  },
+
+  te: {
+    brand: "షాప్ ఈజ్",
+    search_placeholder: "ఉత్పత్తులు, బ్రాండ్లు మరియు మరిన్ని శోధించండి...",
+    orders: "నా ఆర్డర్లు",
+    wishlist: "విష్‌లిస్ట్",
+    account: "ఖాతా సెట్టింగ్స్",
+    logout: "లాగ్ అవుట్",
+    signin: "సైన్ ఇన్"
+  },
+
+  ta: {
+    brand: "ஷாப் ஈஸ்",
+    search_placeholder: "பொருட்கள், பிராண்டுகள் மற்றும் பல தேடுங்கள்...",
+    orders: "என் ஆர்டர்கள்",
+    wishlist: "விருப்பப் பட்டியல்",
+    account: "கணக்கு அமைப்புகள்",
+    logout: "லாக் அவுட்",
+    signin: "உள்நுழை"
+  }
+};
+
+document.getElementById("langChange").addEventListener("change", function () {
+  const lang = this.value;
+
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+
+    if (key === "search_placeholder") {
+      el.placeholder = dictionary[lang][key];
+    } else {
+      el.innerText = dictionary[lang][key];
+    }
+  });
+});
+
+</script>
+
+<!-- CATEGORY BAR -->
+<nav class="category-bar">
+  <ul class="main-menu">
+
+    <!-- Mobiles & Tablets -->
+    <li class="menu-item mobiles">
+      <a href="#">
+        <img src="https://www.pngmart.com/files/15/Apple-iPhone-11-PNG-Image.png" alt="Mobiles">
+        <span>Mobiles & Tablets</span>
+      </a>
+
+      <ul class="dropdown mobile-dropdown">
+
+        <li class="submenu-item">
+          <a href="mobile.html" class="submenu-link">Mobiles</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Mobiles</li>
+            <li><a href="mobile-details.html">All Mobile Phones</a></li>
+            <li><a href="#">Smartphones</a></li>
+            <li><a href="#">5G Phones</a></li>
+            <li><a href="#">Feature Phones</a></li>
+            <li><a href="#">Gaming Phones</a></li>
+            <li><a href="#">Refurbished Mobiles</a></li>
+            <li><a href="#">Upcoming Phones</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="funzone.html" class="submenu-link">Tablets</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Tablets</li>
+            <li><a href="#">All Tablets</a></li>
+            <li><a href="#">Android Tablets</a></li>
+            <li><a href="#">iPads</a></li>
+            <li><a href="#">Windows Tablets</a></li>
+            <li><a href="#">Kids Tablets</a></li>
+            <li><a href="#">Tablet Accessories</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="accessories.html" class="submenu-link">Accessories</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Accessories</li>
+            <li><a href="#">Mobile Cases & Covers</a></li>
+            <li><a href="#">Screen Protectors</a></li>
+            <li><a href="#">Chargers</a></li>
+            <li><a href="#">Power Banks</a></li>
+            <li><a href="#">Cables</a></li>
+            <li><a href="#">Adapters</a></li>
+            <li><a href="#">Headphones</a></li>
+            <li><a href="#">Smartwatches</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Wearables</a></li>
+        <li><a href="#">Mobile Cleaning Kits</a></li>
+        <li><a href="#">SIM Cards</a></li>
+
+      </ul>
+    </li>
+
+    <!-- FASHION -->
+    <li class="menu-item fashion">
+      <a href="#">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/050/817/666/small_2x/smiling-young-man-and-woman-pointing-at-camera-standing-isolate-on-transparent-background-png.png" alt="Fashion">
+        <span>Fashion</span>
+      </a>
+
+      <ul class="dropdown fashion-dropdown">
+
+        <li class="submenu-item">
+          <a href="men-fashion.html" class="submenu-link">Men's Top Wear</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Men's Top Wear</li>
+            <li><a href="#">All</a></li>
+            <li><a href="#">Men's T-Shirts</a></li>
+            <li><a href="#">Men's Casual Shirts</a></li>
+            <li><a href="#">Men's Formal Shirts</a></li>
+            <li><a href="#">Men's Kurtas</a></li>
+            <li><a href="#">Men's Ethnic Sets</a></li>
+            <li><a href="#">Men's Blazers</a></li>
+            <li><a href="#">Men's Raincoat</a></li>
+            <li><a href="#">Men's Windcheaters</a></li>
+            <li><a href="#">Men's Suit</a></li>
+            <li><a href="#">Men's Fabrics</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Men's Bottom Wear</a></li>
+        <li><a href="#">Women Ethnic</a></li>
+        <li><a href="#">Men Footwear</a></li>
+        <li><a href="#">Women Footwear</a></li>
+        <li><a href="#">Watches and Accessories</a></li>
+        <li><a href="#">Women Western</a></li>
+        <li><a href="#">Bags, Suitcases & Luggage</a></li>
+        <li><a href="kids-fashion.html">Kids</a></li>
+        <li><a href="#">Essentials</a></li>
+        <li><a href="#">Winter</a></li>
+
+      </ul>
+    </li>
+
+    <!-- ELECTRONICS -->
+    <li class="menu-item electronics">
+      <a href="#">
+        <img src="https://www.transparentpng.com/download/laptop/9oRuDc-refreshed-pavilion-gaming-series-launching-next-month.png" alt="Electronics">
+        <span>Electronics</span>
+      </a>
+
+      <ul class="dropdown electronics-dropdown">
+        
+        <li class="submenu-item">
+          <a href="laptop.html" class="submenu-link">Laptops</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Laptops</li>
+            <li><a href="#">All Laptops</a></li>
+            <li><a href="#">Gaming Laptops</a></li>
+            <li><a href="#">2-in-1 Laptops</a></li>
+            <li><a href="#">Thin & Light Laptops</a></li>
+            <li><a href="#">MacBooks</a></li>
+            <li><a href="#">Laptop Accessories</a></li>
+            <li><a href="#">Laptop Bags</a></li>
+            <li><a href="#">Cooling Pads</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="audio.html" class="submenu-link">Audio</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Audio</li>
+            <li><a href="#">All Headphones</a></li>
+            <li><a href="#">Bluetooth Earphones</a></li>
+            <li><a href="#">True Wireless Buds</a></li>
+            <li><a href="#">Neckbands</a></li>
+            <li><a href="#">Speakers</a></li>
+            <li><a href="#">Soundbars</a></li>
+            <li><a href="#">Home Theatre</a></li>
+            <li><a href="#">Headphone Accessories</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="camera.html" class="submenu-link">Cameras</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Cameras</li>
+            <li><a href="#">DSLR Cameras</a></li>
+            <li><a href="#">Mirrorless Cameras</a></li>
+            <li><a href="#">Point & Shoot</a></li>
+            <li><a href="#">Action Cameras</a></li>
+            <li><a href="#">Camera Lenses</a></li>
+            <li><a href="#">Camera Tripods</a></li>
+            <li><a href="#">Camera Bags</a></li>
+            <li><a href="#">Memory Cards</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="#" class="submenu-link">Monitors</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Monitors</li>
+            <li><a href="#">Gaming Monitors</a></li>
+            <li><a href="#">Full HD Monitors</a></li>
+            <li><a href="#">Curved Monitors</a></li>
+            <li><a href="#">4K Monitors</a></li>
+            <li><a href="#">Touch Monitors</a></li>
+            <li><a href="#">Monitor Accessories</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Power Banks</a></li>
+        <li><a href="#">Projectors</a></li>
+        <li><a href="#">Smart Home Devices</a></li>
+      </ul>
+    </li>
+
+    <!-- HOME & FURNITURE -->
+    <li class="menu-item home">
+      <a href="#">
+        <img src="https://pngimg.com/uploads/sofa/sofa_PNG6951.png" alt="Home & Furniture">
+        <span>Home & Furniture</span>
+      </a>
+
+      <ul class="dropdown home-dropdown">
+
+        <li class="submenu-item">
+          <a href="living.html" class="submenu-link">Living Room</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Living Room</li>
+            <li><a href="#">Sofas & Sofa Beds</a></li>
+            <li><a href="#">Recliners</a></li>
+            <li><a href="#">TV Units</a></li>
+            <li><a href="#">Coffee Tables</a></li>
+            <li><a href="#">Center Tables</a></li>
+            <li><a href="#">Corner Racks</a></li>
+            <li><a href="#">Bookshelves</a></li>
+            <li><a href="#">Wall Shelves</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="bedroom.html" class="submenu-link">Bedroom</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Bedroom</li>
+            <li><a href="#">Beds</a></li>
+            <li><a href="#">Mattresses</a></li>
+            <li><a href="#">Wardrobes</a></li>
+            <li><a href="#">Bedside Tables</a></li>
+            <li><a href="#">Dressing Tables</a></li>
+            <li><a href="#">Storage Chests</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="kitchen.html" class="submenu-link">Kitchen & Dining</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Kitchen & Dining</li>
+            <li><a href="#">Cookware</a></li>
+            <li><a href="#">Dining Sets</a></li>
+            <li><a href="#">Storage Containers</a></li>
+            <li><a href="#">Kitchen Tools</a></li>
+            <li><a href="#">Dinnerware</a></li>
+            <li><a href="#">Water Bottles & Flasks</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="homedecor.html" class="submenu-link">Home Decor</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Home Decor</li>
+            <li><a href="#">Wall Clocks</a></li>
+            <li><a href="#">Photo Frames</a></li>
+            <li><a href="#">Mirrors</a></li>
+            <li><a href="#">Showpieces</a></li>
+            <li><a href="#">Candles & Holders</a></li>
+            <li><a href="#">Wall Art</a></li>
+            <li><a href="#">Table Lamps</a></li>
+            <li><a href="#">Night Lamps</a></li>
+            <li><a href="#">Outdoor Lights</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </li>
+
+    <!-- GROCERY -->
+    <li class="menu-item grocery">
+      <a href="#">
+        <img src="https://png.pngtree.com/png-vector/20241108/ourmid/pngtree-supermarket-shopping-cart-with-fresh-groceries-png-image_14304601.png" alt="Grocery">
+        <span>Grocery</span>
+      </a>
+
+      <ul class="dropdown grocery-dropdown">
+
+        <li class="submenu-item">
+          <a href="foodstaple.html" class="submenu-link">Food Staples</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Food Staples</li>
+            <li><a href="#">Atta & Flours</a></li>
+            <li><a href="#">Rice & Grains</a></li>
+            <li><a href="#">Pulses</a></li>
+            <li><a href="#">Salt, Sugar & Jaggery</a></li>
+            <li><a href="#">Edible Oils</a></li>
+            <li><a href="#">Masalas & Spices</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="beverage.html" class="submenu-link">Beverages</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Beverages</li>
+            <li><a href="#">Tea & Coffee</a></li>
+            <li><a href="#">Soft Drinks</a></li>
+            <li><a href="#">Juices</a></li>
+            <li><a href="#">Energy Drinks</a></li>
+            <li><a href="#">Health Drinks</a></li>
+            <li><a href="#">Water & Soda</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="#" class="submenu-link">Snacks</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Snacks</li>
+            <li><a href="#">Chips & Namkeen</a></li>
+            <li><a href="#">Biscuits & Cookies</a></li>
+            <li><a href="#">Sweets</a></li>
+            <li><a href="#">Dry Fruits</a></li>
+            <li><a href="#">Chocolates & Candies</a></li>
+            <li><a href="#">Ready-to-Eat</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="cleaning.html" class="submenu-link">Cleaning Supplies</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Cleaning Supplies</li>
+            <li><a href="#">Detergents</a></li>
+            <li><a href="#">Dishwashers</a></li>
+            <li><a href="#">Floor Cleaners</a></li>
+            <li><a href="#">Bathroom Cleaners</a></li>
+            <li><a href="#">Air Fresheners</a></li>
+            <li><a href="#">Toilet Cleaners</a></li>
+          </ul>
+        </li>
+
+        <li><a href="babycare.html">Baby Care</a></li>
+        <li><a href="#">Organic Products</a></li>
+
+      </ul>
+    </li>
+
+    <!-- BEAUTY, TOYS & MORE -->
+    <li class="menu-item beauty">
+      <a href="#">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/026/539/835/small/tools-and-cosmetics-for-eyelash-extension-and-lamination-with-brushes-tweezers-anemone-flower-and-paint-strokes-watercolor-illustration-hand-drawn-isolated-composition-png.png" alt="Beauty & More">
+        <span>Beauty, Toys & More</span>
+      </a>
+
+      <ul class="dropdown beauty-dropdown">
+
+        <li class="submenu-item">
+          <a href="beauty.html" class="submenu-link">Beauty</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Beauty</li>
+            <li><a href="#">Makeup</a></li>
+            <li><a href="facecare.html">Skincare</a></li>
+            <li><a href="#">Hair Care</a></li>
+            <li><a href="#">Fragrances</a></li>
+            <li><a href="mensgrooming.html">Men’s Grooming</a></li>
+            <li><a href="#">Beauty Tools</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="toys.html" class="submenu-link">Toys & Games</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Toys & Games</li>
+            <li><a href="#">Remote Control Toys</a></li>
+            <li><a href="#">Educational Toys</a></li>
+            <li><a href="#">Soft Toys</a></li>
+            <li><a href="#">Outdoor Toys</a></li>
+            <li><a href="#">Board Games</a></li>
+            <li><a href="#">Action Figures</a></li>
+            <li><a href="#">Puzzles</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="sports.html" class="submenu-link">Sports</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Sports</li>
+            <li><a href="#">Cricket</a></li>
+            <li><a href="#">Badminton</a></li>
+            <li><a href="#">Football</a></li>
+            <li><a href="#">Cycling</a></li>
+            <li><a href="#">Fitness Equipment</a></li>
+            <li><a href="#">Yoga Mats</a></li>
+            <li><a href="#">Sportswear</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="books.html" class="submenu-link">Books & Stationery</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Books & Stationery</li>
+            <li><a href="#">Fiction & Non-Fiction</a></li>
+            <li><a href="#">Academic Books</a></li>
+            <li><a href="#">Comics</a></li>
+            <li><a href="#">Diaries & Notebooks</a></li>
+            <li><a href="#">Pens & Writing</a></li>
+            <li><a href="#">School Supplies</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu-item">
+          <a href="vehicle.html" class="submenu-link">Auto Accessories</a>
+          <ul class="sub-dropdown">
+            <li class="title">More in Auto Accessories</li>
+            <li><a href="#">Car Accessories</a></li>
+            <li><a href="#">Bike Accessories</a></li>
+            <li><a href="#">Helmets</a></li>
+            <li><a href="#">Covers & Mats</a></li>
+            <li><a href="#">Vehicle Cleaning</a></li>
+          </ul>
+        </li>
+
+        <li><a href="musical.html">Musical Instruments</a></li>
+        <li><a href="health.html">Health & Nutrition</a></li>
+        <li><a href="giftset.html">Gift Sets</a></li>
+
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+
+  <!-- SCROLLING TEXT -->
+  <div class="scrolling-text">
+    <div class="scrolling-content">
+      🚀 Big Sale Today! &nbsp; | &nbsp; 🎉 Free Shipping Over $50! &nbsp; | &nbsp; 🛍️ New Arrivals Every Week! &nbsp; | &nbsp; 💳 Easy Payments Available!
+    </div>
+  </div>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f3f6;
+  }
+
+  /* SLIDER */
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 280px; /* ✅ Flipkart-like banner height */
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .slides {
+    display: flex;
+    transition: transform 0.8s ease-in-out;
+    height: 100%;
+  }
+
+  .slide {
+    position: relative;
+    min-width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* CONTENT ON SLIDE */
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    color: #fff;
+    max-width: 500px;
+  }
+
+  .content h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  }
+
+  .content p {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  }
+
+  .content button {
+    background: #ff9f00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .content button:hover {
+    background: #fb641b;
+  }
+
+  /* ARROWS */
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    user-select: none;
+    transition: all 0.3s;
+  }
+
+  .arrow:hover {
+    background: #f0f0f0;
+  }
+
+  .prev {
+    left: 10px;
+  }
+
+  .next {
+    right: 10px;
+  }
+
+  /* DOTS */
+  .dots {
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dots span {
+    height: 6px;
+    width: 30px; /* ✅ Rectangle dots like Flipkart */
+    margin: 0 3px;
+    background: rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s;
+  }
+
+  .dots span.active {
+    background: #2874f0;
+    width: 35px;
+  }
+
+  /* ======= Flipkart-Style Fashion Dropdown ======= */
+
+.menu-item.fashion {
+  position: relative;
+}
+
+.menu-item.fashion .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.fashion:hover > .dropdown {
+  display: block;
+}
+
+/* Dropdown links */
+.fashion-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.fashion-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+
+/* Sub-dropdown (right-side “More in ...”) */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show only when hovering on that category */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove list dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animations */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ======= Mobiles & Tablets Dropdown ======= */
+.menu-item.mobiles {
+  position: relative;
+}
+
+.menu-item.mobiles .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.mobiles:hover > .dropdown {
+  display: block;
+}
+
+/* Dropdown main links */
+.mobile-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.mobile-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+/* Arrow style */
+.arrow {
+  font-size: 14px;
+  color: #777;
+  transition: transform 0.3s ease;
+}
+
+.submenu-item:hover .arrow {
+  transform: translateX(4px);
+  color: #2874f0;
+}
+
+/* Sub-dropdown */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show on hover */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove list dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ======= Electronics Dropdown ======= */
+.menu-item.electronics {
+  position: relative;
+}
+
+.menu-item.electronics .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.electronics:hover > .dropdown {
+  display: block;
+}
+
+/* Main Dropdown Links */
+.electronics-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.electronics-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+/* Arrow style */
+.arrow {
+  font-size: 14px;
+  color: #777;
+  transition: transform 0.3s ease;
+}
+
+.submenu-item:hover .arrow {
+  transform: translateX(4px);
+  color: #2874f0;
+}
+
+/* Sub-dropdown */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show sub-dropdown on hover */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove list dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ======= Home & Furniture Dropdown ======= */
+.menu-item.home {
+  position: relative;
+}
+
+.menu-item.home .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.home:hover > .dropdown {
+  display: block;
+}
+
+/* Main links */
+.home-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.home-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+/* Arrow */
+.arrow {
+  font-size: 14px;
+  color: #777;
+  transition: transform 0.3s ease;
+}
+
+.submenu-item:hover .arrow {
+  transform: translateX(4px);
+  color: #2874f0;
+}
+
+/* Sub-dropdown */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show sub-dropdown on hover */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove list dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+/* ======= Grocery Dropdown ======= */
+.menu-item.grocery {
+  position: relative;
+}
+
+.menu-item.grocery .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.grocery:hover > .dropdown {
+  display: block;
+}
+
+/* Main Dropdown Links */
+.grocery-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.grocery-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+/* Arrow Style */
+.arrow {
+  font-size: 14px;
+  color: #777;
+  transition: transform 0.3s ease;
+}
+
+.submenu-item:hover .arrow {
+  transform: translateX(4px);
+  color: #2874f0;
+}
+
+/* Sub-dropdown */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show on Hover */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown Title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown Links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove Dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ======= Beauty, Toys & More Dropdown ======= */
+.menu-item.beauty {
+  position: relative;
+}
+
+.menu-item.beauty .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: 250px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;
+}
+
+.menu-item.beauty:hover > .dropdown {
+  display: block;
+}
+
+/* Dropdown links */
+.beauty-dropdown a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.beauty-dropdown a:hover {
+  background: #f1f6ff;
+  color: #2874f0;
+}
+
+/* Arrow style */
+.arrow {
+  font-size: 14px;
+  color: #777;
+  transition: transform 0.3s ease;
+}
+
+.submenu-item:hover .arrow {
+  transform: translateX(4px);
+  color: #2874f0;
+}
+
+/* Sub-dropdown */
+.sub-dropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 260px;
+  display: none;
+  padding: 12px 0;
+  list-style: none;
+  z-index: 1000;
+  animation: fadeInRight 0.25s ease;
+}
+
+/* Show on hover */
+.submenu-item:hover .sub-dropdown {
+  display: block;
+}
+
+/* Sub-dropdown title */
+.sub-dropdown .title {
+  font-weight: 600;
+  color: #2874f0;
+  padding: 8px 18px 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+/* Sub-dropdown links */
+.sub-dropdown a {
+  display: block;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sub-dropdown a:hover {
+  background: #f6f9ff;
+  color: #2874f0;
+  padding-left: 24px;
+}
+
+/* Remove list dots */
+.dropdown, .sub-dropdown, .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation */
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  display: none;
+  overflow: hidden;
+  z-index: 2000;
+}
+
+.profile-dropdown a {
+  padding: 12px 18px;
+  display: block;
+  text-decoration: none;
+  font-size: 15px;
+  color: #333;
+  transition: 0.2s;
+}
+
+.profile-dropdown a:hover {
+  background: #f4f7ff;
+  padding-left: 25px;
+}
+
+
+</style>
+</head>
+<body>
+  <div class="slider">
+    <div class="slides" id="slides">
+      <!-- Slide 1 -->
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/2861655/pexels-photo-2861655.jpeg?cs=srgb&dl=pexels-magda-ehlers-pexels-2861655.jpg&fm=jpg" alt="Slide 1">
+        <div class="content">
+          <h2>🔥 Big Billion Days</h2>
+          <p>Get up to 80% OFF on Furniture & Home Essentials.</p>
+          <button>Shop Now</button>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img src="slide2.jpeg" alt="Slide 2">
+        <div class="content">
+          <h2>📱 Smart Deals</h2>
+          <p>Mobiles & Accessories starting at just $99.</p>
+          <button>Grab Offer</button>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide">
+        <img src="slide3.jpeg" alt="Slide 3">
+        <div class="content">
+          <h2>👗 Fashion Fiesta</h2>
+          <p>Trendy styles & premium brands with Flat 70% OFF.</p>
+          <button>Explore Now</button>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide">
+        <img src="slide7.jpeg" alt="Slide 4">
+        <div class="content">
+          <h2>💻 Electronics Bonanza</h2>
+          <p>Latest gadgets with Unbelievable Discounts.</p>
+          <button>Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <span class="arrow prev" onclick="prevSlide()">&#10094;</span>
+    <span class="arrow next" onclick="nextSlide()">&#10095;</span>
+
+    <!-- Dots -->
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <script>
+    const slides = document.getElementById("slides");
+    const totalSlides = slides.children.length;
+    let index = 0;
+
+    // Dots
+    const dotsContainer = document.getElementById("dots");
+    for (let i = 0; i < totalSlides; i++) {
+      let dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+    const dots = dotsContainer.children;
+
+    function updateDots() {
+      [...dots].forEach(dot => dot.classList.remove("active"));
+      dots[index].classList.add("active");
+    }
+
+    function showSlide() {
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      updateDots();
+    }
+
+    function nextSlide() {
+      index = (index + 1) % totalSlides;
+      showSlide();
+    }
+
+    function prevSlide() {
+      index = (index - 1 + totalSlides) % totalSlides;
+      showSlide();
+    }
+
+    function goToSlide(i) {
+      index = i;
+      showSlide();
+    }
+
+    // Auto slide
+    setInterval(nextSlide, 5000);
+  </script>
+
+<!-- 🌟 Floating AI Assistant -->
+<div id="ai-assistant">
+  <div id="ai-header">
+    🤖 ShopEase AI
+    <span id="ai-close" onclick="toggleAI()">✖</span>
+  </div>
+  <div id="ai-messages"></div>
+  <div id="ai-input-container">
+    <input type="text" id="ai-input" placeholder="Ask me anything..." />
+    <button id="ai-send">Send</button>
+  </div>
+</div>
+
+<!-- Floating Chat Toggle -->
+<div id="ai-toggle" onclick="toggleAI()">💬</div>
+
+
+<style>
+/* ===== AI Assistant Styles ===== */
+#ai-assistant {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 320px;
+  height: 420px;
+  background: linear-gradient(145deg, #6a11cb, #2575fc);
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  transform: translateY(120%);
+  transition: transform 0.4s ease;
+  z-index: 9999;
+}
+
+#ai-assistant.show {
+  transform: translateY(0);
+}
+
+/* Header */
+#ai-header {
+  background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc);
+  background-size: 400% 400%;
+  animation: gradientBG 8s ease infinite;
+  padding: 15px;
+  font-weight: 600;
+  font-size: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Messages Area */
+#ai-messages {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Message Bubbles */
+.ai-message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease;
+  line-height: 1.4;
+}
+.ai-message.user {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border-top-right-radius: 0;
+}
+.ai-message.bot {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-top-left-radius: 0;
+}
+
+/* Input Bar */
+#ai-input-container {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+}
+#ai-input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+#ai-send {
+  background: #ff416c;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#ai-send:hover {
+  background: #ff4b2b;
+  transform: scale(1.05);
+}
+
+/* Floating Toggle */
+#ai-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 26px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  animation: bounce 2s infinite alternate;
+  z-index: 10000;
+}
+/* AI Name Under Floating Icon */
+#ai-name {
+  position: fixed;
+  bottom: 10px; /* just below the bubble */
+  right: 30px;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  font-family: 'Poppins', sans-serif;
+  backdrop-filter: blur(4px);
+  z-index: 10001;
+  animation: fadeIn 0.8s ease;
+}
+
+/* Animations */
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+
+<script>
+const ai = document.getElementById("ai-assistant");
+const toggleBtn = document.getElementById("ai-toggle");
+const messagesContainer = document.getElementById("ai-messages");
+const aiInput = document.getElementById("ai-input");
+const aiSend = document.getElementById("ai-send");
+
+function toggleAI() {
+  ai.classList.toggle("show");
+}
+
+// Send message and AI reply
+aiSend.addEventListener("click", sendAIMessage);
+aiInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendAIMessage();
+});
+
+function sendAIMessage() {
+  const text = aiInput.value.trim();
+  if (!text) return;
+
+  // Add user message
+  const userMsg = document.createElement("div");
+  userMsg.classList.add("ai-message", "user");
+  userMsg.textContent = text;
+  messagesContainer.appendChild(userMsg);
+  aiInput.value = "";
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  // AI Thinking delay
+  setTimeout(() => {
+    const botMsg = document.createElement("div");
+    botMsg.classList.add("ai-message", "bot");
+    botMsg.textContent = getAIResponse(text);
+    messagesContainer.appendChild(botMsg);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }, 700);
+}
+
+// Smarter contextual replies
+function getAIResponse(input) {
+  const msg = input.toLowerCase();
+  if (msg.includes("hello") || msg.includes("hi")) 
+    return "👋 Hello! How can I assist you today on ShopEase?";
+  if (msg.includes("order")) 
+    return "🛒 You can check your orders in the Profile > My Orders section.";
+  if (msg.includes("return") || msg.includes("refund")) 
+    return "↩️ You can return or request a refund under ‘My Orders > Manage Returns’.";
+  if (msg.includes("gift")) 
+    return "🎁 Explore our Gift Cards and Offers section for surprises!";
+  if (msg.includes("payment") || msg.includes("upi")) 
+    return "💳 We support UPI, Cards, Wallets, and NetBanking payments.";
+  if (msg.includes("contact") || msg.includes("help")) 
+    return "📞 You can contact support via the Help Center or call us at 1800-202-5858.";
+  if (msg.includes("discount") || msg.includes("offer")) 
+    return "🔥 Check our homepage banners for ongoing discounts and flash sales!";
+  if (msg.includes("bye")) 
+    return "👋 Goodbye! Come back anytime for your shopping needs!";
+  return "🤖 I’m still learning! Could you please rephrase your question?";
+}
+</script>
+
+
+</body>
+
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Experience a <br> fresh way to <br> <span>manage shopping</span></h1>
+      <p>Your one-stop shop for everything you need – fashion, gadgets, home, and more.</p>
+      <a href="about.html" class="btn-primary" target="_blank">Learn More</a>
+      <div class="store-buttons">
+        <a href="https://play.google.com/store/games?device=windows" target="_blank">
+          <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" 
+               alt="Get it on Google Play">
+        </a>
+        <a href="https://www.apple.com/in/store" target="_blank">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+               alt="Download on the App Store">
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="background.jpg" alt="Person using app">
+    </div>
+  </section>
+
+  <!-- JS -->
+  <script src="js/script.js"></script>
+  <script>
+    // Profile dropdown toggle
+    function toggleProfile() {
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+    // Close dropdown when clicking outside
+    window.onclick = function(e) {
+      if (!e.target.matches('.profile-btn')) {
+        let dropdown = document.getElementById("profileMenu");
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    }
+  </script>
+  <!--feedback password -->
+  <script>
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === "F") {
+      window.open("feedback.html", "_blank");
+    }
+  });
+</script>
+
+  
+</body>
+<script src="script.js"></script>
+<div class="top-deals">
+  <h2>🔥 Top Deals</h2>
+  <div class="deals-wrapper">
+    <button class="scroll-btn left" onclick="scrollDeals(-1)">&#10094;</button>
+    <div class="deals-container" id="deals">
+      <div class="deal-item">
+        <img src="https://www.pngall.com/wp-content/uploads/10/Geyser-Water-Heater-PNG-Images.png" alt="Fans & Geysers">
+        <h3>Fans & Geysers</h3>
+        <p>From ₹999</p>
+      </div>
+      <div class="deal-item">
+        <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-smart-home-essentials-appliances-kitchen-gadgets-png-image_20309791.png" alt="Home Essentials">
+        <h3>Home Essentials</h3>
+        <p>Shop Now!</p>
+      </div>
+      <div class="deal-item">
+        <img src="https://mediaserver.goepson.com/ImConvServlet/imconv/299251b80a45ae2bf425160f469fbb5f0de6258a/1200Wx1200H?use=banner&hybrisId=B2C&assetDescr=EB-2265U_03" alt="Projector">
+        <h3>Projectors</h3>
+        <p>From ₹6990</p>
+      </div>
+      <div class="deal-item">
+        <img src="https://pngimg.com/d/audio_speakers_PNG11130.png" alt="Speakers">
+        <h3>Best Selling Speakers</h3>
+        <p>From ₹499*</p>
+      </div>
+      <div class="deal-item">
+        <img src="https://img.freepik.com/free-psd/modern-tv-isolated_23-2151430332.jpg?semt=ais_hybrid&w=740&q=80" alt="Monitors">
+        <h3>Monitors</h3>
+        <p>From ₹6599</p>
+      </div>
+    </div>
+    <button class="scroll-btn right" onclick="scrollDeals(1)">&#10095;</button>
+  </div>
+</div>
+
+<style>
+  .top-deals {
+  background: linear-gradient(135deg, #ffffff, #f0f5ff);
+  padding: 40px 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  max-width: 1200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.top-deals h2 {
+  text-align: center;
+  color: #2874f0;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  animation: fadeInDown 1s ease;
+}
+
+.deals-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.deals-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 10px;
+}
+.deals-container::-webkit-scrollbar {
+  display: none;
+}
+
+.deal-item {
+  background: #fff;
+  border-radius: 16px;
+  flex: 0 0 200px;
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  animation: fadeInUp 0.8s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.deal-item::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(40,116,240,0.15), transparent 70%);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.deal-item:hover::before {
+  transform: scale(1);
+}
+
+.deal-item img {
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.4s ease;
+}
+
+.deal-item:hover img {
+  transform: scale(1.1);
+}
+
+.deal-item h3 {
+  margin: 12px 0 6px;
+  color: #333;
+  font-weight: 600;
+}
+
+.deal-item p {
+  color: #2874f0;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.scroll-btn {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(40, 116, 240, 0.3);
+  z-index: 10;
+}
+
+.scroll-btn:hover {
+  background: #1a5fd1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-btn.left {
+  left: 10px;
+}
+
+.scroll-btn.right {
+  right: 10px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+<script>
+function scrollDeals(direction) {
+  const deals = document.getElementById("deals");
+  const scrollAmount = 240; // Adjust for card width
+  deals.scrollBy({
+    left: direction * scrollAmount,
+    behavior: "smooth"
+  });
+}
+
+const ai = document.getElementById("ai-assistant");
+const toggleBtn = document.getElementById("ai-toggle");
+const messagesContainer = document.getElementById("ai-messages");
+const aiInput = document.getElementById("ai-input");
+
+</script>
+ <!-- FEEDBACK POPUP -->
+<div id="feedback-popup" class="hidden">
+  <div class="feedback-box">
+    <h2>💬 Share Your Feedback</h2>
+    <p>We’d love to hear what you think about your experience!</p>
+    <textarea id="feedback-text" placeholder="Write your feedback here..."></textarea>
+    <div class="feedback-actions">
+      <button id="send-feedback" class="btn-primary">Send</button>
+      <button id="close-feedback">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Feedback Button -->
+<button id="feedback-btn" title="Feedback">💭</button>
+
+<style>
+/* Feedback Popup Overlay */
+#feedback-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: fadeIn 0.3s ease;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Feedback Box */
+.feedback-box {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  animation: scaleIn 0.4s ease;
+}
+.feedback-box h2 {
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.feedback-box p {
+  color: #555;
+  font-size: 14px;
+}
+.feedback-box textarea {
+  width: 100%;
+  height: 120px;
+  margin: 15px 0;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: none;
+  transition: border 0.3s ease;
+}
+.feedback-box textarea:focus {
+  border-color: #2575fc;
+  outline: none;
+}
+
+/* Buttons */
+.feedback-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.feedback-actions button {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#send-feedback {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+#send-feedback:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: scale(1.05);
+}
+#close-feedback {
+  background: #eee;
+  color: #333;
+}
+#close-feedback:hover {
+  background: #ddd;
+}
+
+/* Floating Feedback Button */
+#feedback-btn {
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #00ffcc, #00d4ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  font-size: 26px;
+  animation: bounce 2s infinite alternate;
+  z-index: 10000;
+}
+
+/* Animations */
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+</style>
+
+<script>
+ const popup = document.getElementById('feedback-popup');
+const feedbackBtn = document.getElementById('feedback-btn');
+const closeBtn = document.getElementById('close-feedback');
+const sendBtn = document.getElementById('send-feedback');
+
+feedbackBtn.onclick = () => popup.classList.remove('hidden');
+closeBtn.onclick = () => popup.classList.add('hidden');
+
+sendBtn.onclick = () => {
+  const feedbackInput = document.getElementById('feedback-text');
+  const feedback = feedbackInput.value.trim();
+
+  if (feedback) {
+    // 🧠 Store feedback in localStorage
+    const allFeedback = JSON.parse(localStorage.getItem('feedbackList') || '[]');
+    allFeedback.push({
+      text: feedback,
+      date: new Date().toLocaleString()
+    });
+    localStorage.setItem('feedbackList', JSON.stringify(allFeedback));
+
+    alert('✅ Thanks for your feedback! It has been saved.');
+    feedbackInput.value = '';
+  } else {
+    alert('⚠️ Please enter your feedback before sending.');
+  }
+
+  popup.classList.add('hidden');
+};
+
+</script>
+
+
+<!-- ========== FOOTER START ========== -->
+<footer class="footer">
+  <div class="footer-top">
+    <!-- About -->
+    <div class="footer-col">
+      <h3>ABOUT</h3>
+      <a href="contact.html">Contact Us</a>
+      <a href="about.html">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Flipkart Stories</a>
+      <a href="#">Press</a>
+      <a href="#">Corporate Information</a>
+    </div>
+
+    <!-- Group Companies -->
+    <div class="footer-col">
+      <h3>GROUP COMPANIES</h3>
+      <a href="#">Myntra</a>
+      <a href="#">Cleartrip</a>
+      <a href="#">Shopsy</a>
+    </div>
+
+    <!-- Help -->
+    <div class="footer-col">
+      <h3>HELP</h3>
+      <a href="#">Payments</a>
+      <a href="#">Shipping</a>
+      <a href="#">Cancellation & Returns</a>
+      <a href="#">FAQ</a>
+    </div>
+    
+    <!-- Consumer Policy -->
+    <div class="footer-col">
+      <h3>CONSUMER POLICY</h3>
+      <a href="#">Cancellation & Returns</a>
+      <a href="#">Terms Of Use</a>
+      <a href="#">Security</a>
+      <a href="#">Privacy</a>
+      <a href="#">Sitemap</a>
+      <a href="#">Grievance Redressal</a>
+      <a href="#">EPR Compliance</a>
+    </div>
+
+    <!-- Mail Us -->
+    <div class="footer-col">
+      <h3>Mail Us:</h3>
+      <p>
+        ff,<br>
+        Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br>
+        Outer Ring Road, Devarabeesanahalli Village,<br>
+        Bengaluru, 560103,<br>
+        Karnataka, India
+      </p>
+    </div>
+  </div>
+
+  <!-- Middle Row -->
+  <div class="footer-middle">
+    <a href="seller.html">Become a Seller</a>
+    <a href="#">Advertise</a>
+    <a href="giftcard.html">Gift Cards</a>
+    <a href="helpcentre.html">Help Center</a>
+    <span>©ShopEase.com</span>
+
+  <!-- Bottom Row (Payments) -->
+  <div class="footer-bottom">
+    <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+    <img src="https://img.icons8.com/color/48/mastercard-logo.png" alt="MasterCard">
+    <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+    <img src="https://img.icons8.com/color/48/rupay.png" alt="RuPay">
+    <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+    <img src="https://img.icons8.com/color/48/google-pay.png" alt="Google Pay">
+    <img src="https://img.icons8.com/color/48/apple-pay.png" alt="Apple Pay">
+  </div>
+</footer>
+
+<!-- ========== FOOTER STYLE ========== -->
+<style>
+  .footer {
+    background: #1a1a1a;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Top Section */
+  .footer-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    padding: 40px 6%;
+    border-bottom: 1px solid #333;
+  }
+
+  .footer-col h3 {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .footer-col a {
+    display: block;
+    color: #bbb;
+    font-size: 13px;
+    margin: 6px 0;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover {
+    color: #ff9f00;
+  }
+
+  .footer-col p {
+    font-size: 13px;
+    color: #bbb;
+    line-height: 1.6;
+  }
+
+  /* Middle Row */
+  .footer-middle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 6%;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    font-size: 13px;
+    color: #bbb;
+  }
+
+  .footer-middle a {
+    margin: 5px 12px;
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-middle a:hover {
+    color: #ff9f00;
+  }
+
+  .social-icons a {
+    margin: 0 6px;
+    display: inline-block;
+    transition: transform 0.3s;
+  }
+  .social-icons a:hover {
+    transform: scale(1.2);
+  }
+  .social-icons img {
+    width: 22px;
+    height: 22px;
+    filter: invert(1);
+  }
+
+  /* Bottom Row */
+  .footer-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    gap: 15px;
+  }
+  .footer-bottom img {
+    height: 32px;
+    transition: transform 0.3s;
+  }
+  .footer-bottom img:hover {
+    transform: scale(1.1);
+  }
+</style>
+
+<script>
+function toggleProfileMenu() {
+  document.getElementById("profile-menu").style.display =
+    document.getElementById("profile-menu").style.display === "block"
+    ? "none"
+    : "block";
+}
+
+window.onclick = function(event) {
+  if (!event.target.closest(".profile-wrapper")) {
+    document.getElementById("profile-menu").style.display = "none";
+  }
+}
+</script>
+
+<script src="js/data-store.js"></script>
+<script src="js/index.js"></script>
+
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Secure Payment</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      color: #4a00e0;
+      margin-bottom: 25px;
+    }
+
+    .methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .method {
+      border: 2px solid transparent;
+      border-radius: 15px;
+      padding: 20px;
+      background: #f9f9f9;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .method:hover {
+      border-color: #4a00e0;
+      background: #f0f0ff;
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(74,0,224,0.2);
+    }
+
+    .method input {
+      display: none;
+    }
+
+    .method.selected {
+      border-color: #ee0979;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      color: #222;
+      box-shadow: 0 10px 25px rgba(238,9,121,0.3);
+    }
+
+    .method span {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 14px 36px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+    .status {
+      display: none;
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: green;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💳 Choose Your Payment Method</h1>
+    <form id="paymentForm">
+      <div class="methods">
+        <label class="method">
+          <input type="radio" name="payment" value="COD" required>
+          <span>💵</span>
+          Cash on Delivery
+        </label>
+        <label class="method">
+          <input type="radio" name="payment" value="PhonePe">
+          <span>📱</span>
+          PhonePe (UPI)
+        </label>
+        <label class="method">
+          <input type="radio" name="payment" value="GooglePay">
+          <span>📱</span>
+          Google Pay
+        </label>
+        <label class="method">
+          <input type="radio" name="payment" value="Paytm">
+          <span>📱</span>
+          Paytm Wallet / UPI
+        </label>
+        <label class="method">
+          <input type="radio" name="payment" value="Card">
+          <span>💳</span>
+          Credit / Debit Card
+        </label>
+      </div>
+      <button type="submit" class="btn">Proceed Payment</button>
+    </form>
+    <div class="status" id="statusMsg"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("paymentForm");
+    const methods = document.querySelectorAll(".method");
+    const statusMsg = document.getElementById("statusMsg");
+
+    methods.forEach(method => {
+      method.addEventListener("click", () => {
+        methods.forEach(m => m.classList.remove("selected"));
+        method.classList.add("selected");
+        method.querySelector("input").checked = true;
+      });
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const selected = document.querySelector("input[name='payment']:checked").value;
+      
+      statusMsg.style.display = "block";
+      statusMsg.style.color = "#555";
+      statusMsg.textContent = "⏳ Processing your " + selected + " payment...";
+
+      setTimeout(() => {
+        statusMsg.style.color = "green";
+        statusMsg.textContent = "✅ Payment Successful via " + selected + "! Thank you for shopping with us.";
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

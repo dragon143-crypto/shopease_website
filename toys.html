@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ShopEase — Toys & Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#fffdf5;
+  --bg2:#e0f7ff;
+  --text:#2b2b2b;
+  --muted:#6b6b6b;
+  --accent1:#ffb703;
+  --accent2:#2196f3;
+  --accent3:#f72585;
+  --shadow:rgba(0,0,0,0.15);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;font-family:'Poppins',sans-serif;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* Header */
+header{
+  position:sticky;top:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 22px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid #eee;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--accent2);}
+.brand img{width:38px;height:38px;border-radius:8px;}
+.chip{border:1px solid #ddd;padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--muted);background:rgba(255,255,255,0.7);}
+
+/* Hero Section */
+.hero{
+  position:relative;overflow:hidden;height:370px;display:flex;align-items:center;padding:40px 6%;
+  background:linear-gradient(90deg,#f7faff,#fff3e0);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(700px 300px at 15% 25%,rgba(33,150,243,0.1),transparent 25%),
+             radial-gradient(600px 280px at 85% 70%,rgba(255,183,3,0.15),transparent 25%);
+  z-index:1;
+}
+.hero-left{width:60%;position:relative;z-index:2;}
+.hero-title{font-size:42px;margin:0 0 10px;color:#1a1a1a;}
+.hero-sub{color:var(--muted);}
+.btn-primary{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;border:none;cursor:pointer;margin-right:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.1);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;}
+.hero-right{position:relative;}
+.hero-right img{width:340px;height:230px;border-radius:20px;object-fit:cover;box-shadow:0 15px 45px rgba(0,0,0,0.15);position:relative;z-index:3;}
+
+/* Floating bubbles in hero */
+.bubble{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.8),rgba(255,255,255,0.3));
+  opacity:0.7;
+  animation:float 10s infinite ease-in-out;
+}
+.bubble:nth-child(1){width:60px;height:60px;top:40%;left:10%;animation-delay:0s;}
+.bubble:nth-child(2){width:90px;height:90px;top:60%;left:80%;animation-delay:3s;}
+.bubble:nth-child(3){width:40px;height:40px;top:25%;left:60%;animation-delay:6s;}
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+/* Layout */
+.layout{display:flex;gap:22px;padding:28px 6% 80px;}
+.sidebar{width:260px;background:#fff;border-radius:14px;padding:18px;border:1px solid #eee;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
+.sidebar h3{margin-bottom:14px;color:var(--accent2);}
+.filter-section{margin-bottom:18px;}
+.filter-section h4{margin:0 0 8px;color:var(--muted);}
+.filter-section label{display:block;margin:6px 0;}
+.area{flex:1;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.search{flex:1;display:flex;align-items:center;background:#fff;border:1px solid #eee;padding:8px 12px;border-radius:10px;}
+.search input{background:transparent;border:none;outline:none;color:#333;width:100%;}
+.badge{background:#e3f2fd;padding:8px 12px;border-radius:10px;color:var(--muted);font-size:13px;}
+
+/* Product Cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.card{
+  background:#fff;border-radius:16px;border:1px solid #eee;overflow:hidden;
+  transition:transform .3s ease,box-shadow .3s ease;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+  position:relative;
+}
+.card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 18px 40px rgba(33,150,243,0.2);}
+.imgwrap{height:170px;position:relative;overflow:hidden;}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.card:hover img{transform:scale(1.08) rotate(1deg);}
+.glow{
+  position:absolute;top:10px;left:0;
+  background:linear-gradient(90deg,var(--accent2),var(--accent1));
+  color:#fff;font-weight:500;font-size:11px;padding:4px 10px;border-radius:0 6px 6px 0;
+  text-transform:capitalize;
+}
+.card-body{padding:14px;}
+.title{font-weight:600;font-size:15px;margin-bottom:6px;}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;}
+.price{color:var(--accent2);font-weight:700;}
+.actions{display:flex;gap:8px;margin-top:8px;}
+.actions button{flex:1;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+.add{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#fff;}
+.wish{background:transparent;border:1px solid #ddd;color:var(--muted);}
+footer{text-align:center;padding:24px;border-top:1px solid #eee;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176353.png" alt="logo">
+    ShopEase — Toys & Games
+  </div>
+  <div>
+    <span class="chip">🛒 Cart <b id="cart-num">0</b></span>
+    <span class="chip">💖 Wish <b id="wish-num">0</b></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Play, Learn & Imagine — Fun for Every Age 🎮</h1>
+    <p class="hero-sub">Discover toys, puzzles, games & learning sets for kids and grown-ups alike!</p>
+    <button class="btn-primary">Shop Now</button>
+    <button class="btn-ghost">Explore</button>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.pexels.com/photos/3662662/pexels-photo-3662662.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="toys">
+  </div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    <div class="filter-section">
+      <h4>Category</h4>
+      <label><input type="checkbox" class="f" data-filter="toy"> Toys</label>
+      <label><input type="checkbox" class="f" data-filter="game"> Games</label>
+      <label><input type="checkbox" class="f" data-filter="puzzle"> Puzzles</label>
+      <label><input type="checkbox" class="f" data-filter="learning"> Learning</label>
+    </div>
+    <div class="filter-section">
+      <h4>Age Group</h4>
+      <label><input type="checkbox" class="f" data-material="kids"> Kids (3–7)</label>
+      <label><input type="checkbox" class="f" data-material="teens"> Teens (8–15)</label>
+      <label><input type="checkbox" class="f" data-material="family"> Family</label>
+    </div>
+  </aside>
+
+  <main class="area">
+    <div class="topbar">
+      <div class="search"><input id="q" placeholder="Search toys or games..."></div>
+      <div class="badge" id="activeFilters">All items</div>
+    </div>
+    <section id="productsGrid" class="grid"></section>
+    <div id="emptyState" style="display:none;text-align:center;color:var(--muted);padding:30px;">No items found.</div>
+  </main>
+</div>
+
+<footer>© 2025 ShopEase — Toys & Games Collection</footer>
+
+<script>
+const PRODUCTS=[
+  {id:1,title:"Remote Control Car",category:"toy",price:1999,material:"kids",img:"https://t3.ftcdn.net/jpg/17/37/53/88/240_F_1737538866_ugeK4W5pKmv0soXyANcjdqxVzXdIDpJP.jpg",badge:"Hot"},
+  {id:2,title:"Building Block Set",category:"learning",price:999,material:"kids",img:"https://t3.ftcdn.net/jpg/18/08/76/22/240_F_1808762286_ybEVUXclGXf3zLszZoLfPMkUWijYWskB.jpg",badge:"Bestseller"},
+  {id:3,title:"3D Wooden Puzzle",category:"puzzle",price:1499,material:"teens",img:"https://t4.ftcdn.net/jpg/17/98/39/23/240_F_1798392391_7R6ekEKf8W0a6Wimluh32JglRaYADNCK.jpg",badge:"New"},
+  {id:4,title:"Board Game Pack",category:"game",price:2499,material:"family",img:"https://t4.ftcdn.net/jpg/05/09/28/67/240_F_509286715_wzE9CGceZf4oAzk9bPlHGirEa2GoRfsk.jpg",badge:"Trending"},
+  {id:5,title:"Dollhouse Playset",category:"toy",price:1799,material:"kids",img:"https://t4.ftcdn.net/jpg/14/83/48/61/240_F_1483486199_D2OInDitCg7rviKZy6vVgV1KVR4nlamQ.jpg",badge:"Limited"},
+  {id:6,title:"Rubik’s Cube Combo",category:"puzzle",price:699,material:"teens",img:"https://t3.ftcdn.net/jpg/03/63/16/94/240_F_363169444_GXCVlLg3cq76VTsWm9j823e8PeBFOjNV.jpg",badge:"Popular"}
+];
+
+let cart=JSON.parse(localStorage.getItem('toys_cart')||'[]');
+let wishlist=JSON.parse(localStorage.getItem('toys_wish')||'[]');
+const grid=document.getElementById('productsGrid');
+const q=document.getElementById('q');
+const emptyState=document.getElementById('emptyState');
+const cartNum=document.getElementById('cart-num');
+const wishNum=document.getElementById('wish-num');
+
+function render(items){
+  grid.innerHTML='';
+  if(!items.length){emptyState.style.display='block';return}
+  emptyState.style.display='none';
+  items.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="imgwrap">
+        <img src="${p.img}" alt="${p.title}">
+        ${p.badge?`<div class="glow">${p.badge}</div>`:''}
+      </div>
+      <div class="card-body">
+        <div class="title">${p.title}</div>
+        <div class="meta"><span class="price">₹${p.price.toLocaleString()}</span><span>${p.material}</span></div>
+        <div class="actions">
+          <button class="add" onclick="addToCart(${p.id})">Buy now</button>
+          <button class="wish" onclick="toggleWish(${p.id},this)">${wishlist.includes(p.id)?'♥':'♡'} Wish</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function addToCart(id){
+  const product=PRODUCTS.find(p=>p.id===id);
+  cart.push(product);
+  localStorage.setItem('toys_cart',JSON.stringify(cart));
+  updateCounts();
+}
+function toggleWish(id,btn){
+  const i=wishlist.indexOf(id);
+  if(i===-1){wishlist.push(id);btn.textContent='♥ Wish'}
+  else{wishlist.splice(i,1);btn.textContent='♡ Wish'}
+  localStorage.setItem('toys_wish',JSON.stringify(wishlist));
+  updateCounts();
+}
+function updateCounts(){cartNum.textContent=cart.length;wishNum.textContent=wishlist.length;}
+function applyFilters(){
+  const term=q.value.toLowerCase();
+  const filters=document.querySelectorAll('.f:checked');
+  const cats=[...filters].filter(f=>f.dataset.filter).map(f=>f.dataset.filter);
+  const mats=[...filters].filter(f=>f.dataset.material).map(f=>f.dataset.material);
+  const items=PRODUCTS.filter(p=>
+    (!cats.length||cats.includes(p.category)) &&
+    (!mats.length||mats.includes(p.material)) &&
+    (!term||p.title.toLowerCase().includes(term))
+  );
+  render(items);
+}
+document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',applyFilters));
+q.addEventListener('input',()=>setTimeout(applyFilters,200));
+updateCounts();
+render(PRODUCTS);
+
+function addToCart(title, price, image) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let existing = cart.find(item => item.title === title);
+
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      title,
+      price,
+      image,
+      qty: 1
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart!");
+}
+
+</script>
+</body>
+</html>

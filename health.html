@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ShopEase — Health & Nutrition</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5fff7;--accent:#18b47a;--accent2:#ff9f43;--muted:#6b8b7a}
+*{box-sizing:border-box}body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#f8fffb,#e8fff3);color:#123}
+header{position:sticky;top:0;padding:12px 20px;background:rgba(255,255,255,0.8);backdrop-filter:blur(6px);display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:700;color:var(--accent)}
+.hero{height:320px;padding:36px 6%;display:flex;align-items:center;gap:20px;position:relative}
+.hero-right img{width:320px;height:220px;border-radius:14px;object-fit:cover;box-shadow:0 15px 40px rgba(0,0,0,0.06)}
+.bubbles{position:absolute;right:6%;top:10%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(24,180,122,0.08),transparent);filter:blur(16px);animation:rise 6s ease-in-out infinite}
+@keyframes rise{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+.layout{display:flex;gap:20px;padding:28px 6%}
+.sidebar{width:260px;background:#fff;border-radius:12px;padding:16px;border:1px solid #eee}
+.area{flex:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.search{flex:1;background:#fff;padding:8px;border-radius:10px;border:1px solid #eee}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.card{background:#fff;border-radius:12px;border:1px solid #eee;overflow:hidden;transition:transform .25s}
+.card:hover{transform:translateY(-8px)}
+.imgwrap{height:150px;overflow:hidden}
+.ribbon{position:absolute;top:10px;left:0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:5px 10px;border-radius:0 6px 6px 0;font-weight:700}
+.card-body{padding:12px}
+.title{font-weight:700}
+.meta{display:flex;justify-content:space-between;color:var(--muted)}
+.actions{display:flex;gap:8px;margin-top:8px}
+.add{background:var(--accent);color:#fff;padding:8px;border-radius:8px;border:0;font-weight:700}
+.wish{background:transparent;border:1px solid #eee;padding:8px;border-radius:8px}
+footer{padding:24px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header><div class="brand">🥦 ShopEase — Health & Nutrition</div><div id="cart-num">🛒 0</div></header>
+
+<section class="hero">
+  <div style="width:60%">
+    <h2 style="margin:0">Nutrition that powers you</h2>
+    <p style="color:#567">Supplements, protein, wellness kits & healthy snacks with lab-backed quality.</p>
+  </div>
+  <div class="hero-right"><img src="https://images.pexels.com/photos/5938351/pexels-photo-5938351.jpeg?auto=compress&cs=tinysrgb&w=1600" alt=""></div>
+  <div class="bubbles"></div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    <div><strong>Type</strong>
+      <label><input type="checkbox" class="f" data-filter="supplement"> Supplement</label>
+      <label><input type="checkbox" class="f" data-filter="snack"> Healthy Snack</label>
+      <label><input type="checkbox" class="f" data-filter="protein"> Protein</label>
+    </div>
+  </aside>
+
+  <main class="area">
+    <div class="topbar"><div class="search"><input id="q" placeholder="Search health products..."></div><div id="activeFilters" class="badge" style="background:transparent;color:var(--muted)">All items</div></div>
+
+    <section id="productsGrid" class="grid"></section>
+    <div id="emptyState" style="display:none;padding:30px;text-align:center;color:var(--muted)">No items</div>
+  </main>
+</div>
+
+<footer>© 2025 ShopEase — Health</footer>
+
+<script>
+const PRODUCTS=[
+  {id:1,title:"Whey Protein (2kg)",category:"protein",price:3499,material:"powder",img:"https://images.pexels.com/photos/4055922/pexels-photo-4055922.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Top"},
+  {id:2,title:"Omega-3 Fish Oil",category:"supplement",price:899,material:"capsule",img:"https://images.pexels.com/photos/4055927/pexels-photo-4055927.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+  {id:3,title:"Keto Snack Box",category:"snack",price:1299,material:"pack",img:"https://images.pexels.com/photos/5945902/pexels-photo-5945902.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"}
+];
+
+let cart=JSON.parse(localStorage.getItem('health_cart')||'[]'), wish=JSON.parse(localStorage.getItem('health_wish')||'[]');
+const grid=document.getElementById('productsGrid'), q=document.getElementById('q');
+
+function format(n){return n.toLocaleString()}
+function render(items){grid.innerHTML=''; if(!items.length){document.getElementById('emptyState').style.display='block';return} document.getElementById('emptyState').style.display='none';
+ items.forEach(p=>{ const card=document.createElement('div'); card.className='card'; card.innerHTML=`
+  <div style="position:relative"><div class="imgwrap"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover"></div>${p.badge?`<div class="ribbon">${p.badge}</div>`:''}</div>
+  <div class="card-body"><div class="title">${p.title}</div><div class="meta"><div>₹${format(p.price)}</div><div style="color:var(--muted)">${p.material}</div></div>
+  <div class="actions"><button class="add" onclick="add(${p.id})">Add</button><button class="wish" onclick="twish(${p.id},this)">${wish.includes(p.id)?'♥':'♡'} Wish</button></div></div>`; grid.appendChild(card); });
+}
+function add(id){cart.push(PRODUCTS.find(p=>p.id===id));localStorage.setItem('health_cart',JSON.stringify(cart));update()}
+function twish(id,btn){const i=wish.indexOf(id); if(i===-1){wish.push(id);btn.textContent='♥ Wish'}else{wish.splice(i,1);btn.textContent='♡ Wish'} localStorage.setItem('health_wish',JSON.stringify(wish));update()}
+function update(){ document.getElementById('cart-num').textContent = `🛒 ${cart.length}` }
+function apply(){ const term=q.value.toLowerCase(); const cats=[...document.querySelectorAll('.f:checked')].map(e=>e.dataset.filter).filter(Boolean); render(PRODUCTS.filter(p=>(!cats.length||cats.includes(p.category))&&(!term||p.title.toLowerCase().includes(term))))}
+document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',apply)); q.addEventListener('input',()=>setTimeout(apply,150));
+update(); render(PRODUCTS);
+</script>
+</body>
+</html>

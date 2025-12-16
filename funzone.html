@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PRO SNAKE GAME – FIXED</title>
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #gameWrapper {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    canvas {
+        background: #050505;
+        border: 3px solid #0f0;
+        box-shadow: 0 0 20px #0f0;
+    }
+
+    #panel {
+        width: 200px;
+        border: 2px solid #0f0;
+        padding: 12px;
+        border-radius: 10px;
+        background: #0d0d0d;
+        box-shadow: 0 0 15px #0f0;
+    }
+    .setting {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    input[type=range] {
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+<div id="gameWrapper">
+    <canvas id="game" width="500" height="500"></canvas>
+
+    <div id="panel">
+        <h3>Settings</h3>
+        <div class="setting">
+            <label>Speed</label>
+            <input id="speed" type="range" min="5" max="20" value="10">
+        </div>
+        <div class="setting">
+            <label>Snake Trail</label>
+            <input id="trail" type="range" min="0" max="0.5" step="0.05" value="0.2">
+        </div>
+        <div class="setting">
+            <label>Grid Glow</label>
+            <input id="glow" type="range" min="0" max="1" step="0.1" value="0.4">
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let speedControl = document.getElementById("speed");
+let trailControl = document.getElementById("trail");
+let glowControl = document.getElementById("glow");
+
+let gridSize = 20;
+let tileCount = canvas.width / gridSize;
+
+let snake = [{ x: 10, y: 10 }];
+let vx = 1;
+let vy = 0;
+
+let apple = { x: 5, y: 5 };
+let speed = 10;
+let trailFade = 0.2;
+let glow = 0.4;
+let frame = 0;
+
+function drawGrid() {
+    ctx.globalAlpha = glow;
+    ctx.strokeStyle = "#0f03";
+    for (let i=0; i<tileCount; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * gridSize, 0);
+        ctx.lineTo(i * gridSize, canvas.height);
+        ctx.stroke();
+    }
+    for (let j=0; j<tileCount; j++) {
+        ctx.beginPath();
+        ctx.moveTo(0, j * gridSize);
+        ctx.lineTo(canvas.width, j * gridSize);
+        ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+}
+
+function gameLoop() {
+    frame++;
+    if (frame % (25 - speed) !== 0) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+
+    ctx.fillStyle = `rgba(0,0,0,${1 - trailFade})`;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    drawGrid();
+
+    let head = { x: snake[0].x + vx, y: snake[0].y + vy };
+
+    head.x = (head.x + tileCount) % tileCount;
+    head.y = (head.y + tileCount) % tileCount;
+
+    snake.unshift(head);
+
+    if (head.x === apple.x && head.y === apple.y) {
+        apple.x = Math.floor(Math.random() * tileCount);
+        apple.y = Math.floor(Math.random() * tileCount);
+    } else {
+        snake.pop();
+    }
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize, gridSize);
+
+    ctx.fillStyle = "#0f0";
+    snake.forEach(p => {
+        ctx.fillRect(p.x * gridSize, p.y * gridSize, gridSize, gridSize);
+    });
+
+    requestAnimationFrame(gameLoop);
+}
+
+document.addEventListener("keydown", e => {
+    if (e.key === "ArrowUp" || e.key === "w") { vx = 0; vy = -1; }
+    if (e.key === "ArrowDown" || e.key === "s") { vx = 0; vy = 1; }
+    if (e.key === "ArrowLeft" || e.key === "a") { vx = -1; vy = 0; }
+    if (e.key === "ArrowRight" || e.key === "d") { vx = 1; vy = 0; }
+});
+
+speedControl.oninput = () => { speed = Number(speedControl.value); };
+trailControl.oninput = () => { trailFade = Number(trailControl.value); };
+glowControl.oninput = () => { glow = Number(glowControl.value); };
+
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>

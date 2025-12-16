@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback Dashboard | ShopEase</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #6a11cb, #2575fc);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 2em;
+      text-align: center;
+      background: linear-gradient(90deg, #00ffcc, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .feedback-container {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+    }
+
+    .feedback-item {
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 15px;
+      border-radius: 12px;
+      padding: 15px;
+      border-left: 4px solid #00ffcc;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .feedback-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+      transition: 0.3s;
+    }
+
+    .feedback-date {
+      font-size: 12px;
+      color: #c0eaff;
+      margin-bottom: 8px;
+    }
+
+    .feedback-text {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .no-feedback {
+      text-align: center;
+      padding: 40px;
+      color: #eee;
+      font-size: 16px;
+    }
+
+    .clear-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+    }
+
+    .clear-btn:hover {
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Login Overlay */
+    #login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .login-box {
+      background: #fff;
+      color: #333;
+      border-radius: 16px;
+      padding: 30px;
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: scale(1.03);
+    }
+
+    .login-error {
+      color: red;
+      font-size: 13px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Popup -->
+  <div id="login-overlay">
+    <div class="login-box">
+      <h2>🔒 Admin Login</h2>
+      <p>Enter password to view feedbacks</p>
+      <input type="password" id="admin-pass" placeholder="Enter password" />
+      <button id="login-btn">Login</button>
+      <div class="login-error" id="login-error">❌ Incorrect password</div>
+    </div>
+  </div>
+
+  <h1>📝 User Feedbacks</h1>
+
+  <div class="feedback-container" id="feedbackContainer">
+    <div class="no-feedback" id="noFeedback">No feedback available yet 😴</div>
+  </div>
+
+  <button class="clear-btn" id="clearFeedback">🗑 Clear All Feedbacks</button>
+
+  <script>
+    // Password setup — change this to your own
+    const ADMIN_PASSWORD = "Dragon@123";
+
+    const overlay = document.getElementById("login-overlay");
+    const passInput = document.getElementById("admin-pass");
+    const loginBtn = document.getElementById("login-btn");
+    const errorMsg = document.getElementById("login-error");
+
+    loginBtn.onclick = () => {
+      if (passInput.value === ADMIN_PASSWORD) {
+        overlay.style.display = "none";
+      } else {
+        errorMsg.style.display = "block";
+        passInput.style.borderColor = "red";
+      }
+    };
+
+    passInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") loginBtn.click();
+    });
+
+    // Feedback display
+    const container = document.getElementById("feedbackContainer");
+    const noFeedback = document.getElementById("noFeedback");
+    const clearBtn = document.getElementById("clearFeedback");
+
+    const feedbackList = JSON.parse(localStorage.getItem("feedbackList") || "[]");
+
+    if (feedbackList.length === 0) {
+      noFeedback.style.display = "block";
+    } else {
+      noFeedback.style.display = "none";
+      feedbackList.reverse().forEach(fb => {
+        const div = document.createElement("div");
+        div.classList.add("feedback-item");
+        div.innerHTML = `
+          <div class="feedback-date">${fb.date}</div>
+          <div class="feedback-text">${fb.text}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    clearBtn.onclick = () => {
+      if (confirm("⚠️ Are you sure you want to delete all feedbacks?")) {
+        localStorage.removeItem("feedbackList");
+        alert("🗑 All feedbacks cleared.");
+        location.reload();
+      }
+    };
+  </script>
+</body>
+</html>

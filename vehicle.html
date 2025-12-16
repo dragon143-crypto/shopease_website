@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto & Cleaning Accessories — DriveZone Store</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600&display=swap');
+
+:root{
+  --bg1:#0b0c10;
+  --bg2:#1f2833;
+  --text:#ffffff;
+  --accent1:#66fcf1;
+  --accent2:#45a29e;
+  --accent3:#ffbb00;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Exo 2',sans-serif;
+  background:radial-gradient(circle at center,var(--bg2),var(--bg1));
+  overflow-x:hidden;
+  color:var(--text);
+  position:relative;
+  min-height:100vh;
+}
+
+/* Motion light streaks */
+.streak{
+  position:absolute;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent1),transparent);
+  animation:streak 6s linear infinite;
+  opacity:0.3;
+}
+.streak:nth-child(1){top:30%;animation-delay:0s}
+.streak:nth-child(2){top:50%;animation-delay:2s}
+.streak:nth-child(3){top:70%;animation-delay:4s}
+@keyframes streak{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+
+/* header */
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;position:relative;z-index:2;}
+.logo{
+  width:64px;height:64px;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:22px;color:#0b0c10;
+  box-shadow:0 0 25px rgba(102,252,241,0.4);
+}
+header h1{font-size:24px;margin-left:14px}
+.controls{display:flex;gap:12px;align-items:center}
+.search,.select,.btn{
+  padding:10px 14px;border-radius:10px;border:none;outline:none;
+  background:rgba(255,255,255,0.07);color:var(--text);
+  font-family:inherit;transition:.3s;
+}
+.search:focus,.select:focus{box-shadow:0 0 10px var(--accent1)}
+.btn{cursor:pointer;}
+.btn:hover{transform:scale(1.05);box-shadow:0 0 12px var(--accent1)}
+
+/* banner */
+.banner{
+  margin:20px 28px;padding:24px;
+  background:rgba(255,255,255,0.05);
+  border-radius:16px;display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 0 20px rgba(102,252,241,0.2);
+}
+.banner h2{font-size:22px;color:var(--accent1);}
+.cta{
+  background:linear-gradient(90deg,var(--accent1),var(--accent3));
+  border:none;padding:10px 18px;border-radius:12px;font-weight:600;
+  cursor:pointer;color:#000;transition:.3s;
+}
+.cta:hover{transform:scale(1.08);}
+
+/* grid */
+main{padding:22px 28px;position:relative;z-index:2;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:24px;
+}
+.card{
+  background:rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.4);
+  transition:all .3s ease;
+  backdrop-filter:blur(10px);
+  cursor:pointer;
+  overflow:hidden;
+  position:relative;
+  animation:fadeIn .8s ease forwards;
+  opacity:0;
+}
+@keyframes fadeIn{to{opacity:1}}
+.card:hover{
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:0 8px 25px rgba(102,252,241,0.4);
+}
+.thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.1);
+  border-radius:12px;margin-bottom:10px;
+}
+.thumb img{
+  max-height:150px;transition:transform .5s ease;
+}
+.card:hover .thumb img{
+  transform:scale(1.1) rotate(-2deg);
+}
+h3{margin:6px 0;font-size:16px;}
+.brand{font-size:13px;color:rgba(255,255,255,0.6);}
+.desc{font-size:13px;color:rgba(255,255,255,0.75);min-height:36px;}
+.price{font-weight:700;color:var(--accent1);margin-top:6px;}
+.rating{color:#ffd700;font-size:13px;margin-top:4px;}
+.actions{display:flex;gap:8px;margin-top:10px;}
+.buy{
+  flex:1;padding:10px;border:none;border-radius:8px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent3));
+  color:#000;font-weight:600;cursor:pointer;transition:.3s;
+}
+.buy:hover{transform:scale(1.05)}
+.wish{
+  padding:10px;border-radius:8px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:transparent;color:var(--text);cursor:pointer;
+}
+.footer{text-align:center;padding:20px;color:rgba(255,255,255,0.6)}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  display:flex;justify-content:center;align-items:center;
+  backdrop-filter:blur(10px);z-index:100;
+}
+.modal{
+  background:rgba(30,40,50,0.95);border-radius:20px;padding:24px;
+  width:90%;max-width:460px;text-align:center;animation:pop .4s ease forwards;
+  color:var(--text);position:relative;
+}
+@keyframes pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal img{width:100%;border-radius:14px;margin-bottom:10px;}
+.close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:24px;color:var(--text);cursor:pointer;}
+.modal h2{font-size:20px;margin-bottom:6px}
+.modal p{font-size:13px;color:#ccc;margin-bottom:8px}
+.modal .price{color:var(--accent1);font-size:18px;margin-bottom:10px}
+.modal .actions{justify-content:center}
+@media(max-width:640px){header{flex-direction:column;align-items:flex-start}.search{min-width:100%}}
+</style>
+</head>
+<body>
+<div class="streak"></div><div class="streak"></div><div class="streak"></div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="logo">DV</div>
+    <h1>DriveZone Store</h1>
+  </div>
+  <div class="controls">
+    <input id="search" class="search" placeholder="Search auto & cleaning accessories...">
+    <select id="sort" class="select">
+      <option value="pop">Sort: Popular</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+    </select>
+    <button id="shuffle" class="btn">Shuffle Glow</button>
+  </div>
+</header>
+
+<div class="banner">
+  <div>
+    <h2>🚗 Auto & Cleaning Accessories</h2>
+    <p>Flat <strong>35% OFF</strong> • Bikes, Cars, Tools, Cleaners & more!</p>
+  </div>
+  <button class="cta" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</div>
+
+<main>
+  <section class="grid" id="grid"></section>
+</main>
+<div class="footer">Showing <span id="count">0</span> items • Drive Clean, Drive Smart!</div>
+
+<script>
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const sort=document.getElementById('sort');
+const shuffle=document.getElementById('shuffle');
+const count=document.getElementById('count');
+
+const items=[
+  {brand:"3M",name:"Car Shampoo 1L",desc:"Powerful foam • Paint safe",price:349,rating:4.7,img:"https://m.media-amazon.com/images/I/71Aop2JOVPL._SL1500_.jpg"},
+  {brand:"Turtle Wax",name:"Scratch Remover",desc:"Removes minor marks • Glossy finish",price:299,rating:4.6,img:"https://m.media-amazon.com/images/I/81UveacBoEL._SL1500_.jpg"},
+  {brand:"Bosch",name:"Car Vacuum Cleaner",desc:"120W powerful suction • Compact",price:2199,rating:4.5,img:"https://m.media-amazon.com/images/I/71UuYp3ZJxL._SL1500_.jpg"},
+  {brand:"Michelin",name:"Tyre Inflator",desc:"Digital display • Fast inflation",price:2899,rating:4.8,img:"https://m.media-amazon.com/images/I/71V1DTm5vGL._SL1500_.jpg"},
+  {brand:"Autofy",name:"Bike Body Cover",desc:"Dustproof • Waterproof • UV protection",price:599,rating:4.5,img:"https://m.media-amazon.com/images/I/71I2n3kKQwL._SL1500_.jpg"},
+  {brand:"Meguiar’s",name:"Dashboard Polish",desc:"Shine & Protect • Long lasting",price:449,rating:4.6,img:"https://m.media-amazon.com/images/I/61TzLMzXQ9L._SL1500_.jpg"},
+  {brand:"Armor All",name:"Glass Cleaner",desc:"Anti-streak formula • 500ml",price:399,rating:4.7,img:"https://m.media-amazon.com/images/I/71I6OIE2QmL._SL1500_.jpg"},
+  {brand:"Motul",name:"Engine Oil 7100 4T",desc:"Fully synthetic • Smooth performance",price:949,rating:4.8,img:"https://m.media-amazon.com/images/I/71jA1RZoqrL._SL1500_.jpg"},
+  {brand:"GoMechanic",name:"Car Floor Mats Set",desc:"All-weather protection • Non-slip",price:999,rating:4.4,img:"https://m.media-amazon.com/images/I/71LPpcGehCL._SL1500_.jpg"},
+  {brand:"Blackcat",name:"Microfiber Cleaning Cloth",desc:"Pack of 6 • Super absorbent",price:299,rating:4.6,img:"https://m.media-amazon.com/images/I/81vuXHpw0DL._SL1500_.jpg"}
+];
+
+function createCard(it){
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <div class="thumb"><img src="${it.img}" alt="${it.name}"></div>
+    <div class="brand">${it.brand}</div>
+    <h3>${it.name}</h3>
+    <div class="desc">${it.desc}</div>
+    <div class="price">₹${it.price.toLocaleString()}</div>
+    <div class="rating">★ ${it.rating}</div>
+    <div class="actions">
+      <button class="buy">Buy Now</button>
+      <button class="wish">♡</button>
+    </div>`;
+  card.querySelector('.buy').onclick=(e)=>{e.stopPropagation();alert('Buying '+it.name)};
+  card.querySelector('.wish').onclick=(e)=>{e.stopPropagation();e.target.textContent='♥'};
+  card.onclick=()=>openModal(it);
+  grid.appendChild(card);
+}
+
+function render(list){grid.innerHTML='';list.forEach(createCard);count.textContent=list.length;}
+
+function openModal(it){
+  const bg=document.createElement('div');
+  bg.className='modal-bg';
+  bg.innerHTML=`
+    <div class="modal">
+      <button class="close">&times;</button>
+      <img src="${it.img}" alt="${it.name}">
+      <h2>${it.name}</h2>
+      <p>${it.desc}</p>
+      <div class="price">₹${it.price.toLocaleString()}</div>
+      <div class="rating">★ ${it.rating}</div>
+      <div class="actions">
+        <button class="buy">Buy Now</button>
+        <button class="wish">♡</button>
+      </div>
+    </div>`;
+  document.body.appendChild(bg);
+  bg.querySelector('.close').onclick=()=>bg.remove();
+  bg.addEventListener('click',e=>{if(e.target===bg)bg.remove()});
+}
+
+search.addEventListener('input',()=>{
+  const q=search.value.toLowerCase();
+  const filtered=items.filter(it=>it.name.toLowerCase().includes(q)||it.brand.toLowerCase().includes(q));
+  applySort(filtered);
+});
+sort.addEventListener('change',()=>applySort(items.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase()))));
+function applySort(list){
+  const val=sort.value;
+  const copy=[...list];
+  if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
+  else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
+  render(copy);
+}
+shuffle.onclick=()=>{
+  document.querySelectorAll('.card').forEach(c=>{
+    const glow=`0 0 25px hsl(${Math.random()*360},80%,60%)`;
+    c.style.boxShadow=glow;
+  });
+};
+render(items);
+</script>
+</body>
+</html>

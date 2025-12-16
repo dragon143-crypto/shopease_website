@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopEase Store</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- RESET + BASE --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      color: #111;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img, video { width: 100%; display: block; border-radius: 16px; }
+
+    /* --- UTILITIES --- */
+    .container { max-width: 1200px; margin: auto; padding: 80px 20px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 999px;
+      background: #4f46e5;
+      color: #fff;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #4338ca; transform: translateY(-2px); }
+    .flex { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
+
+    /* --- HERO --- */
+    header {
+      background: linear-gradient(to right, #eef2ff, #fff);
+      padding: 100px 20px;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    header p {
+      color: #555;
+      margin-bottom: 20px;
+      max-width: 500px;
+    }
+
+    /* --- IMAGE / VIDEO CARD --- */
+    .showcase {
+      position: relative;
+      height: 400px;
+    }
+    .showcase .bg-imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      height: 100%;
+    }
+    .showcase video {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* --- FEATURE SECTIONS --- */
+    section { padding: 80px 0; }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    section p { color: #555; }
+
+    /* --- SCROLL ANIMATION --- */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    footer h3 { font-size: 1.5rem; margin-bottom: 10px; }
+    footer p { color: #666; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header>
+    <div class="container grid-2">
+      <div data-animate>
+        <h1>Welcome to <span style="color:#4f46e5;">ShopEase</span></h1>
+        <p>
+          A modern general store experience — discover trending products, flash
+          deals, and handpicked collections. Smooth animations & story-driven
+          scroll previews to keep shoppers engaged.
+        </p>
+        <div class="flex">
+          <a href="#shop" class="btn">Shop Now</a>
+          <a href="learn.html">Learn More</a>
+        </div>
+        <div style="margin-top:30px; font-size:0.9rem; color:#555;">
+          <b>Free Shipping</b> on orders over ₹499 · <b>Easy Returns</b> within 30 days
+        </div>
+      </div>
+
+      <div class="showcase" data-animate>
+        <div class="bg-imgs">
+          <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop" alt="">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop" alt="">
+        </div>
+        <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" autoplay muted loop></video>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURE 1 -->
+  <section id="features">
+    <div class="container grid-2">
+      <div data-animate>
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop" alt="">
+      </div>
+      <div data-animate>
+        <h2>Curated Collections</h2>
+        <p>Handpicked sets that match trending searches. Use eye-catching
+          imagery and a short video highlight to boost conversions.</p>
+        <ul style="color:#666; margin-top:10px;">
+          <li>— Trending picks updated daily</li>
+          <li>— Short 6–12s product loops</li>
+          <li>— Quick add-to-cart interactions</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE 2 -->
+  <section>
+    <div class="container grid-2">
+      <div data-animate>
+        <h2>Fast & Trusted Delivery</h2>
+        <p>Provide real-time shipping badges and short clips of delivery
+          experience to reassure first-time buyers.</p>
+        <div class="flex" style="margin-top:20px; font-size:1.5rem;">
+          🚚 📦 💳
+        </div>
+      </div>
+      <div data-animate>
+        <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE 3 -->
+  <section>
+    <div class="container grid-2">
+      <div data-animate style="position:relative;">
+        <img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=1200&auto=format&fit=crop" alt="">
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:20px; background:linear-gradient(to top, rgba(0,0,0,0.5), transparent); color:#fff;">
+          <h3>Exclusive Drops</h3>
+          <p>Limited time offers — launch video in product modal.</p>
+        </div>
+      </div>
+      <div data-animate class="grid-2" style="gap:10px;">
+        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=800&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1510557880182-3b9f7b7f9b6b?q=80&w=800&auto=format&fit=crop" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <h3>Ready to launch your store?</h3>
+    <p>Use immersive product glimpses to increase engagement.</p>
+    <a href="index.html" class="btn">Get Started</a>
+  </footer>
+
+  <!-- JS Scroll Animation -->
+  <script>
+    const animEls = document.querySelectorAll('[data-animate]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    animEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

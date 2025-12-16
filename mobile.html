@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mobiles — ShopEase</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<!-- GSAP (animations) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+:root{
+  --bg: linear-gradient(135deg,#4facfe,#00f2fe);
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#ff5f6d;
+  --accent2:#ffc371;
+  --glass: rgba(255,255,255,0.12);
+  --shadow: rgba(2,6,23,0.12);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:#111;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+
+/* header */
+header{
+  height:72px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 22px; background:rgba(0,0,0,0.7); color:#fff; position:sticky; top:0; z-index:50;
+  backdrop-filter: blur(10px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+.brand{font-weight:700;font-size:20px; color:#fff; text-decoration:none}
+.actions{display:flex;gap:12px;align-items:center}
+.badge{background:rgba(255,255,255,0.12);padding:8px 12px;border-radius:999px;color:#fff;font-weight:600}
+.cart-btn{position:relative;text-decoration:none;color:#fff;font-weight:700}
+.cart-count{position:absolute;top:-8px;right:-12px;background:#ff4b2b;color:#fff;border-radius:999px;padding:4px 7px;font-size:12px;}
+
+/* page layout */
+.page-wrap{max-width:1180px;margin:22px auto;padding:0 16px;display:flex;gap:18px;align-items:flex-start;position:relative;}
+.page-wrap::before,.page-wrap::after{content:"";position:absolute;width:120px;height:120px;background:rgba(255,255,255,0.16);filter:blur(60px);border-radius:50%;animation:floatGlow 6s infinite alternate;z-index:-1}
+.page-wrap::before{left:6%;top:6%}
+.page-wrap::after{right:6%;bottom:6%}
+@keyframes floatGlow{from{transform:translateY(-20px)}to{transform:translateY(20px)}}
+
+/* sidebar */
+aside.sidebar{
+  width:260px;background:var(--card);border-radius:14px;padding:18px;box-shadow:0 10px 30px var(--shadow);
+  transform: translateX(-20px); opacity:0; animation:slideIn 600ms ease forwards;
+  position:relative;overflow:hidden;
+}
+@keyframes slideIn{to{transform:none;opacity:1}}
+.sidebar h3{margin:0 0 12px;color:#0ea5e9}
+.filter-group{margin-bottom:14px}
+.filter-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.filter-toggle{font-size:12px;color:var(--muted)}
+.filter-body{margin-top:8px}
+.filter-body label{display:block;margin:8px 0;color:#111;font-weight:500;font-size:14px}
+
+/* controls */
+section.products{flex:1}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px}
+.search{flex:1;margin-right:12px;display:flex;gap:8px;align-items:center}
+.search input{flex:1;padding:10px 12px;border-radius:10px;border:none;outline:none;background:rgba(255,255,255,0.95)}
+.sort-wrap{display:flex;gap:8px;align-items:center}
+select#sortSelect{padding:10px;border-radius:10px;border:none;}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 24px rgba(2,6,23,0.08);transition:transform .28s ease, box-shadow .28s ease, opacity .3s;cursor:pointer;overflow:hidden;position:relative}
+.card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 18px 36px rgba(2,6,23,0.14)}
+.thumb{height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%)}
+.card img{max-width:100%;max-height:100%;object-fit:contain;transition:transform .4s}
+.card:hover img{transform:scale(1.08)}
+.title{font-weight:600;font-size:15px;color:#0f1724;margin:6px 0}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.price{font-weight:800;color:#0b3e6f}
+.mrp{color:var(--muted);text-decoration:line-through;font-weight:600;font-size:13px}
+.tag{font-size:12px;padding:6px 8px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:700}
+
+/* neon border highlight */
+.card::after{content:"";position:absolute;inset:0;border-radius:12px;border:2px solid transparent;transition:0.25s}
+.card:hover::after{border-color:#4facfe;box-shadow:0 0 20px #4facfe66}
+
+/* no results */
+.no-results{padding:30px;text-align:center;color:#fff;background:linear-gradient(90deg,#ff6b6b,#ffb86b);border-radius:12px}
+
+/* skeleton */
+.skeleton{background:linear-gradient(90deg,#eee,#f4f4f4,#eee);background-size:200% 100%;animation:shimmer 1.2s linear infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* quick view modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999}
+.modal{width:920px;max-width:95%;background:#fff;border-radius:12px;padding:18px;display:flex;gap:16px;box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+.modal .left{flex:1;display:flex;align-items:center;justify-content:center}
+.modal .left img{width:90%;height:auto;transform:rotateY(-12deg);transition:transform .4s}
+.modal .right{width:360px}
+.modal .close{position:absolute;right:18px;top:12px;cursor:pointer;font-weight:700}
+
+/* add to cart toast */
+.toast{position:fixed;right:20px;bottom:20px;background:#111;color:#fff;padding:12px 16px;border-radius:10px;opacity:0;transform:translateY(20px);z-index:99999}
+
+/* cart button */
+.add-btn{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;color:#fff;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+
+/* responsive */
+@media(max-width:900px){
+  .page-wrap{flex-direction:column;padding:15px}
+  aside.sidebar{width:100%;order:2}
+  section.products{order:1}
+  .modal{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/index.html" class="brand">ShopEase</a>
+  <div class="actions">
+    <div class="badge">Mobiles</div>
+    <a class="cart-btn" href="cart.html">Cart <span id="cartCount" class="cart-count">0</span></a>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- LEFT FILTER SIDEBAR -->
+  <aside class="sidebar" aria-label="Filters">
+    <h3>Refine results</h3>
+
+    <div class="filter-group" data-key="brand">
+      <div class="filter-head" onclick="toggleGroup(this)">
+        <strong>Brand</strong>
+        <span class="filter-toggle">toggle</span>
+      </div>
+      <div class="filter-body">
+        <label><input type="checkbox" class="filter brand" value="iPhone"> iPhone</label>
+        <label><input type="checkbox" class="filter brand" value="Samsung"> Samsung</label>
+        <label><input type="checkbox" class="filter brand" value="OnePlus"> OnePlus</label>
+        <label><input type="checkbox" class="filter brand" value="Google"> Google</label>
+      </div>
+    </div>
+
+    <div class="filter-group" data-key="ram">
+      <div class="filter-head" onclick="toggleGroup(this)">
+        <strong>RAM</strong>
+        <span class="filter-toggle">toggle</span>
+      </div>
+      <div class="filter-body">
+        <label><input type="checkbox" class="filter ram" value="6GB"> 6GB</label>
+        <label><input type="checkbox" class="filter ram" value="8GB"> 8GB</label>
+        <label><input type="checkbox" class="filter ram" value="8GB+"> 8GB+</label>
+        <label><input type="checkbox" class="filter ram" value="12GB"> 12GB</label>
+      </div>
+    </div>
+
+    <div class="filter-group" data-key="price">
+      <div class="filter-head" onclick="toggleGroup(this)">
+        <strong>Price</strong>
+        <span class="filter-toggle">toggle</span>
+      </div>
+      <div class="filter-body">
+        <label><input type="radio" name="price" class="price" value="under30000"> Under ₹30,000</label>
+        <label><input type="radio" name="price" class="price" value="30000-70000"> ₹30,000 - ₹70,000</label>
+        <label><input type="radio" name="price" class="price" value="above70000"> Above ₹70,000</label>
+        <label><input type="radio" name="price" class="price" value="all" checked> All</label>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+      <div>Showing <span id="count">0</span> results</div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="resetFilters" class="add-btn" style="flex:1">Reset</button>
+      <button id="applyFiltersBtn" class="add-btn" style="flex:1;background:#0b73ff">Apply</button>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <section class="products" aria-labelledby="products">
+    <div class="controls">
+      <div class="search">
+        <input id="searchInput" placeholder="Search mobiles, e.g. 'iPhone 14'">
+        <button id="clearBtn" class="ghost btn">Clear</button>
+      </div>
+
+      <div class="sort-wrap">
+        <select id="sortSelect">
+          <option value="popular">Sort by: Popular</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="gridWrap">
+      <div class="grid" id="grid"></div>
+      <div id="noResults" style="display:none;margin-top:14px"></div>
+    </div>
+
+  </section>
+</div>
+
+<!-- Quick View Modal -->
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="left">
+      <img id="modalImage" src="" alt="product">
+    </div>
+    <div class="right">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 id="modalTitle"></h3>
+        <div class="close" onclick="closeModal()">✖</div>
+      </div>
+      <p id="modalDesc" style="color:#666;margin-top:8px"></p>
+      <div style="margin-top:12px;font-weight:800;font-size:20px" id="modalPrice"></div>
+      <div style="margin-top:12px">
+        <button id="modalAdd" class="add-btn">Add to Cart</button>
+        <button onclick="closeModal()" style="margin-left:8px" class="ghost btn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">Added to cart</div>
+
+<footer style="max-width:1180px;margin:30px auto;text-align:center;color:#fff;padding:18px">© 2025 ShopEase</footer>
+
+<script>
+/* =========================
+   Product data (DB)
+   ========================= */
+const products = [
+  {id:1,title:"iPhone 14 Pro",brand:"iPhone",ram:"6GB",price:109999,rating:4.9,img:"https://pngimg.com/uploads/iphone_14/iphone_14_PNG20.png",tag:"New",desc:"Apple iPhone 14 Pro — A16 Bionic, Pro camera system."},
+  {id:2,title:"Samsung S23 Ultra",brand:"Samsung",ram:"8GB",price:87999,rating:4.8,img:"https://i.imgur.com/Vh4Y6cB.png",tag:"Hot",desc:"Samsung Galaxy S23 Ultra — flagship camera & S-Pen."},
+  {id:3,title:"OnePlus 11 5G",brand:"OnePlus",ram:"8GB+",price:59999,rating:4.7,img:"https://i.imgur.com/k1fvQxI.png",tag:"Sale",desc:"OnePlus 11 — Hasselblad tuned cameras, fast charging."},
+  {id:4,title:"Google Pixel 8 Pro",brand:"Google",ram:"12GB",price:94999,rating:4.8,img:"https://i.imgur.com/6q9D6QF.png",tag:"New",desc:"Pixel 8 Pro — Tensor chip & pure Android experience."},
+  {id:5,title:"iPhone 13 Mini",brand:"iPhone",ram:"6GB",price:59999,rating:4.5,img:"https://i.imgur.com/6aKQxWz.png",tag:"Popular",desc:"iPhone 13 Mini — compact powerhouse."},
+  {id:6,title:"Samsung A54",brand:"Samsung",ram:"8GB",price:24999,rating:4.2,img:"https://i.imgur.com/2n6mJb2.png",tag:"Value",desc:"Samsung A54 — great battery & display."},
+  {id:7,title:"OnePlus Nord 3",brand:"OnePlus",ram:"8GB",price:27999,rating:4.3,img:"https://i.imgur.com/8U0qf6k.png",tag:"Budget",desc:"Nord 3 — flagship-like specs at midrange price."},
+  {id:8,title:"Google Pixel 7a",brand:"Google",ram:"8GB",price:34999,rating:4.4,img:"https://i.imgur.com/cxvS4Yq.png",tag:"Popular",desc:"Pixel 7a — camera-first midranger."}
+];
+
+/* =========================
+   DOM refs
+   ========================= */
+const grid = document.getElementById('grid');
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+const sortSelect = document.getElementById('sortSelect');
+const brandChecks = document.querySelectorAll('.filter.brand');
+const ramChecks = document.querySelectorAll('.filter.ram');
+const priceRadios = document.querySelectorAll('.price');
+const countEl = document.getElementById('count');
+const noResultsEl = document.getElementById('noResults');
+const resetBtn = document.getElementById('resetFilters');
+const applyBtn = document.getElementById('applyFiltersBtn');
+const cartCountEl = document.getElementById('cartCount');
+
+/* Quick view modal refs */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalImage = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalPrice = document.getElementById('modalPrice');
+const modalDesc = document.getElementById('modalDesc');
+const modalAdd = document.getElementById('modalAdd');
+
+/* toast */
+const toast = document.getElementById('toast');
+
+/* =========================
+   Cart (localStorage)
+   ========================= */
+function getCart(){ return JSON.parse(localStorage.getItem('shop_cart')||'[]'); }
+function setCart(c){ localStorage.setItem('shop_cart', JSON.stringify(c)); updateCartCount(); }
+function addToCart(productId){
+  const cart = getCart();
+  const found = cart.find(i=>i.id===productId);
+  if(found) found.qty++;
+  else cart.push({id:productId,qty:1});
+  setCart(cart);
+  showToast("Added to cart");
+}
+
+/* update cart count */
+function updateCartCount(){
+  const cart = getCart();
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  cartCountEl.textContent = count;
+}
+updateCartCount();
+
+/* =========================
+   Render skeleton while loading
+   ========================= */
+function showSkeletons(){
+  grid.innerHTML = '';
+  for(let i=0;i<6;i++){
+    const s = document.createElement('div');
+    s.className = 'card';
+    s.innerHTML = `
+      <div class="thumb skeleton" style="height:160px;border-radius:10px"></div>
+      <div style="height:14px;margin:10px 0;border-radius:6px" class="skeleton"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="width:80px;height:20px;border-radius:8px" class="skeleton"></div>
+        <div style="width:60px;height:28px;border-radius:8px" class="skeleton"></div>
+      </div>
+    `;
+    grid.appendChild(s);
+  }
+}
+
+/* =========================
+   Render products (with animations)
+   ========================= */
+let currentList = [...products];
+
+function renderProducts(list, animate=true){
+  // show skeleton briefly to simulate loading & smoothness
+  showSkeletons();
+  // small delay for skeleton (200-350ms)
+  setTimeout(()=>{
+    grid.innerHTML = '';
+    if(!list.length){
+      noResultsEl.style.display='block';
+      noResultsEl.innerHTML = `<div class="no-results">
+        <h3>No products found</h3>
+        <p>Try removing some filters or <button id="clearAllBtn" class="add-btn" style="margin-left:8px">Clear filters</button></p>
+      </div>`;
+      const clearAll = document.getElementById('clearAllBtn');
+      if(clearAll) clearAll.addEventListener('click', ()=>{ resetFilters(); applyFilters(); });
+      countEl.textContent = 0;
+      return;
+    } else {
+      noResultsEl.style.display='none';
+      noResultsEl.innerHTML = '';
+    }
+
+    // create cards
+    list.forEach(p=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.id = p.id;
+      card.innerHTML = `
+        <div class="thumb"><img src="${p.img}" alt="${p.title}"></div>
+        <div class="title">${p.title}</div>
+        <div class="meta">
+          <div>
+            <div class="price">₹${p.price.toLocaleString()}</div>
+            <div class="mrp" style="font-size:12px;color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')}">Rating: ${p.rating} ⭐</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+            <div class="tag">${p.tag}</div>
+            <div style="display:flex;gap:6px">
+              <button class="add-btn small" data-add="${p.id}" style="padding:6px 8px;font-size:13px">Add</button>
+              <button class="ghost btn small" data-quick="${p.id}" style="padding:6px 8px;font-size:13px">Quick View</button>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // update count
+    countEl.textContent = list.length;
+
+    // animate in with GSAP
+    if(animate){
+      gsap.fromTo(grid.children, {opacity:0,y:30}, {opacity:1,y:0,duration:0.6,stagger:0.08, ease:"power3.out"});
+    } else {
+      [...grid.children].forEach(c=>c.style.opacity=1);
+    }
+
+    // attach event listeners for quick view & add-to-cart
+    document.querySelectorAll('[data-quick]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = Number(btn.getAttribute('data-quick'));
+        openModal(id);
+      });
+    });
+    document.querySelectorAll('[data-add]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = Number(btn.getAttribute('data-add'));
+        addToCart(id);
+      });
+    });
+
+  }, 200);
+}
+
+/* =========================
+   Filter/Sort/Search logic
+   ========================= */
+function applyFilters(){
+  let list = [...products];
+
+  // search
+  const q = (searchInput.value||'').trim().toLowerCase();
+  if(q) list = list.filter(p => p.title.toLowerCase().includes(q) || (p.brand||'').toLowerCase().includes(q));
+
+  // brand
+  const brands = [...brandChecks].filter(c=>c.checked).map(c=>c.value);
+  if(brands.length) list = list.filter(p => brands.includes(p.brand));
+
+  // ram
+  const rams = [...ramChecks].filter(c=>c.checked).map(c=>c.value);
+  if(rams.length) list = list.filter(p => rams.includes(p.ram));
+
+  // price
+  const priceSel = [...priceRadios].find(r=>r.checked)?.value || 'all';
+  if(priceSel === 'under30000') list = list.filter(p => p.price < 30000);
+  else if(priceSel === '30000-70000') list = list.filter(p => p.price >= 30000 && p.price <= 70000);
+  else if(priceSel === 'above70000') list = list.filter(p => p.price > 70000);
+
+  // sort
+  const sort = sortSelect.value;
+  if(sort === 'price-asc') list.sort((a,b)=>a.price-b.price);
+  else if(sort === 'price-desc') list.sort((a,b)=>b.price-a.price);
+  else if(sort === 'rating') list.sort((a,b)=>b.rating-a.rating);
+  else list.sort((a,b)=> b.id - a.id); //popular fallback
+
+  currentList = list;
+  renderProducts(list, true);
+}
+
+/* =========================
+   Helpers: reset filters, toggle group
+   ========================= */
+function resetFilters(){
+  searchInput.value = '';
+  brandChecks.forEach(c=>c.checked=false);
+  ramChecks.forEach(c=>c.checked=false);
+  priceRadios.forEach(r=> r.value==='all' ? r.checked=true : r.checked=false);
+  sortSelect.value = 'popular';
+}
+
+resetBtn.addEventListener('click', ()=>{
+  resetFilters();
+  applyFilters();
+});
+
+applyBtn.addEventListener('click', applyFilters);
+
+// clear btn
+clearBtn.addEventListener('click', ()=>{
+  searchInput.value = '';
+  applyFilters();
+});
+
+// live search with debounce
+let searchTimer = null;
+searchInput.addEventListener('input', ()=>{
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(()=> applyFilters(), 220);
+});
+sortSelect.addEventListener('change', applyFilters);
+brandChecks.forEach(c=>c.addEventListener('change', ()=> applyFilters()));
+ramChecks.forEach(c=>c.addEventListener('change', ()=> applyFilters()));
+priceRadios.forEach(r=>r.addEventListener('change', ()=> applyFilters()));
+
+/* toggle filter group */
+function toggleGroup(el){
+  const body = el.parentElement.querySelector('.filter-body');
+  if(!body) return;
+  const isHidden = body.style.display === 'none' || getComputedStyle(body).display === 'none';
+  if(isHidden) body.style.display = 'block';
+  else body.style.display = 'none';
+}
+
+/* =========================
+   Quick View Modal
+   ========================= */
+let modalProductId = null;
+function openModal(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  modalProductId = id;
+  modalImage.src = p.img;
+  modalTitle.textContent = p.title;
+  modalPrice.textContent = '₹' + p.price.toLocaleString();
+  modalDesc.textContent = p.desc || '';
+  modalBackdrop.style.display = 'flex';
+  gsap.fromTo('.modal',{scale:0.96,opacity:0},{scale:1,opacity:1,duration:0.35,ease:'power3.out'});
+  modalAdd.onclick = ()=>{ addToCart(id); };
+}
+function closeModal(){
+  gsap.to('.modal',{scale:0.98,opacity:0,duration:0.2,onComplete:()=> modalBackdrop.style.display='none'});
+}
+modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal(); });
+
+/* =========================
+   Toast
+   ========================= */
+let toastTimer = null;
+function showToast(text){
+  toast.textContent = text || 'Added to cart';
+  gsap.to(toast,{autoAlpha:1,y:0,duration:0.25,opacity:1});
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> gsap.to(toast,{autoAlpha:0,y:20,duration:0.35,opacity:0}),1600);
+}
+
+/* =========================
+   Init
+   ========================= */
+renderProducts(products, true);
+
+/* ensure cart count shows up on load */
+updateCartCount();
+
+function addToCart(title, price, image) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let existing = cart.find(item => item.title === title);
+
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      title,
+      price,
+      image,
+      qty: 1
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart!");
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Household Shop</title>
+  <style>
+    :root{
+      --bg:#f5fff9;
+      --card-bg:#ffffff;
+      --text:#222;
+      --accent1:#4caf50;
+      --accent2:#2196f3;
+      --accent3:#ff5722;
+      --accent4:#9c27b0;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#f5fff9,#ffffff);color:var(--text);overflow-x:hidden;}
+
+    header{padding:20px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;background:#fff;position:sticky;top:0;z-index:1000;box-shadow:0 6px 16px rgba(0,0,0,0.15)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,0.2)}
+    .brand h1{font-size:20px;margin:0;color:var(--accent2)}
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{padding:10px 14px;border-radius:999px;background:#f0f0f0;border:none;min-width:220px}
+    .select,.button{padding:10px 14px;border-radius:10px;background:#f0f0f0;border:none;color:#333;cursor:pointer}
+
+    .hero{margin:20px 28px;padding:40px;border-radius:20px;background:linear-gradient(135deg,var(--accent2),var(--accent3));color:#fff;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 24px rgba(0,0,0,0.3);animation:popIn 1s ease forwards;opacity:0}
+    @keyframes popIn{0%{opacity:0;transform:scale(.7) rotate(-15deg)}70%{opacity:1;transform:scale(1.05) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+    .hero h2{font-size:28px;margin-bottom:10px}
+    .hero p{margin:0;font-size:16px;opacity:.95}
+    .hero img{width:140px;animation:bounce 2.5s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+    main{padding:20px 28px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+
+    .card{background:var(--card-bg);padding:14px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform .4s ease, box-shadow .4s ease;animation:spinIn .8s ease forwards;opacity:0}
+    @keyframes spinIn{from{opacity:0;transform:rotateY(90deg) scale(.5)}to{opacity:1;transform:rotateY(0) scale(1)}}
+    .card:hover{transform:translateY(-8px) scale(1.04) rotate(-1deg);box-shadow:0 14px 28px rgba(33,150,243,0.25)}
+    .thumb{height:150px;display:flex;align-items:center;justify-content:center;background:#f9f9f9;border-radius:14px;padding:12px;overflow:hidden}
+    .thumb img{max-height:120px;max-width:100%;transition:transform .6s ease}
+    .card:hover .thumb img{transform:scale(1.2) rotate(8deg)}
+    h3{margin:10px 0 6px;font-size:16px;color:var(--accent3)}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700;color:var(--accent1)}
+    .stock{font-size:12px;color:#666}
+    .actions{display:flex;gap:8px;margin-top:10px}
+    .buy{flex:1;padding:10px;border-radius:8px;background:linear-gradient(90deg,var(--accent2),var(--accent4));color:#fff;border:none;cursor:pointer;font-weight:700;transition:all .3s ease}
+    .buy:hover{transform:scale(1.08)}
+    .cart{padding:10px;border-radius:8px;background:#f0f0f0;border:none;cursor:pointer;font-size:16px;color:#333}
+
+    .footer{padding:18px 28px;text-align:center;color:#666;margin-top:20px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">HH</div>
+      <div>
+        <h1>Household Items</h1>
+        <div style="font-size:12px;color:#777">Everyday essentials • 120 items</div>
+      </div>
+    </div>
+    <div class="controls">
+      <input id="search" class="search" placeholder="Search household items..." />
+      <select id="sort" class="select">
+        <option value="pop">Sort: Popular</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+      </select>
+      <button id="shuffle" class="button">Shuffle Colors</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h2>Household Super Deals</h2>
+      <p>Save up to 40% on daily essentials • 120 units available • Free delivery</p>
+    </div>
+    <img src="https://img.icons8.com/fluency/96/broom.png" alt="household"/>
+  </div>
+
+  <main>
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <div class="footer">Showing <span id="count">0</span> household items • All products in stock</div>
+
+  <template id="tpl">
+    <div class="card">
+      <div class="thumb"><img src="" alt="household"/></div>
+      <h3 class="title">Household Item</h3>
+      <div class="meta">
+        <div>
+          <div class="price">₹<span class="price-val">0</span></div>
+          <div class="stock">120 units</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#888">4.4 ★</div>
+          <div style="font-size:12px;color:#aaa">12 reviews</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="buy">Buy Now</button>
+        <button class="cart">🛒</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const grid=document.getElementById('grid');
+    const tpl=document.getElementById('tpl');
+    const count=document.getElementById('count');
+    const search=document.getElementById('search');
+    const sort=document.getElementById('sort');
+    const shuffle=document.getElementById('shuffle');
+
+    const items=Array.from({length:120}).map((_,i)=>{
+      const price=80+Math.floor(Math.random()*3000);
+      return{
+        id:i+1,
+        name:`Household Item ${i+1}`,
+        price,
+        colorSeed:Math.floor(Math.random()*360)
+      }
+    });
+
+    function svgImage(name,seed){
+      const c1=`hsl(${seed} 70% 55%)`;
+      const c2=`hsl(${(seed+100)%360} 75% 60%)`;
+      const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='420' height='240'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='100%' height='100%' rx='20' fill='url(%23g)'/><text x='30' y='130' font-size='22' font-family='Segoe UI,Roboto,Arial' fill='white'>${name}</text></svg>`;
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+    }
+
+    function render(list){
+      grid.innerHTML='';
+      list.forEach(it=>{
+        const clone=tpl.content.cloneNode(true);
+        clone.querySelector('img').src=svgImage(it.name,it.colorSeed);
+        clone.querySelector('.title').textContent=it.name;
+        clone.querySelector('.price-val').textContent=it.price.toLocaleString();
+        clone.querySelector('.buy').addEventListener('click',()=>{
+          window.location.href=`buy.html?item=${it.id}&name=${encodeURIComponent(it.name)}&price=${it.price}`;
+        });
+        clone.querySelector('.cart').addEventListener('click',()=>{
+          alert(`${it.name} added to cart!`);
+        });
+        grid.appendChild(clone);
+      });
+      count.textContent=list.length;
+    }
+
+    render(items);
+
+    search.addEventListener('input',()=>{
+      const q=search.value.toLowerCase();
+      let filtered=items.filter(it=>it.name.toLowerCase().includes(q));
+      applySort(filtered);
+    });
+
+    sort.addEventListener('change',()=>{
+      applySort(items.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase())));
+    });
+
+    function applySort(list){
+      const val=sort.value;
+      const copy=[...list];
+      if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
+      else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
+      else copy.sort((a,b)=>a.id-b.id);
+      render(copy);
+    }
+
+    shuffle.addEventListener('click',()=>{
+      items.forEach(it=>it.colorSeed=Math.floor(Math.random()*360));
+      applySort(items);
+    });
+  </script>
+</body>
+</html>

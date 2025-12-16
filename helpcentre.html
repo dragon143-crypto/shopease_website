@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Help Centre — Advanced | ShopEase</title>
+
+  <!-- Google font & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg: #f4f7fb; --card:#fff; --accent:#2874f0; --muted:#6b7280; --glass: rgba(255,255,255,0.7);
+    }
+    .dark {
+      --bg: #0f1724; --card: #0b1220; --accent: #0ea5a3; --muted:#9ca3af; --glass: rgba(255,255,255,0.03);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:'Poppins',sans-serif; background:var(--bg); color: #0b1220;
+      display:flex; min-height:100vh; transition: background 0.25s, color 0.25s;
+    }
+    .dark body{ color: #e6eef6; }
+    /* Sidebar */
+    .sidebar{
+      width:250px; background:linear-gradient(180deg, var(--card), rgba(255,255,255,0.9));
+      padding:20px; border-right:1px solid rgba(0,0,0,0.05); position:sticky; top:0; height:100vh;
+      backdrop-filter: blur(8px);
+    }
+    .brand{font-weight:700; color:var(--accent); font-size:20px; display:flex; align-items:center; gap:8px}
+    .toggle-row{display:flex; gap:8px; align-items:center; margin:14px 0; justify-content:space-between}
+    .toggle-btn{background:transparent;border:1px solid rgba(0,0,0,0.08); padding:6px 10px;border-radius:999px; cursor:pointer}
+    .nav-section{margin-top:18px}
+    .nav-section h4{font-size:13px; color:var(--muted); margin:10px 0 8px}
+    .nav-link{display:flex; align-items:center; gap:10px; padding:10px; border-radius:8px; text-decoration:none; color:inherit; margin-bottom:6px; cursor:pointer}
+    .nav-link:hover{background:linear-gradient(90deg, rgba(40,116,240,0.08), rgba(0,0,0,0.02)); transform: translateX(6px)}
+    .collapsible{cursor:pointer; display:flex; justify-content:space-between; align-items:center}
+    .submenu{padding-left:8px; margin-top:6px; display:none}
+    .submenu a{display:block; padding:8px; border-radius:8px; color:var(--muted); text-decoration:none}
+    .active-submenu{display:block}
+
+    /* Main content */
+    .main{flex:1; padding:28px 36px; overflow:auto}
+    .header-row{display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px}
+    .searchbar{display:flex; gap:10px; align-items:center; background:var(--card); padding:10px 12px; border-radius:12px; box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    .searchbar input{border:0; outline:0; background:transparent; width:360px; font-size:15px}
+    .user-bubble{padding:8px 12px; background:linear-gradient(90deg,var(--accent),#00bfa6); color:#fff; border-radius:999px; font-weight:600}
+    .grid{display:grid; grid-template-columns: 1fr 420px; gap:22px; align-items:start}
+
+    /* cards */
+    .card{background:var(--card); border-radius:14px; padding:18px; box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    .card h3{margin:0 0 10px; color:var(--accent)}
+    .faq-list .faq{margin-bottom:12px; border-radius:10px; overflow:hidden}
+    .faq q{font-style:normal; display:block; font-weight:600; margin-bottom:6px}
+    .faq .answer{padding:12px 14px; background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent)}
+
+    /* ticket list */
+    .tickets{display:flex; flex-direction:column; gap:10px}
+    .ticket{padding:12px; border-radius:10px; background:linear-gradient(90deg, rgba(40,116,240,0.05), rgba(0,0,0,0.01))}
+    .ticket small{color:var(--muted)}
+
+    /* Chat assistant */
+    .assistant {height:320px; display:flex; flex-direction:column; gap:8px}
+    .messages{flex:1; overflow:auto; padding:8px; display:flex; flex-direction:column; gap:8px}
+    .msg{max-width:78%; padding:10px 12px; border-radius:10px}
+    .msg.user{align-self:flex-end; background:linear-gradient(90deg,#e6f4ff, #fff)}
+    .msg.bot{align-self:flex-start; background:linear-gradient(90deg,#f1f6f9,#eef7ff)}
+    .assistant input{border:0; padding:12px 10px; border-radius:10px; outline:0; background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent)}
+
+    /* live chat widget */
+    .live-widget{
+      position:fixed; right:18px; bottom:18px; width:72px; height:72px; border-radius:20px; background:linear-gradient(135deg,var(--accent),#00bfa6);
+      display:flex; align-items:center; justify-content:center; color:#fff; cursor:pointer; box-shadow:0 8px 30px rgba(2,6,23,0.2)
+    }
+    .live-panel{position:fixed; right:18px; bottom:100px; width:360px; max-height:520px; background:var(--card); border-radius:14px; box-shadow:0 14px 45px rgba(2,6,23,0.2); overflow:hidden; display:none; flex-direction:column}
+    .live-panel.show{display:flex}
+    .live-panel .header{padding:12px 14px; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg, rgba(40,116,240,0.06), transparent)}
+    .live-panel .conv{flex:1; padding:12px; overflow:auto}
+    .live-panel .inputbox{display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,0.03)}
+    .live-panel input{flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.06)}
+
+    /* feedback analytics */
+    .stats{display:flex; gap:10px; margin-top:10px}
+    .stat{flex:1; padding:12px; border-radius:10px; text-align:center; background:linear-gradient(90deg, rgba(0,0,0,0.02), transparent)}
+    .small{font-size:13px; color:var(--muted)}
+
+    /* responsiveness */
+    @media (max-width:1000px){
+      .grid{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .live-panel{right:12px; left:12px; width:auto}
+    }
+  </style>
+</head>
+<body id="pageRoot">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand"><i class="fa-solid fa-headset"></i> Help Centre</div>
+
+    <div class="toggle-row">
+      <div style="font-size:13px;color:var(--muted)">Hi, <span id="userGreeting">User</span></div>
+      <div>
+        <button class="toggle-btn" id="themeToggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="collapsible" id="coll-1"><strong>Support</strong> <i class="fa-solid fa-chevron-down"></i></div>
+      <div class="submenu" id="sub-1">
+        <a class="nav-link" data-scroll="faqs">FAQs</a>
+        <a class="nav-link" data-scroll="tickets">My Tickets</a>
+        <a class="nav-link" data-scroll="assistant">AI Assistant</a>
+      </div>
+
+      <div class="collapsible" id="coll-2"><strong>Services</strong> <i class="fa-solid fa-chevron-down"></i></div>
+      <div class="submenu" id="sub-2">
+        <a class="nav-link" href="giftcards.html">Gift Cards</a>
+        <a class="nav-link" href="become-seller.html">Become Seller</a>
+      </div>
+
+      <div style="margin-top:18px">
+        <div class="nav-link" id="open-live"><i class="fa-solid fa-comments"></i> Live Chat</div>
+        <div class="nav-link" id="open-feedback"><i class="fa-solid fa-comment-dots"></i> Send Feedback</div>
+      </div>
+    </div>
+
+    <div style="position:absolute; bottom:18px; left:20px; right:20px; text-align:center; font-size:12px; color:var(--muted)">
+      <div>Need immediate help? Call <strong>+91 98765 43210</strong></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="header-row">
+      <div class="searchbar card">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
+        <input id="faqSearch" placeholder="Search FAQs & help articles (try: refund, return, address)"/>
+        <button id="clearSearch" title="Clear" style="border:0;background:transparent;cursor:pointer;color:var(--muted)"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center">
+        <div class="small" id="signedAs">Signed in as: <strong id="userEmail">guest@demo</strong></div>
+        <div class="user-bubble" id="userBubble">Hi, Guest</div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <!-- LEFT: main help content -->
+      <section>
+        <!-- FAQs -->
+        <div class="card faq-list" id="faqs">
+          <h3>Frequently Asked Questions</h3>
+          <div style="margin-bottom:10px" class="small">Search or browse popular questions below.</div>
+          <div id="faqContainer"></div>
+        </div>
+
+        <!-- Ticket creation & list -->
+        <div class="card" id="tickets">
+          <h3>Support Tickets</h3>
+          <form id="ticketForm" style="display:flex; flex-direction:column; gap:8px; margin-top:8px">
+            <input name="subject" placeholder="Short subject (e.g., Order not received)" required style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)"/>
+            <textarea name="details" placeholder="Describe your issue..." rows="4" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)"></textarea>
+            <div style="display:flex; gap:8px">
+              <button type="submit" style="background:linear-gradient(90deg,var(--accent),#00bfa6); color:#fff; padding:10px 14px; border-radius:8px; border:0; cursor:pointer">Create Ticket</button>
+              <button type="button" id="loadDemoTickets" style="padding:10px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06); background:transparent; cursor:pointer">Load Sample</button>
+            </div>
+          </form>
+
+          <div style="margin-top:12px">
+            <div class="small">Your tickets</div>
+            <div class="tickets" id="ticketList"></div>
+          </div>
+        </div>
+
+        <!-- Feedback & analytics -->
+        <div class="card" id="feedbackCard">
+          <h3>Feedback & Analytics</h3>
+          <form id="feedbackForm" style="display:flex; gap:8px; margin-top:8px; align-items:center">
+            <input name="name" placeholder="Your name" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" />
+            <input name="email" placeholder="Email" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" />
+            <select name="rating" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
+              <option value="">Rating</option>
+              <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+            </select>
+            <button type="submit" style="background:var(--accent); color:#fff; padding:10px 12px; border-radius:8px; border:0">Send</button>
+          </form>
+
+          <div class="stats" style="margin-top:12px">
+            <div class="stat">
+              <div class="small">Total feedbacks</div>
+              <div id="statTotal" style="font-size:18px;font-weight:700">0</div>
+            </div>
+            <div class="stat">
+              <div class="small">Avg. rating</div>
+              <div id="statAvg" style="font-size:18px;font-weight:700">—</div>
+            </div>
+            <div class="stat">
+              <div class="small">Positive (4-5)</div>
+              <div id="statPos" style="font-size:18px;font-weight:700">0</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <details>
+              <summary style="cursor:pointer">View all feedbacks</summary>
+              <div id="feedbackList" style="margin-top:8px"></div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: assistant + quick links -->
+      <aside>
+        <div class="card assistant" id="assistant">
+          <h3>AI Assistant (beta)</h3>
+          <div class="messages" id="assistantMessages"></div>
+          <div style="display:flex; gap:8px">
+            <input id="assistantInput" placeholder="Ask about refunds, returns, orders..." />
+            <button id="assistantSend" style="background:var(--accent);color:#fff;border:0;padding:10px;border-radius:8px;cursor:pointer">Ask</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Quick Actions</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button id="btnNewTicket" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.05)">Create Ticket</button>
+            <button id="btnOpenLive" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.05)">Open Live Chat</button>
+            <button id="btnOpenFaq" style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.05)">Search FAQs</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- live chat floating -->
+  <div class="live-widget" id="liveToggle" title="Open live chat">
+    <i class="fa-solid fa-comment"></i>
+  </div>
+
+  <div class="live-panel" id="livePanel">
+    <div class="header">
+      <strong style="color:var(--accent)">Live Chat</strong>
+      <div>
+        <button id="closeLive" style="background:transparent;border:0; cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div class="conv" id="liveConv"></div>
+    <div class="inputbox">
+      <input id="liveInput" placeholder="Type a message..." />
+      <button id="liveSend" style="background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Send</button>
+    </div>
+  </div>
+
+  <script>
+    /***** Initialization & utilities *****/
+    const sampleFAQs = [
+      {q:"How do I track my order?", a:"Go to My Orders → choose the order → click 'Track shipment'."},
+      {q:"How can I return an item?", a:"You can request a return within 7 days of delivery. Open the order and choose 'Return'."},
+      {q:"When do I get my refund?", a:"Refunds are processed within 5-7 business days after we receive the returned item."},
+      {q:"How do I change shipping address?", a:"Go to Manage Addresses in your profile and update or add a new address."},
+      {q:"Can I buy gift cards?", a:"Yes — visit Gift Cards from the menu and choose amount then checkout."},
+    ];
+
+    // Local storage keys
+    const LS = {
+      tickets: "help_tickets_v1",
+      feedback: "help_feedback_v1",
+      chat: "help_livechat_v1",
+      theme: "help_theme_v1",
+      assistant: "help_assistant_v1"
+    };
+
+    // helper: generate ticket id
+    function genTicketId(){ return 'T-'+Date.now().toString(36).slice(-6).toUpperCase() }
+
+    // read user from localStorage (if signed-in)
+    const nickname = localStorage.getItem("userNickname") || "Guest";
+    const email = localStorage.getItem("userEmail") || "guest@demo";
+
+    document.getElementById('userGreeting').textContent = nickname;
+    document.getElementById('userBubble').textContent = `Hi, ${nickname.split(" ")[0] || nickname}`;
+    document.getElementById('userEmail').textContent = email;
+
+    /***** THEME TOGGLE *****/
+    const root = document.getElementById('pageRoot');
+    const themeToggle = document.getElementById('themeToggle');
+    (function applyTheme(){
+      const t = localStorage.getItem(LS.theme) || 'light';
+      if(t==='dark') document.documentElement.classList.add('dark'), document.body.classList.add('dark');
+      else document.documentElement.classList.remove('dark'), document.body.classList.remove('dark');
+    })();
+    themeToggle.addEventListener('click', ()=>{
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.body.classList.toggle('dark', isDark);
+      localStorage.setItem(LS.theme, isDark ? 'dark':'light');
+    });
+
+    /***** COLLAPSIBLE SIDEBAR *****/
+    document.querySelectorAll('.collapsible').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const idx = el.id.split('-')[1];
+        const sub = document.getElementById('sub-'+idx);
+        sub.classList.toggle('active-submenu');
+      });
+    });
+
+    // nav scroll links
+    document.querySelectorAll('[data-scroll]').forEach(a=>{
+      a.addEventListener('click', ()=> {
+        document.getElementById(a.dataset.scroll).scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    /***** FAQs: render & search *****/
+    const faqContainer = document.getElementById('faqContainer');
+    function renderFAQs(list){
+      faqContainer.innerHTML = '';
+      if(!list.length) { faqContainer.innerHTML = '<div class="small">No results found.</div>'; return; }
+      list.forEach(item=>{
+        const el = document.createElement('div'); el.className='faq';
+        el.innerHTML = `<q>${item.q}</q><div class="answer">${item.a}</div>`;
+        faqContainer.appendChild(el);
+      });
+    }
+    renderFAQs(sampleFAQs);
+
+    // search input
+    const faqSearch = document.getElementById('faqSearch'), clearSearch = document.getElementById('clearSearch');
+    faqSearch.addEventListener('input', (e)=>{
+      const term = e.target.value.trim().toLowerCase();
+      if(!term) return renderFAQs(sampleFAQs);
+      const filtered = sampleFAQs.filter(f=> f.q.toLowerCase().includes(term) || f.a.toLowerCase().includes(term));
+      renderFAQs(filtered);
+    });
+    clearSearch.addEventListener('click', ()=> { faqSearch.value=''; renderFAQs(sampleFAQs) });
+
+    /***** TICKETS (create, list, load demo) *****/
+    function loadTickets(){ return JSON.parse(localStorage.getItem(LS.tickets) || "[]") }
+    function saveTickets(list){ localStorage.setItem(LS.tickets, JSON.stringify(list)) }
+    const ticketListEl = document.getElementById('ticketList');
+
+    function renderTickets(){
+      const tickets = loadTickets();
+      ticketListEl.innerHTML = tickets.length ? '' : '<div class="small">No tickets yet.</div>';
+      tickets.slice().reverse().forEach(t=>{
+        const d = document.createElement('div'); d.className='ticket';
+        d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+                        <div><strong>${t.subject}</strong><div class="small">${t.details}</div></div>
+                        <div style="text-align:right"><small>${t.id}</small><div class="small">${new Date(t.created).toLocaleString()}</div></div>
+                       </div>`;
+        ticketListEl.appendChild(d);
+      });
+    }
+    renderTickets();
+
+    document.getElementById('ticketForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const form = e.target;
+      const subject = form.subject.value.trim(); const details = form.details.value.trim();
+      if(!subject || !details) return alert('Please fill subject & details.');
+      const tickets = loadTickets();
+      const ticket = { id: genTicketId(), subject, details, created: Date.now(), user: email, status:'open' };
+      tickets.push(ticket); saveTickets(tickets); renderTickets();
+      form.reset(); alert(`Ticket created — ID ${ticket.id}`);
+    });
+
+    document.getElementById('loadDemoTickets').addEventListener('click', ()=>{
+      const tickets = loadTickets();
+      if(tickets.length) return alert('You already have tickets.');
+      const demo = [
+        {id: genTicketId(), subject:'Order not received', details:'My order #123 is missing', created:Date.now()-86400000, user:email, status:'open'},
+        {id: genTicketId(), subject:'Refund status', details:'Refund for order #98 not credited', created:Date.now()-3600*1000, user:email, status:'closed'}
+      ];
+      saveTickets(demo); renderTickets();
+    });
+
+    /***** FEEDBACK + analytics *****/
+    function loadFeedback(){ return JSON.parse(localStorage.getItem(LS.feedback) || "[]") }
+    function saveFeedback(list){ localStorage.setItem(LS.feedback, JSON.stringify(list)) }
+
+    function renderFeedbackStats(){
+      const list = loadFeedback();
+      const total = list.length;
+      const avg = total ? (list.reduce((s,i)=> s + Number(i.rating||0),0) / total).toFixed(2) : '—';
+      const pos = list.filter(i=> Number(i.rating) >=4 ).length;
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statAvg').textContent = avg;
+      document.getElementById('statPos').textContent = pos;
+      const feedbackListEl = document.getElementById('feedbackList'); feedbackListEl.innerHTML = '';
+      list.slice().reverse().forEach(f=>{
+        const el = document.createElement('div'); el.className='small'; el.style.padding='8px 0';
+        el.innerHTML = `<strong>${f.name||'Anon'}</strong> (${f.email||'—'}) — Rating: ${f.rating || '—'}<div style="color:var(--muted)">${f.msg||''}</div>`;
+        feedbackListEl.appendChild(el);
+      });
+    }
+    renderFeedbackStats();
+
+    document.getElementById('feedbackForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = {
+        name: e.target.name.value || nickname,
+        email: e.target.email.value || email,
+        rating: e.target.rating.value || '',
+        ts: Date.now()
+      };
+      const list = loadFeedback();
+      list.push({...data, msg: ''});
+      saveFeedback(list); e.target.reset(); renderFeedbackStats(); alert('Thanks — feedback saved!');
+    });
+
+    /***** ASSISTANT (simple simulated AI) *****/
+    const assistantMessagesEl = document.getElementById('assistantMessages');
+    function appendAssistant(message, who='bot'){
+      const div = document.createElement('div'); div.className = 'msg ' + (who==='user'?'user':'bot');
+      div.textContent = message; assistantMessagesEl.appendChild(div);
+      assistantMessagesEl.scrollTop = assistantMessagesEl.scrollHeight;
+    }
+    // load assistant memory
+    (function loadAssistant(){
+      appendAssistant('Hello! I am ShopEase Assistant. Ask about orders, returns, refunds, shipping or type "ticket" to create a support ticket.');
+      const mem = JSON.parse(localStorage.getItem(LS.assistant) || "[]");
+      mem.forEach(m=> appendAssistant(m.text, m.who));
+    })();
+
+    function assistantReply(text){
+      // simple rules
+      const t = text.toLowerCase();
+      if(t.includes('refund')) return 'Refunds are processed within 5-7 business days after return receipt. Want me to open a ticket for a refund check?';
+      if(t.includes('return')) return 'You can request a return within 7 days of delivery. I can provide the steps if you tell me the order number.';
+      if(t.includes('track') || t.includes('where')) return 'To track, go to My Orders ➜ select your order ➜ click Track Shipment. Want me to open tracking for a specific order ID?';
+      if(t.includes('ticket')) return 'Okay — say the subject of the ticket and details or press "Create Ticket" in the Tickets section.';
+      if(t.includes('hi')||t.includes('hello')) return 'Hi there! How may I help you today?';
+      // fallback
+      return 'I\'m not certain — would you like to create a support ticket or chat with live support?';
+    }
+
+    document.getElementById('assistantSend').addEventListener('click', ()=>{
+      const input = document.getElementById('assistantInput');
+      const text = input.value.trim(); if(!text) return;
+      appendAssistant(text,'user');
+      // persist
+      const mem = JSON.parse(localStorage.getItem(LS.assistant) || "[]");
+      mem.push({who:'user', text}); localStorage.setItem(LS.assistant, JSON.stringify(mem));
+      input.value='';
+      setTimeout(()=> {
+        const rep = assistantReply(text);
+        appendAssistant(rep,'bot');
+        mem.push({who:'bot', text:rep}); localStorage.setItem(LS.assistant, JSON.stringify(mem));
+      }, 600);
+    });
+
+    /***** LIVE CHAT WIDGET (local storage) *****/
+    const liveToggle = document.getElementById('liveToggle'), livePanel = document.getElementById('livePanel'),
+          liveConv = document.getElementById('liveConv'), liveInput = document.getElementById('liveInput');
+    function loadLive(){ return JSON.parse(localStorage.getItem(LS.chat) || "[]") }
+    function saveLive(arr){ localStorage.setItem(LS.chat, JSON.stringify(arr)) }
+
+    function renderLive(){
+      const conv = loadLive(); liveConv.innerHTML='';
+      conv.forEach(m=>{
+        const b = document.createElement('div'); b.style.margin='8px 0';
+        b.innerHTML = `<div style="font-size:12px;color:var(--muted)">${m.who} • ${new Date(m.ts).toLocaleString()}</div>
+                       <div style="padding:8px;border-radius:8px;background:${m.who==='You' ? 'linear-gradient(90deg,#e6f4ff,#fff)' : 'linear-gradient(90deg,#f1f6f9,#eef7ff)'}">${m.msg}</div>`;
+        liveConv.appendChild(b);
+      });
+      liveConv.scrollTop = liveConv.scrollHeight;
+    }
+    liveToggle.addEventListener('click', ()=>{ livePanel.classList.toggle('show'); renderLive(); });
+    document.getElementById('closeLive').addEventListener('click', ()=> livePanel.classList.remove('show'));
+    document.getElementById('liveSend').addEventListener('click', ()=> {
+      const txt = liveInput.value.trim(); if(!txt) return;
+      const conv = loadLive(); conv.push({who:'You', msg:txt, ts:Date.now()}); saveLive(conv); liveInput.value=''; renderLive();
+      // simulate support reply
+      setTimeout(()=> {
+        const conv2 = loadLive(); conv2.push({who:'Support', msg:'Thanks! We received your message and will respond shortly.', ts:Date.now()}); saveLive(conv2); renderLive();
+      }, 900);
+    });
+
+    // open live via other buttons
+    document.getElementById('open-live').addEventListener('click', ()=> { livePanel.classList.add('show'); renderLive(); });
+    document.getElementById('btnOpenLive').addEventListener('click', ()=> { livePanel.classList.add('show'); renderLive(); });
+
+    // open feedback quick
+    document.getElementById('open-feedback').addEventListener('click', ()=> document.getElementById('feedbackForm').scrollIntoView({behavior:'smooth'}));
+
+    // quick action new ticket focuses the ticket subject
+    document.getElementById('btnNewTicket').addEventListener('click', ()=> {
+      document.getElementById('ticketForm').scrollIntoView({behavior:'smooth'});
+      document.querySelector('#ticketForm input[name="subject"]').focus();
+    });
+
+    // some small UX helpers
+    document.getElementById('btnOpenFaq').addEventListener('click', ()=> document.getElementById('faqSearch').focus());
+
+    // populate initial sample if no data present (for first time use)
+    (function bootstrap(){
+      if(!localStorage.getItem(LS.tickets) && !loadTickets().length){
+        // do not auto-create ticket; leave for user
+      }
+      if(!localStorage.getItem(LS.feedback)){
+        localStorage.setItem(LS.feedback, JSON.stringify([]));
+      }
+      if(!localStorage.getItem(LS.chat)){
+        const demo = [{who:'Support', msg:'Welcome to live chat — type your message to start.', ts:Date.now()}];
+        localStorage.setItem(LS.chat, JSON.stringify(demo));
+      }
+      // render dynamic parts
+      renderTickets();
+      renderFeedbackStats();
+    })();
+
+  </script>
+</body>
+</html>

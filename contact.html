@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — vibeTrendz</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+      color: #111;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* --- HEADER --- */
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: linear-gradient(to right, #6366f1, #8b5cf6);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      animation: float 6s infinite alternate ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(40px) scale(1.1); }
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+    }
+    header p { font-size: 1.1rem; opacity: 0.9; }
+
+    /* --- CONTACT WRAPPER --- */
+    .contact-wrapper {
+      max-width: 1100px;
+      margin: 60px auto;
+      background: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* --- LEFT INFO PANEL --- */
+    .contact-info {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+      position: relative;
+    }
+    .contact-info::after {
+      content: "";
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      animation: pulse 5s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.3); opacity: 0.3; }
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.3s ease;
+    }
+    .info-item:hover { transform: translateX(8px); }
+    .info-item span {
+      font-size: 1.8rem;
+      display: inline-block;
+    }
+    .info-item div { font-size: 0.95rem; }
+
+    /* --- RIGHT FORM PANEL --- */
+    .contact-form {
+      padding: 60px 40px;
+    }
+    .contact-form h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .contact-form h2::after {
+      content: "";
+      width: 60px; height: 4px;
+      background: #4f46e5;
+      position: absolute;
+      bottom: -10px; left: 0;
+      border-radius: 2px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #6366f1;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+    }
+    textarea { resize: none; min-height: 120px; }
+
+    button {
+      align-self: flex-start;
+      padding: 12px 28px;
+      background: #4f46e5;
+      border: none;
+      color: white;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #4338ca;
+      transform: translateY(-2px);
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 850px) {
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .contact-info { border-radius: 0; }
+    }
+
+    /* --- SCROLL ANIMATION --- */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header data-animate>
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you. Let’s get in touch!</p>
+  </header>
+
+  <div class="contact-wrapper" data-animate>
+    <!-- LEFT PANEL -->
+    <div class="contact-info">
+      <div class="info-item">
+        <span>📍</span>
+        <div>
+          <strong>Our Office</strong><br>
+          123 Trendz Street, New Delhi, India
+        </div>
+      </div>
+      <div class="info-item">
+        <span>📞</span>
+        <div>
+          <strong>Call Us</strong><br>
+          +91 98765 43210
+        </div>
+      </div>
+      <div class="info-item">
+        <span>✉️</span>
+        <div>
+          <strong>Email</strong><br>
+          support@ShopEase.com
+        </div>
+      </div>
+      <div class="info-item">
+        <span>🌐</span>
+        <div>
+          <strong>Social</strong><br>
+          Instagram / Facebook / Twitter
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="contact-form">
+      <h2>Send us a Message</h2>
+      <form onsubmit="return sendMessage(event)">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Your Message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="response" style="margin-top:15px; font-weight:500; color:#4f46e5;"></p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 ShopEase. All rights reserved.
+  </footer>
+
+  <!-- JS Scroll + Form Animation -->
+  <script>
+    // Reveal on scroll
+    const animEls = document.querySelectorAll('[data-animate]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    animEls.forEach(el => observer.observe(el));
+
+    // Simulated form submission
+    function sendMessage(event) {
+      event.preventDefault();
+      document.getElementById("response").textContent = "✅ Message sent successfully!";
+      event.target.reset();
+    }
+  </script>
+</body>
+</html>

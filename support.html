@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Support — ShopEase</title>
+
+<!-- Lottie for animations -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --panel:#0f1724cc; --accent:#2EA6FF; --muted:#94a3b8; --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#0b1220,#071026);color:#e6eef8;min-height:100vh}
+  .wrap{max-width:1100px;margin:28px auto;padding:20px;display:grid;grid-template-columns:1fr 380px;gap:20px}
+  .chat-panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;box-shadow:0 10px 40px rgba(2,6,23,0.6);min-height:72vh}
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .header h1{margin:0;font-size:18px}
+  .header .meta{color:var(--muted);font-size:13px}
+  .messages{height:calc(72vh - 200px);overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+  .bubble{max-width:78%;padding:12px 14px;border-radius:12px;line-height:1.4;animation:pop .18s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .user{align-self:flex-end;background:linear-gradient(90deg,#0f1724,#071026);border:1px solid rgba(255,255,255,0.04);color:#fff}
+  .bot{align-self:flex-start;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.03);color:#e6eef8}
+  .typing { display:flex; gap:6px; align-items:center; padding:8px 12px; border-radius:12px; background:rgba(255,255,255,0.02); width:160px }
+  .typing .dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;opacity:.9;animation:blink 1s infinite}
+  .typing .dot:nth-child(2){animation-delay:.12s}
+  .typing .dot:nth-child(3){animation-delay:.24s}
+  @keyframes blink{0%{transform:translateY(0);opacity:.3}50%{transform:translateY(-6px);opacity:1}100%{transform:translateY(0);opacity:.3}}
+
+  .controls{display:flex;gap:8px;margin-top:12px;align-items:center}
+  .input{flex:1;display:flex;gap:8px}
+  input[type="text"]{flex:1;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#e6eef8}
+  .btn{padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:#072033;font-weight:700;cursor:pointer}
+  .small{font-size:13px;color:var(--muted)}
+
+  /* right column */
+  .side{position:sticky;top:28px;height:fit-content}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;margin-bottom:12px}
+  .related a{display:block;padding:8px;border-radius:8px;margin-bottom:8px;color:var(--accent);text-decoration:none}
+
+  /* upload area */
+  .uploader{border:1px dashed rgba(255,255,255,0.06);padding:10px;border-radius:10px;text-align:center;color:var(--muted);cursor:pointer}
+  .uploader.dragover{background:rgba(46,166,255,0.04);border-color:rgba(46,166,255,0.25)}
+
+  /* voice */
+  .rec-btn{width:46px;height:46px;border-radius:50%;background:#111;border:2px solid #2ea6ff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+
+  /* dark toggle */
+  .mode-toggle{cursor:pointer;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+  @media(max-width:980px){.wrap{grid-template-columns:1fr;padding:16px}.side{position:static}}
+</style>
+</head>
+<body>
+
+<div style="max-width:1100px;margin:6px auto;padding:12px;color:#e6eef8">
+  <a href="index.html" style="color:var(--muted);text-decoration:none">← Back to shop</a>
+</div>
+
+<div class="wrap" role="main">
+  <!-- Chat panel -->
+  <section class="chat-panel" aria-label="Support chat">
+    <div class="header">
+      <div>
+        <h1>ShopEase Support</h1>
+        <div class="meta" id="metaText">AI assistant · 24/7</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="small" id="darkLabel">Dark</div>
+        <div class="mode-toggle" id="toggleTheme">🌓</div>
+      </div>
+    </div>
+
+    <div id="messages" class="messages" aria-live="polite"></div>
+
+    <!-- typing area contains lottie small and dots -->
+    <div id="controls" class="controls">
+      <div class="input">
+        <input id="textInput" type="text" placeholder="Describe your issue, or paste order id (e.g. ORD_12345)" aria-label="Type your message">
+        <button id="attachBtn" class="btn" title="Attach screenshot">📎</button>
+        <button id="recBtn" class="btn" title="Record voice">🎤</button>
+      </div>
+      <button id="sendBtn" class="btn">Send</button>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+      <div class="small">Quick:</div>
+      <button class="btn" data-quick="track order">Track order</button>
+      <button class="btn" data-quick="refund policy">Refund policy</button>
+      <button class="btn" data-quick="return item">Return item</button>
+    </div>
+  </section>
+
+  <!-- Right column -> related, order lookup, uploaded screenshots -->
+  <aside class="side" aria-label="Support sidebar">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong>Order lookup</strong>
+          <div class="small">Paste order id and press Lookup</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <input id="lookupInput" placeholder="ORD_..." style="flex:1;padding:8px;border-radius:8px;border:none;background:rgba(255,255,255,0.02);color:#e6eef8">
+        <button id="lookupBtn" class="btn">Lookup</button>
+      </div>
+      <div id="lookupResult" class="small" style="margin-top:8px;color:var(--muted)"></div>
+    </div>
+
+    <div class="card">
+      <strong>Upload screenshot</strong>
+      <div class="uploader" id="uploader">Drop image here or click to upload</div>
+      <div id="uploadedList" class="small" style="margin-top:8px;color:var(--muted)"></div>
+    </div>
+
+    <div class="card related">
+      <strong>Help articles</strong>
+      <a href="#" data-article="payment">Payment issues & troubleshooting</a>
+      <a href="#" data-article="returns">Returns & refunds</a>
+      <a href="#" data-article="shipping">Shipping & tracking</a>
+    </div>
+  </aside>
+</div>
+
+<!-- Lottie tiny typing animation (hidden then shown as needed) -->
+<lottie-player id="lottieTyping" src="https://assets7.lottiefiles.com/packages/lf20_Cc8Bpg.json"  background="transparent"  speed="1"  style="width:120px; height:36px; display:none; position:fixed; bottom:140px; right:40px; z-index:10000"  loop autoplay></lottie-player>
+
+<script>
+/* ====== Configuration ======
+  - Replace API_BASE with your server origin (leave blank if same origin)
+  - Server endpoints used:
+     POST /api/chat        -> {message,orderId?,media?}  returns {reply, suggestions[]}
+     POST /api/upload      -> multipart form upload, returns {url}
+     GET  /api/order/:id   -> returns order info
+  - Server should proxy to OpenAI Chat completions (server-side) — see backend below.
+  - Use secure HTTPS and protect API keys.
+*/
+const API_BASE = ''; // e.g. 'https://api.yoursite.com'
+
+// Elements
+const messagesEl = document.getElementById('messages');
+const input = document.getElementById('textInput');
+const sendBtn = document.getElementById('sendBtn');
+const lottieTyping = document.getElementById('lottieTyping');
+const uploader = document.getElementById('uploader');
+const uploadedList = document.getElementById('uploadedList');
+const attachBtn = document.getElementById('attachBtn');
+const recBtn = document.getElementById('recBtn');
+const lookupBtn = document.getElementById('lookupBtn');
+const lookupInput = document.getElementById('lookupInput');
+const lookupResult = document.getElementById('lookupResult');
+const toggleTheme = document.getElementById('toggleTheme');
+
+// state
+let mediaFiles = []; // uploaded file urls
+let isRecording = false;
+let recorder, audioChunks = [];
+
+/* simple helper to append messages */
+function appendBubble(text, who='bot', meta='') {
+  const d = document.createElement('div');
+  d.className = 'bubble ' + (who==='user' ? 'user' : 'bot');
+  d.innerHTML = text + (meta ? `<div class="small" style="margin-top:6px;color:var(--muted)">${meta}</div>` : '');
+  messagesEl.appendChild(d);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+/* show typing animation */
+function showTyping(show=true) {
+  if(show) {
+    // tiny inline typing bubble
+    const t = document.createElement('div');
+    t.id = 'tmpTyping'; t.className = 'typing';
+    t.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+    messagesEl.appendChild(t);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    lottieTyping.style.display = 'block';
+  } else {
+    const t = document.getElementById('tmpTyping'); if(t) t.remove();
+    lottieTyping.style.display = 'none';
+  }
+}
+
+/* send message to server */
+async function sendMessage(text, extra={}) {
+  if(!text || !text.trim()) return;
+  appendBubble(escapeHtml(text), 'user');
+  showTyping(true);
+
+  // build form
+  const fd = new FormData();
+  fd.append('message', text);
+  if(extra.orderId) fd.append('orderId', extra.orderId);
+  if(mediaFiles.length) fd.append('media', JSON.stringify(mediaFiles)); // server can fetch or accept uploaded URLs
+
+  try {
+    const resp = await fetch(API_BASE + '/api/chat', { method:'POST', body:fd });
+    if(!resp.ok) throw new Error('Server error');
+    const data = await resp.json();
+    showTyping(false);
+
+    // Show streaming-style reply letter-by-letter (nice UX)
+    await animateReply(data.reply || 'Sorry, I could not find an answer right now.');
+
+    // suggestions
+    if(data.suggestions && data.suggestions.length) {
+      const sug = '<div style="display:flex;gap:8px;margin-top:8px">'+ data.suggestions.map(s=>`<button class="btn" onclick="quickSend(${JSON.stringify(s)})">${escapeHtml(s)}</button>`).join('') +'</div>';
+      appendBubble(sug,'bot');
+    }
+
+    // show related articles
+    if(data.articles && data.articles.length){
+      const html = data.articles.map(a=>`<div style="margin-top:8px"><a href="${a.url}" style="color:var(--accent)" target="_blank">${escapeHtml(a.title)}</a></div>`).join('');
+      appendBubble(html,'bot','Related articles');
+    }
+
+  } catch(err){
+    showTyping(false);
+    appendBubble('Sorry — something went wrong. Try again or contact support@example.com', 'bot');
+    console.error(err);
+  }
+}
+
+/* quick send from UI */
+function quickSend(text){
+  input.value = text;
+  doSend();
+}
+
+/* animate reply like typing */
+function animateReply(reply) {
+  return new Promise(resolve => {
+    const out = document.createElement('div'); out.className='bubble bot';
+    messagesEl.appendChild(out);
+    let i = 0;
+    const interval = setInterval(()=> {
+      i++;
+      out.innerHTML = escapeHtml(reply.slice(0,i)) + (i % 3 ? '' : '');
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      if(i >= reply.length) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 12); // speed
+  });
+}
+
+/* UI send */
+async function doSend(){
+  const txt = input.value.trim();
+  if(!txt) return;
+  input.value = '';
+  await sendMessage(txt);
+}
+sendBtn.addEventListener('click',doSend);
+input.addEventListener('keydown', e => { if(e.key==='Enter') doSend(); });
+
+/* quick buttons */
+document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click', e=>{
+  const q = e.target.getAttribute('data-quick');
+  input.value = q; doSend();
+}));
+
+/* attachment uploader (click -> file input) */
+attachBtn.addEventListener('click', ()=> {
+  const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*';
+  fi.onchange = async () => {
+    const f = fi.files[0]; if(!f) return;
+    // show local preview and upload
+    const reader = new FileReader();
+    reader.onload = ()=> {
+      uploadedList.innerHTML = `<div style="margin-top:8px">Uploading…</div>`;
+    };
+    reader.readAsDataURL(f);
+    // upload to server
+    const fd = new FormData(); fd.append('file', f);
+    const up = await fetch(API_BASE + '/api/upload', {method:'POST',body:fd});
+    const res = await up.json();
+    if(res && res.url) {
+      mediaFiles.push(res.url);
+      uploadedList.innerHTML = `<div>Uploaded: <a href="${res.url}" target="_blank" style="color:var(--accent)">${res.url}</a></div>`;
+    } else {
+      uploadedList.innerText = 'Upload failed';
+    }
+  };
+  fi.click();
+});
+
+/* drag & drop */
+uploader.addEventListener('dragover', e=>{ e.preventDefault(); uploader.classList.add('dragover'); });
+uploader.addEventListener('dragleave', e=>{ uploader.classList.remove('dragover'); });
+uploader.addEventListener('drop', async e=> {
+  e.preventDefault(); uploader.classList.remove('dragover');
+  const f = e.dataTransfer.files[0]; if(!f) return;
+  const fd = new FormData(); fd.append('file', f);
+  uploadedList.innerHTML = `Uploading...`;
+  const up = await fetch(API_BASE + '/api/upload', {method:'POST',body:fd});
+  const res = await up.json();
+  if(res && res.url) { mediaFiles.push(res.url); uploadedList.innerHTML = `<div>Uploaded: <a href="${res.url}" target="_blank" style="color:var(--accent)">${res.url}</a></div>`; } else uploadedList.innerText='Upload failed';
+});
+
+/* order lookup */
+lookupBtn.addEventListener('click', async ()=>{
+  const id = lookupInput.value.trim(); if(!id) return;
+  lookupResult.innerText = 'Checking...';
+  try {
+    const r = await fetch(API_BASE + '/api/order/' + encodeURIComponent(id));
+    if(!r.ok) throw new Error('not found');
+    const j = await r.json();
+    lookupResult.innerText = `Status: ${j.status} • ETA: ${j.eta || '—'}`;
+    // also show bot message summary
+    appendBubble(`<strong>Order ${escapeHtml(id)}</strong><div class="small">Status: ${escapeHtml(j.status)} • Items: ${j.items?.length||0}</div>`, 'bot');
+  } catch(e){
+    lookupResult.innerText = 'Order not found';
+  }
+});
+
+/* Dark mode toggle (simple) */
+toggleTheme.addEventListener('click', ()=> {
+  document.documentElement.classList.toggle('dark-mode');
+  // For demo: invert colors heuristically
+  if(document.documentElement.classList.contains('dark-mode')){
+    document.body.style.filter = 'invert(.03) hue-rotate(180deg)';
+  } else document.body.style.filter = '';
+});
+
+/* Voice recording: record small clip and send to /api/voice for transcription */
+recBtn.addEventListener('click', async ()=>{
+  if(isRecording){ stopRecording(); return; }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ alert('Voice not supported'); return; }
+  isRecording = true; recBtn.textContent = 'Stop';
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  recorder = new MediaRecorder(stream);
+  audioChunks = [];
+  recorder.ondataavailable = e=> audioChunks.push(e.data);
+  recorder.onstop = async ()=>{
+    const blob = new Blob(audioChunks, {type:'audio/webm'});
+    // upload to server for transcription
+    const fd = new FormData(); fd.append('file', blob, 'voice.webm');
+    const res = await fetch(API_BASE + '/api/voice', {method:'POST',body:fd});
+    const j = await res.json();
+    if(j && j.text) {
+      appendBubble('🔊 transcribed: ' + escapeHtml(j.text), 'bot');
+      // optionally auto send transcribed text to chat
+      input.value = j.text;
+      doSend();
+    } else appendBubble('Voice transcription failed', 'bot');
+  };
+  recorder.start();
+});
+function stopRecording(){ recorder && recorder.stop(); isRecording=false; recBtn.textContent = '🎤'; }
+
+/* helper: escape HTML */
+function escapeHtml(s){ return s.replaceAll && s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') || s; }
+
+/* initial greeting */
+appendBubble('Hi — I am ShopEase assistant. Ask me about orders, payments, returns, or type your order id (ORD_...)', 'bot');
+</script>
+</body>
+</html>

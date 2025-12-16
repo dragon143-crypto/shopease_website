@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Bedroom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f16;
+      --panel:#0f1720;
+      --muted:#9aa8b2;
+      --accent1:#8be9fd;
+      --accent2:#7b61ff;
+      --card:#0b1220;
+      --glass: rgba(255,255,255,0.03);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(120,90,200,0.08), transparent 6%),
+                  radial-gradient(900px 400px at 90% 80%, rgba(10,180,220,0.05), transparent 6%),
+                  linear-gradient(180deg,var(--bg), #07101a 80%);
+      color:#e6eef6;
+    }
+
+    header{
+      position:sticky; top:0; z-index:1000;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .brand{display:flex; align-items:center; gap:10px; color:var(--accent1); font-weight:700;}
+    .brand img{width:36px; height:36px; border-radius:8px;}
+    .chip{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px 12px; border-radius:999px; color:var(--muted); cursor:pointer;}
+
+    .hero{
+      position:relative; overflow:hidden; height:360px; display:flex; align-items:center; padding:40px 6%;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .hero::before{
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(600px 240px at 15% 20%, rgba(123,97,255,0.08), transparent 10%),
+                  radial-gradient(500px 200px at 85% 80%, rgba(139,233,253,0.06), transparent 10%);
+    }
+    .hero-left{width:60%; position:relative; z-index:2;}
+    .hero-title{font-size:40px; color:#fff; margin:0 0 10px;}
+    .hero-sub{color:var(--muted);}
+    .btn-primary{background:linear-gradient(90deg,var(--accent2),var(--accent1)); color:#07101a; padding:12px 18px; border-radius:10px; font-weight:600; border:none; cursor:pointer; margin-right:10px;}
+    .btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.05); padding:10px 14px; border-radius:10px; color:var(--muted); cursor:pointer;}
+    .hero-right img{width:320px; height:220px; border-radius:14px; object-fit:cover; box-shadow:0 15px 40px rgba(0,0,0,0.7);}
+
+    .layout{display:flex; gap:22px; padding:28px 6% 80px;}
+    .sidebar{width:260px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:14px; padding:18px; border:1px solid rgba(255,255,255,0.03);}
+    .sidebar h3{margin-bottom:14px; color:var(--accent1);}
+    .filter-section{margin-bottom:18px;}
+    .filter-section h4{margin:0 0 8px; color:var(--muted);}
+    .filter-section label{display:block; margin:6px 0;}
+
+    .area{flex:1;}
+    .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+    .search{flex:1; display:flex; align-items:center; background:var(--glass); padding:8px 12px; border-radius:10px;}
+    .search input{background:transparent; border:none; outline:none; color:#e6eef6; width:100%;}
+    .badge{background:linear-gradient(90deg,#1f2a44,#122033); padding:8px 12px; border-radius:10px; color:var(--muted); font-size:13px;}
+
+    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px;}
+
+    /* Sleek new product card */
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,0.015),transparent);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      overflow:hidden;
+      transition:transform .3s ease,box-shadow .3s ease;
+      box-shadow:0 8px 30px rgba(2,6,14,0.6);
+      position:relative;
+    }
+    .card:hover{transform:translateY(-6px); box-shadow:0 24px 70px rgba(3,7,18,0.8);}
+    .imgwrap{height:170px; position:relative; overflow:hidden;}
+    .card img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+    .card:hover img{transform:scale(1.08);}
+    /* smaller professional tag */
+    .glow{
+      position:absolute;
+      top:10px; left:0;
+      background:linear-gradient(90deg,var(--accent2),var(--accent1));
+      color:#07101a;
+      font-weight:600;
+      font-size:11px;
+      padding:4px 10px;
+      border-radius:0 6px 6px 0;
+      box-shadow:0 4px 12px rgba(123,97,255,0.3);
+      letter-spacing:0.2px;
+      text-transform:capitalize;
+    }
+
+    .card-body{padding:14px;}
+    .title{font-weight:600; font-size:15px; margin-bottom:6px;}
+    .meta{display:flex; justify-content:space-between; color:var(--muted); font-size:13px;}
+    .price{color:var(--accent1); font-weight:700;}
+    .actions{display:flex; gap:8px; margin-top:8px;}
+    .actions button{flex:1; padding:8px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:600;}
+    .add{background:linear-gradient(90deg,var(--accent1),#1fc2ea); color:#07101a;}
+    .wish{background:transparent; border:1px solid rgba(255,255,255,0.05); color:var(--muted);}
+
+    footer{text-align:center; padding:24px; border-top:1px solid rgba(255,255,255,0.03); color:var(--muted);}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="https://cdn-icons-png.flaticon.com/512/3050/3050529.png">
+    ShopEase — Bedroom
+  </div>
+  <div>
+    <span class="chip" id="cartCount">🛒 Cart <b id="cart-num">0</b></span>
+    <span class="chip" id="wishlistCount">💖 Wish <b id="wish-num">0</b></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Cozy bedroom picks for peaceful nights</h1>
+    <p class="hero-sub">Discover beds, wardrobes, lighting and linens made for comfort & elegance.</p>
+    <button class="btn-primary">Shop Now</button>
+    <button class="btn-ghost">Explore</button>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=1600">
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    <div class="filter-section">
+      <h4>Category</h4>
+      <label><input type="checkbox" class="f" data-filter="beds"> Beds</label>
+      <label><input type="checkbox" class="f" data-filter="wardrobe"> Wardrobes</label>
+      <label><input type="checkbox" class="f" data-filter="lighting"> Lighting</label>
+      <label><input type="checkbox" class="f" data-filter="linen"> Bed Linen</label>
+    </div>
+    <div class="filter-section">
+      <h4>Material</h4>
+      <label><input type="checkbox" class="f" data-material="wood"> Wood</label>
+      <label><input type="checkbox" class="f" data-material="fabric"> Fabric</label>
+      <label><input type="checkbox" class="f" data-material="metal"> Metal</label>
+    </div>
+  </aside>
+
+  <main class="area">
+    <div class="topbar">
+      <div class="search"><input id="q" placeholder="Search items..."></div>
+      <div class="badge" id="activeFilters">All items</div>
+    </div>
+    <section id="productsGrid" class="grid"></section>
+    <div id="emptyState" style="display:none;text-align:center;color:var(--muted);padding:30px;">No items found.</div>
+  </main>
+</div>
+
+<footer>© 2025 ShopEase — Bedroom Collection</footer>
+
+<script>
+const PRODUCTS=[
+  {id:1,title:"King Size Plush Bed",category:"beds",price:34999,material:"fabric",img:"https://images.pexels.com/photos/1370292/pexels-photo-1370292.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+  {id:2,title:"Solid Oak Wardrobe",category:"wardrobe",price:22999,material:"wood",img:"https://images.pexels.com/photos/1866145/pexels-photo-1866145.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"},
+  {id:3,title:"Warm Glow Bedside Lamp",category:"lighting",price:2499,material:"metal",img:"https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Popular"},
+  {id:4,title:"Comfort Cotton Duvet Set",category:"linen",price:3999,material:"fabric",img:"https://images.pexels.com/photos/776656/pexels-photo-776656.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Limited"},
+  {id:5,title:"Platform Bed with Storage",category:"beds",price:27999,material:"wood",img:"https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Featured"},
+  {id:6,title:"Minimalist Metal Lamp",category:"lighting",price:1999,material:"metal",img:"https://images.pexels.com/photos/714701/pexels-photo-714701.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Hot"},
+];
+
+let cart=JSON.parse(localStorage.getItem('bedroom_cart')||'[]');
+let wishlist=JSON.parse(localStorage.getItem('bedroom_wish')||'[]');
+const grid=document.getElementById('productsGrid');
+const q=document.getElementById('q');
+const emptyState=document.getElementById('emptyState');
+const cartNum=document.getElementById('cart-num');
+const wishNum=document.getElementById('wish-num');
+
+function render(items){
+  grid.innerHTML='';
+  if(!items.length){emptyState.style.display='block';return}
+  emptyState.style.display='none';
+  items.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="imgwrap">
+        <img src="${p.img}" alt="${p.title}">
+        ${p.badge?`<div class="glow">${p.badge}</div>`:''}
+      </div>
+      <div class="card-body">
+        <div class="title">${p.title}</div>
+        <div class="meta"><span class="price">₹${p.price.toLocaleString()}</span><span>${p.material}</span></div>
+        <div class="actions">
+          <button class="add" onclick="addToCart(${p.id})">Add</button>
+          <button class="wish" onclick="toggleWish(${p.id},this)">${wishlist.includes(p.id)?'♥':'♡'} Wish</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function addToCart(id){
+  const product=PRODUCTS.find(p=>p.id===id);
+  cart.push(product);
+  localStorage.setItem('bedroom_cart',JSON.stringify(cart));
+  updateCounts();
+}
+function toggleWish(id,btn){
+  const i=wishlist.indexOf(id);
+  if(i===-1){wishlist.push(id);btn.textContent='♥ Wish'}
+  else{wishlist.splice(i,1);btn.textContent='♡ Wish'}
+  localStorage.setItem('bedroom_wish',JSON.stringify(wishlist));
+  updateCounts();
+}
+function updateCounts(){cartNum.textContent=cart.length;wishNum.textContent=wishlist.length;}
+function applyFilters(){
+  const term=q.value.toLowerCase();
+  const filters=document.querySelectorAll('.f:checked');
+  const cats=[...filters].filter(f=>f.dataset.filter).map(f=>f.dataset.filter);
+  const mats=[...filters].filter(f=>f.dataset.material).map(f=>f.dataset.material);
+  const items=PRODUCTS.filter(p=>
+    (!cats.length||cats.includes(p.category)) &&
+    (!mats.length||mats.includes(p.material)) &&
+    (!term||p.title.toLowerCase().includes(term))
+  );
+  render(items);
+}
+document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',applyFilters));
+q.addEventListener('input',()=>setTimeout(applyFilters,200));
+
+updateCounts();
+render(PRODUCTS);
+</script>
+</body>
+</html>

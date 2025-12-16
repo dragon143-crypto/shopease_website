@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gift Cards | YourStore</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      color: #222;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-weight: 700;
+      color: #004aad;
+      font-size: 22px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      margin: 0 15px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #009688;
+    }
+
+    .user-info {
+      font-weight: 600;
+      color: #009688;
+    }
+
+    /* HERO SECTION */
+    .gift-hero {
+      background: linear-gradient(135deg, #004aad, #00bfa6);
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .gift-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .gift-hero p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      color: #e0f7f4;
+    }
+
+    /* GIFT CARD SECTION */
+    .gift-container {
+      padding: 70px 10%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 30px;
+    }
+
+    .gift-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .gift-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .gift-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .gift-content h3 {
+      color: #004aad;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .gift-content p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .gift-content .price {
+      font-weight: 600;
+      color: #009688;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .gift-content button {
+      background: linear-gradient(135deg, #009688, #004aad);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .gift-content button:hover {
+      background: #004aad;
+      transform: translateY(-3px);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #004aad;
+      color: #fff;
+      font-size: 14px;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">YourStore</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="giftcard.html" class="active">Gift Cards</a>
+      <a href="seller.html">Become a Seller</a>
+    </nav>
+    <div class="user-info" id="usernameDisplay">Hi, User 👋</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="gift-hero">
+    <h1>Gift Happiness Instantly 🎁</h1>
+    <p>Send your loved ones the perfect gift — instant digital cards for shopping, celebrations, or special moments.</p>
+  </section>
+
+  <!-- GIFT CARDS -->
+  <section class="gift-container">
+    <div class="gift-card">
+      <img src="https://i.imgur.com/dR1s0lE.jpg" alt="Shopping Gift Card">
+      <div class="gift-content">
+        <h3>Shopping Gift Card</h3>
+        <p>Perfect for birthdays, anniversaries, or special occasions.</p>
+        <div class="price">₹500 - ₹5000</div>
+        <button>Buy Now</button>
+      </div>
+    </div>
+
+    <div class="gift-card">
+      <img src="https://i.imgur.com/YG5g1vS.jpg" alt="Electronics Gift Card">
+      <div class="gift-content">
+        <h3>Electronics Gift Card</h3>
+        <p>Give the power of choice — from gadgets to accessories.</p>
+        <div class="price">₹1000 - ₹10000</div>
+        <button>Buy Now</button>
+      </div>
+    </div>
+
+    <div class="gift-card">
+      <img src="https://i.imgur.com/vbBZ8kW.jpg" alt="Fashion Gift Card">
+      <div class="gift-content">
+        <h3>Fashion Gift Card</h3>
+        <p>Trendy styles for men and women — choose the latest fashion.</p>
+        <div class="price">₹500 - ₹3000</div>
+        <button>Buy Now</button>
+      </div>
+    </div>
+
+    <div class="gift-card">
+      <img src="https://i.imgur.com/3sLeUuY.jpg" alt="Home & Kitchen Gift Card">
+      <div class="gift-content">
+        <h3>Home & Kitchen Card</h3>
+        <p>Make homes happier with décor, furniture, and appliances.</p>
+        <div class="price">₹1000 - ₹8000</div>
+        <button>Buy Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 YourStore. All rights reserved.
+  </footer>
+
+  <!-- USERNAME DISPLAY SCRIPT -->
+  <script>
+    // Example: Fetch user name from localStorage after login
+    const userName = localStorage.getItem("userName");
+    if (userName) {
+      document.getElementById("usernameDisplay").textContent = `Hi, ${userName} 👋`;
+    }
+  </script>
+</body>
+</html>

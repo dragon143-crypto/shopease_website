@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShopEase — Modern</title>
+  <meta name="description" content="ShopEase — a modern, animated e‑commerce UI demo" />
+
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f1f3f6;
+      --accent:#2874f0;
+      --accent-2:#ff9f00;
+      --glass: rgba(255,255,255,0.07);
+      --card-shadow: 0 10px 30px rgba(12,18,30,0.08);
+      --glass-strong: rgba(255,255,255,0.12);
+    }
+
+    /* RESET & BASE */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f7 0%, #f7f8fb 100%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* NAVBAR */
+    .navbar{
+      position:sticky;top:0;left:0;right:0;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px 6%;gap:12px;background:rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);box-shadow: 0 6px 20px rgba(20,30,50,0.06);
+      z-index:1200;
+    }
+
+    .cart-container{display:flex;align-items:center;gap:10px}
+    .cart{width:36px;height:36px}
+    .brand{font-weight:800;color:var(--accent);font-size:20px;letter-spacing:0.4px}
+
+    .nav-center{display:flex;gap:8px;align-items:center}
+    .edit-btn{background:transparent;border:0;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600;color:#333;transition:all .22s}
+    .edit-btn:hover{background:linear-gradient(90deg, rgba(40,116,240,0.12), rgba(40,116,240,0.06));transform:translateY(-3px);box-shadow:0 6px 18px rgba(40,116,240,0.06)}
+
+    .auth-buttons{display:flex;gap:12px;align-items:center}
+    .signin{padding:8px 14px;border-radius:12px;background:transparent;border:1px solid rgba(0,0,0,0.06);font-weight:600}
+
+    .profile-btn{background:var(--accent);color:#fff;padding:8px 16px;border-radius:25px;cursor:pointer;font-weight:700;border:none;outline:none;display:inline-flex;align-items:center;gap:8px}
+    .profile-btn:hover{transform:scale(1.04)}
+
+    /* Profile dropdown (glass) */
+    .profile-menu{position:absolute;right:6%;top:68px;width:240px;background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));backdrop-filter: blur(8px);border-radius:12px;box-shadow:0 12px 30px rgba(12,18,30,0.12);overflow:hidden;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s}
+    .profile-menu.show{opacity:1;visibility:visible;transform:translateY(0)}
+    .profile-menu a{display:block;padding:12px 16px;color:#222;font-weight:600}
+    .profile-menu a:hover{background:rgba(0,0,0,0.03)}
+
+    /* CATEGORY BAR */
+    .category-bar{padding:10px 6%;background:transparent;border-top:1px solid rgba(0,0,0,0.02);border-bottom:1px solid rgba(0,0,0,0.02);overflow:auto}
+    .main-menu{display:flex;gap:12px;list-style:none;padding:0;margin:0}
+    .menu-item{position:relative;min-width:140px}
+    .menu-item > a{display:flex;gap:8px;align-items:center;padding:8px;border-radius:10px}
+    .menu-item img{width:36px;height:36px;object-fit:contain;filter:contrast(0.95)}
+    .menu-item span{font-weight:600}
+
+    .menu-item:hover > a{background:linear-gradient(90deg, rgba(40,116,240,0.06), rgba(255,159,0,0.03));transform:translateY(-3px)}
+
+    .menu-item .dropdown{position:absolute;left:0;top:56px;background:#fff;border-radius:12px;box-shadow:0 14px 40px rgba(12,18,30,0.08);padding:10px;display:none;min-width:160px}
+    .menu-item:hover .dropdown{display:block}
+    .dropdown li{padding:6px 6px}
+    .dropdown li a{display:block;padding:8px;border-radius:8px}
+    .dropdown li a:hover{background:rgba(40,116,240,0.04)}
+
+    /* SCROLLING TEXT */
+    .scrolling-text{background:linear-gradient(90deg,#fff, #fbfbfe);padding:8px 6%;overflow:hidden}
+    .scrolling-content{white-space:nowrap;display:inline-block;animation:marquee 18s linear infinite}
+    @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+    /* SLIDER */
+    .slider{position:relative;width:100%;height:340px;overflow:hidden;border-radius:12px;margin:22px 6%;box-shadow:var(--card-shadow);background:#fff}
+    .slides{display:flex;transition:transform .9s cubic-bezier(.2,.9,.2,1);height:100%}
+    .slide{min-width:100%;height:100%;position:relative;overflow:hidden}
+    .slide img{width:100%;height:100%;object-fit:cover;filter:contrast(.95) saturate(.98)}
+
+    .content{position:absolute;left:6%;top:50%;transform:translateY(-50%);color:#fff;max-width:520px}
+    .content h2{font-size:2.2rem;margin:0 0 8px;text-shadow:2px 6px 20px rgba(0,0,0,0.45)}
+    .content p{font-size:1.05rem;margin:0 0 12px;text-shadow:1px 4px 12px rgba(0,0,0,0.35)}
+    .content .cta{background:linear-gradient(90deg,var(--accent), #1a5fd1);padding:10px 18px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+    .content .cta.secondary{background:rgba(255,255,255,0.15)}
+
+    /* arrows & dots */
+    .arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:22px;background:rgba(255,255,255,0.9);padding:12px;border-radius:50%;cursor:pointer;border:0;box-shadow:0 8px 20px rgba(12,18,30,0.08);z-index:6}
+    .prev{left:18px}.next{right:18px}
+    .dots{position:absolute;bottom:14px;left:0;right:0;text-align:center}
+    .dots span{display:inline-block;height:8px;width:36px;margin:0 6px;background:rgba(0,0,0,0.18);border-radius:999px;cursor:pointer;transition:all .2s}
+    .dots span.active{background:var(--accent);width:44px}
+
+    /* HERO */
+    .hero{display:flex;align-items:center;justify-content:space-between;padding:36px 6%;gap:24px}
+    .hero-text h1{font-size:2.6rem;line-height:1.02;margin:0}
+    .hero-text p{color:#51617a;margin:12px 0 18px}
+    .btn-primary{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#1a5fd1);color:#fff;font-weight:700}
+    .store-buttons{display:flex;gap:12px;margin-top:12px}
+    .hero-image{width:44%;min-height:300px;border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow)}
+    .hero-image img{width:100%;height:100%;object-fit:cover}
+
+    /* TOP DEALS */
+    .top-deals{padding:18px 6%}
+    .top-deals h2{margin:0 0 12px}
+    .deals-wrap{position:relative}
+    .deals-container{display:flex;gap:12px;overflow:auto;padding:12px 2px}
+    .deal-item{min-width:200px;background:#fff;border-radius:12px;padding:12px;box-shadow:var(--card-shadow);transition:transform .25s,box-shadow .25s}
+    .deal-item:hover{transform:translateY(-8px);box-shadow:0 18px 36px rgba(12,18,30,0.12)}
+    .deal-item h3{margin:8px 0 4px;font-size:16px}
+    .deal-item p{color:#666;margin:0}
+
+    .scroll-btn{position:absolute;top:45%;transform:translateY(-50%);font-size:22px;background:rgba(255,255,255,0.9);padding:10px;border-radius:50%;cursor:pointer;border:0;box-shadow:0 8px 22px rgba(12,18,30,0.08)}
+    .scroll-left{left:6%}.scroll-right{right:6%}
+
+    /* Feedback popup */
+    #feedback-popup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,12,20,0.45);z-index:1400;opacity:0;visibility:hidden;transition:all .18s}
+    #feedback-popup.show{opacity:1;visibility:visible}
+    .feedback-box{width:92%;max-width:460px;background:linear-gradient(180deg,#fff,#fbfbff);border-radius:14px;padding:20px;box-shadow:0 18px 40px rgba(12,18,30,0.12)}
+    .feedback-box textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #e6e9ef;padding:10px}
+    .feedback-actions{display:flex;gap:10px;margin-top:10px}
+
+    /* AI widget */
+    #ai-assistant{position:fixed;bottom:30px;right:30px;width:320px;max-height:460px;background:linear-gradient(145deg,#6a11cb,#2575fc);border-radius:18px;box-shadow:0 12px 36px rgba(12,18,30,0.18);overflow:hidden;color:#fff;display:flex;flex-direction:column;transform:translateY(120%);transition:transform .36s;z-index:1500}
+    #ai-assistant.show{transform:translateY(0)}
+    #ai-header{padding:12px;font-weight:700;background:linear-gradient(90deg,#ff00cc,#3333ff,#00ffcc);background-size:400% 400%;animation:gradientBG 8s linear infinite;display:flex;justify-content:space-between;align-items:center}
+    #ai-messages{padding:12px;flex:1;overflow:auto;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    .ai-message{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
+    .ai-message.user{align-self:flex-end;background:rgba(255,255,255,0.9);color:#222}
+    .ai-message.bot{align-self:flex-start;background:rgba(255,255,255,0.14);color:#fff}
+    #ai-input-container{display:flex;gap:8px;padding:10px;background:rgba(255,255,255,0.06)}
+    #ai-input{flex:1;padding:8px 10px;border-radius:10px;border:none;outline:none}
+
+    /* FOOTER */
+    .footer{background:#111118;color:#cfcfd6;padding:28px 6%;margin-top:36px}
+    .footer-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px}
+    .footer-col h3{color:#fff;margin-bottom:8px}
+    .footer-col a{display:block;color:#bdbdc4;margin:6px 0}
+    .footer-middle{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .footer-bottom{display:flex;gap:12px;justify-content:center;padding-top:12px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{flex-direction:column;padding:18px 6%}
+      .hero-image{width:100%;min-height:220px}
+      .content h2{font-size:1.6rem}
+      .slider{height:260px}
+    }
+
+    @media (max-width:520px){
+      .brand{font-size:18px}
+      .nav-center{display:none}
+      .profile-menu{right:4%}
+      .dots span{width:26px}
+    }
+
+    /* small helper animations */
+    .fade-up{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+    .fade-up.inview{opacity:1;transform:none}
+
+    @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="navbar" role="banner">
+    <div class="cart-container">
+      <img class="cart" src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="cart icon">
+      <span class="brand">ShopEase</span>
+    </div>
+
+    <nav class="nav-center" role="navigation" aria-label="primary navigation">
+      <a href="index.html"><button class="edit-btn">Home</button></a>
+      <a href="products.html"><button class="edit-btn">Products</button></a>
+      <a href="cart.html"><button class="edit-btn">Cart</button></a>
+    </nav>
+
+    <div style="position:relative">
+      <a class="signin" href="signin.html">Sign In</a>
+      <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false">👤 Profile</button>
+
+      <div class="profile-menu" id="profileMenu" aria-hidden="true">
+        <a href="profile.html">My Account</a>
+        <a href="orders.html">Orders</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="logout.html">Sign Out</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CATEGORIES -->
+  <nav class="category-bar" aria-label="categories">
+    <ul class="main-menu">
+      <li class="menu-item">
+        <a href="#"><img src="https://www.pngmart.com/files/15/Apple-iPhone-11-PNG-Image.png" alt="Mobiles"><span>Mobiles & Tablets</span></a>
+        <ul class="dropdown">
+          <li><a href="mobile.html">Smartphones</a></li>
+          <li><a href="tablet.html">Tablets</a></li>
+          <li><a href="accessories.html">Accessories</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#"><img src="https://static.vecteezy.com/system/resources/thumbnails/050/817/666/small_2x/smiling-young-man-and-woman-pointing-at-camera-standing-isolate-on-transparent-background-png.png" alt="Fashion"><span>Fashion</span></a>
+        <ul class="dropdown">
+          <li><a href="men-fashion.html">Men</a></li>
+          <li><a href="women-fashion.html">Women</a></li>
+          <li><a href="kids-fashion.html">Kids</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#"><img src="https://www.transparentpng.com/download/laptop/9oRuDc-refreshed-pavilion-gaming-series-launching-next-month.png" alt="Electronics"><span>Electronics</span></a>
+        <ul class="dropdown">
+          <li><a href="audio.html">Audio</a></li>
+          <li><a href="laptop.html">Laptops</a></li>
+          <li><a href="camera.html">Cameras</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#"><img src="https://www.pngarts.com/files/7/Modern-Furniture-Transparent-Background-PNG.png" alt="Home"><span>Home & Furniture</span></a>
+        <ul class="dropdown">
+          <li><a href="living.html">Living Room</a></li>
+          <li><a href="bedroom.html">Bedroom</a></li>
+          <li><a href="kitchen.html">Kitchen</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#"><img src="https://www.freeiconspng.com/uploads/supermarket-coupons-png-24.png" alt="Grocery"><span>Grocery</span></a>
+        <ul class="dropdown">
+          <li><a href="cleaning.html">Cleaning Supplies</a></li>
+          <li><a href="personalcare.html">Personal Care</a></li>
+          <li><a href="house.html">Household</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a href="#"><img src="https://static.vecteezy.com/system/resources/thumbnails/037/760/129/small_2x/cosmetics-products-transparent-background-fashion-outfit-profucts-png.png" alt="Beauty"><span>Beauty</span></a>
+        <ul class="dropdown">
+          <li><a href="mensgrooming.html">Men's Grooming</a></li>
+          <li><a href="babycare.html">Baby Care</a></li>
+          <li><a href="facecare.html">Face Care</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- SCROLLING TEXT -->
+  <div class="scrolling-text" aria-hidden="false">
+    <div class="scrolling-content">🚀 Big Sale Today! &nbsp; | &nbsp; 🎉 Free Shipping Over ₹3,000! &nbsp; | &nbsp; 🛍️ New Arrivals Every Week! &nbsp; | &nbsp; 💳 Easy Payments Available!</div>
+  </div>
+
+  <!-- SLIDER -->
+  <div class="slider" aria-roledescription="carousel">
+    <div class="slides" id="slides">
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/2861655/pexels-photo-2861655.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=1200" alt="Furniture sale">
+        <div class="content">
+          <h2>🔥 Big Billion Days</h2>
+          <p>Get up to 80% OFF on Furniture & Home Essentials.</p>
+          <button class="cta">Shop Now</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://png.pngtree.com/thumb_back/fh260/background/20240408/pngtree-clothing-store-in-shopping-mall-boutique-shop-interior-blur-defocused-background-image_15650933.jpg" alt="Smart deals">
+        <div class="content">
+          <h2>📱 Smart Deals</h2>
+          <p>Mobiles & Accessories starting at just $99.</p>
+          <button class="cta">Grab Offer</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://browntape.com/wp-content/uploads/2016/09/Man-and-woman-shopping-Shutterstock-984x500-1.jpg" alt="Fashion fiesta">
+        <div class="content">
+          <h2>👗 Fashion Fiesta</h2>
+          <p>Trendy styles & premium brands with Flat 70% OFF.</p>
+          <button class="cta">Explore Now</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://rukminim2.flixcart.com/fk-p-flap/1600/270/image/54c6ab0d7ee725e0.jpg?q=20" alt="Electronics bonanza">
+        <div class="content">
+          <h2>💻 Electronics Bonanza</h2>
+          <p>Latest gadgets with Unbelievable Discounts.</p>
+          <button class="cta">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="arrow prev" id="prevBtn" aria-label="Previous slide">&#10094;</button>
+    <button class="arrow next" id="nextBtn" aria-label="Next slide">&#10095;</button>
+    <div class="dots" id="dots" aria-hidden="false"></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-text fade-up">
+      <h1 id="hero-heading">Experience a <br> fresh way to <br> <span style="color:var(--accent)">manage shopping</span></h1>
+      <p>Your one-stop shop for everything you need – fashion, gadgets, home, and more.</p>
+      <a class="btn-primary" href="about.html" target="_blank">Learn More</a>
+      <div class="store-buttons">
+        <a href="https://play.google.com/store/games?device=windows" target="_blank" aria-label="Google Play">
+          <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" style="height:48px">
+        </a>
+        <a href="https://www.apple.com/in/store" target="_blank" aria-label="App Store">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" style="height:48px">
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image fade-up" style="--delay:.12s">
+      <img src="https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=1200" alt="Person using app">
+    </div>
+  </section>
+
+  <!-- TOP DEALS -->
+  <section class="top-deals">
+    <h2>🔥 Top Deals</h2>
+    <div class="deals-wrap">
+      <button class="scroll-btn scroll-left" onclick="scrollDeals(-1)">&#10094;</button>
+      <div class="deals-container" id="deals">
+        <div class="deal-item">
+          <img src="https://rukminim2.flixcart.com/image/200/200/xif0q/water-geyser/y/s/h/-original-imagtkrb7ygtc6uv.jpeg?q=90" alt="Fans & Geysers">
+          <h3>Fans & Geysers</h3>
+          <p>From ₹999</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://rukminim2.flixcart.com/image/200/200/xif0q/water-purifier/a/r/q/-original-imagrhkcztfgk2pg.jpeg?q=90" alt="Home Essentials">
+          <h3>Home Essentials</h3>
+          <p>Shop Now!</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://rukminim2.flixcart.com/image/200/200/l1jmc280/projector/s/r/1/-original-imagd3whrqubtndk.jpeg?q=90" alt="Projector">
+          <h3>Projectors</h3>
+          <p>From ₹6990</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://rukminim2.flixcart.com/image/200/200/l44hyfk0/speaker/mobile-tablet-speaker/z/q/g/-original-imagf4eyyfhncwca.jpeg?q=90" alt="Speakers">
+          <h3>Best Selling Speakers</h3>
+          <p>From ₹499*</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://rukminim2.flixcart.com/image/200/200/xif0q/monitor/0/e/3/-original-imaggxghxxgnb2kg.jpeg?q=90" alt="Monitors">
+          <h3>Monitors</h3>
+          <p>From ₹6599</p>
+        </div>
+      </div>
+      <button class="scroll-btn scroll-right" onclick="scrollDeals(1)">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- AI ASSISTANT WIDGET -->
+  <div id="ai-assistant" aria-hidden="true">
+    <div id="ai-header">🤖 ShopEase AI <button id="ai-close" aria-label="close" style="background:transparent;border:0;color:#fff;font-weight:700;cursor:pointer">✖</button></div>
+    <div id="ai-messages"></div>
+    <div id="ai-input-container">
+      <input id="ai-input" placeholder="Ask me anything..." aria-label="chat input">
+      <button id="ai-send">Send</button>
+    </div>
+  </div>
+  <button id="ai-toggle" title="Toggle chat" style="position:fixed;right:30px;bottom:30px;width:60px;height:60px;border-radius:50%;background:linear-gradient(45deg,#ff416c,#ff4b2b);border:0;color:#fff;font-size:22px;box-shadow:0 12px 36px rgba(0,0,0,0.18);z-index:1600">💬</button>
+
+  <!-- FEEDBACK POPUP -->
+  <div id="feedback-popup">
+    <div class="feedback-box">
+      <h2>💬 Share Your Feedback</h2>
+      <p>We’d love to hear what you think about your experience!</p>
+      <textarea id="feedback-text" placeholder="Write your feedback here..."></textarea>
+      <div class="feedback-actions">
+        <button id="send-feedback" class="btn-primary">Send</button>
+        <button id="close-feedback" style="background:#eee;border-radius:10px;padding:10px 12px;border:0;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <button id="feedback-float" title="Feedback" style="position:fixed;right:30px;bottom:110px;width:60px;height:60px;border-radius:50%;background:linear-gradient(45deg,#00ffcc,#00d4ff);border:0;box-shadow:0 12px 36px rgba(0,0,0,0.12);font-size:20px;z-index:1400">💭</button>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h3>ABOUT</h3>
+        <a href="contact.html">Contact Us</a>
+        <a href="about.html">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Flipkart Stories</a>
+        <a href="#">Press</a>
+        <a href="#">Corporate Information</a>
+      </div>
+      <div class="footer-col">
+        <h3>GROUP COMPANIES</h3>
+        <a href="#">Myntra</a>
+        <a href="#">Cleartrip</a>
+        <a href="#">Shopsy</a>
+      </div>
+      <div class="footer-col">
+        <h3>HELP</h3>
+        <a href="#">Payments</a>
+        <a href="#">Shipping</a>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h3>CONSUMER POLICY</h3>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">Terms Of Use</a>
+        <a href="#">Security</a>
+        <a href="#">Privacy</a>
+        <a href="#">Sitemap</a>
+        <a href="#">Grievance Redressal</a>
+        <a href="#">EPR Compliance</a>
+      </div>
+      <div class="footer-col">
+        <h3>Mail Us:</h3>
+        <p>ff,<br>Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br>Outer Ring Road, Devarabeesanahalli Village,<br>Bengaluru, 560103,<br>Karnataka, India</p>
+      </div>
+    </div>
+
+    <div class="footer-middle">
+      <div>
+        <a href="seller.html">Become a Seller</a>
+        <a href="#">Advertise</a>
+        <a href="giftcard.html">Gift Cards</a>
+        <a href="helpcentre.html">Help Center</a>
+      </div>
+      <div>© 2007-2025 ShopEase.com</div>
+    </div>
+
+    <div class="footer-bottom">
+      <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+      <img src="https://img.icons8.com/color/48/mastercard-logo.png" alt="MasterCard">
+      <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+      <img src="https://img.icons8.com/color/48/rupay.png" alt="RuPay">
+      <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+      <img src="https://img.icons8.com/color/48/google-pay.png" alt="Google Pay">
+      <img src="https://img.icons8.com/color/48/apple-pay.png" alt="Apple Pay">
+    </div>
+  </footer>
+
+  <script>
+    // ====== Slider logic (clean & accessible) ======
+    (function(){
+      const slidesWrap = document.getElementById('slides');
+      const slides = slidesWrap.children;
+      const total = slides.length;
+      const dotsWrap = document.getElementById('dots');
+      let index = 0, intervalId = null;
+
+      function buildDots(){
+        for(let i=0;i<total;i++){
+          const s = document.createElement('span');
+          if(i===0) s.classList.add('active');
+          s.addEventListener('click', ()=> goTo(i));
+          dotsWrap.appendChild(s);
+        }
+      }
+      function updateDots(){
+        [...dotsWrap.children].forEach((d,i)=> d.classList.toggle('active', i===index));
+      }
+      function show(){
+        slidesWrap.style.transform = `translateX(-${index*100}%)`;
+        updateDots();
+      }
+      function next(){ index = (index+1)%total; show(); }
+      function prev(){ index = (index-1+total)%total; show(); }
+      function goTo(i){ index = i; show(); }
+
+      document.getElementById('nextBtn').addEventListener('click', ()=>{ next(); resetTimer(); });
+      document.getElementById('prevBtn').addEventListener('click', ()=>{ prev(); resetTimer(); });
+
+      // pause on hover
+      const slider = document.querySelector('.slider');
+      slider.addEventListener('mouseenter', ()=> clearInterval(intervalId));
+      slider.addEventListener('mouseleave', startTimer);
+
+      function startTimer(){ intervalId = setInterval(next, 5000); }
+      function resetTimer(){ clearInterval(intervalId); startTimer(); }
+
+      buildDots(); startTimer();
+    })();
+
+    // ====== Profile dropdown ======
+    (function(){
+      const btn = document.getElementById('profileBtn');
+      const menu = document.getElementById('profileMenu');
+      btn.addEventListener('click', (e)=>{
+        const open = menu.classList.toggle('show');
+        btn.setAttribute('aria-expanded', open);
+        menu.setAttribute('aria-hidden', !open);
+      });
+      document.addEventListener('click', (e)=>{
+        if(!btn.contains(e.target) && !menu.contains(e.target)){
+          menu.classList.remove('show');
+          btn.setAttribute('aria-expanded','false');
+          menu.setAttribute('aria-hidden','true');
+        }
+      });
+    })();
+
+    // ====== Deals scroller ======
+    function scrollDeals(direction){
+      const el = document.getElementById('deals');
+      const amount = 220; el.scrollBy({left: direction * amount, behavior:'smooth'});
+    }
+
+    // ====== Feedback popup ======
+    (function(){
+      const popup = document.getElementById('feedback-popup');
+      const float = document.getElementById('feedback-float');
+      const close = document.getElementById('close-feedback');
+      const send = document.getElementById('send-feedback');
+      float.addEventListener('click', ()=> popup.classList.add('show'));
+      close.addEventListener('click', ()=> popup.classList.remove('show'));
+      send.addEventListener('click', ()=>{
+        const text = document.getElementById('feedback-text').value.trim();
+        if(!text){ alert('Please type feedback before sending.'); return; }
+        // example: send to server via fetch (left as comment). For now, just close + confirm.
+        // fetch('/api/feedback', {method:'POST', body: JSON.stringify({text})})
+        popup.classList.remove('show');
+        alert('Thanks for your feedback!');
+      });
+    })();
+
+    // ====== AI widget (local simulated) ======
+    (function(){
+      const toggle = document.getElementById('ai-toggle');
+      const widget = document.getElementById('ai-assistant');
+      const close = document.getElementById('ai-close');
+      const sendBtn = document.getElementById('ai-send');
+      const input = document.getElementById('ai-input');
+      const messages = document.getElementById('ai-messages');
+
+      function appendMsg(txt, who){
+        const d = document.createElement('div'); d.className = 'ai-message '+who; d.textContent = txt; messages.appendChild(d);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      toggle.addEventListener('click', ()=>{
+        const open = widget.classList.toggle('show');
+        widget.setAttribute('aria-hidden', !open);
+      });
+
+      close.addEventListener('click', ()=>{ widget.classList.remove('show'); widget.setAttribute('aria-hidden','true'); });
+
+      sendBtn.addEventListener('click', ()=> send());
+      input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') send(); });
+
+      function send(){ const text = input.value.trim(); if(!text) return; appendMsg(text,'user'); input.value='';
+        setTimeout(()=>{
+          // simple canned responses — replaceable with real API
+          let reply = 'I\'m here to help — could you give more details?';
+          const t = text.toLowerCase();
+          if(t.includes('hello')||t.includes('hi')) reply='Hello! How can I assist you with your shopping today?';
+          else if(t.includes('gift')) reply='Check our Gift Cards page for exciting options.';
+          else if(t.includes('payment')) reply='We support Card, UPI, Netbanking and wallets.';
+          appendMsg(reply,'bot');
+        },700);
+      }
+    })();
+
+    // ====== Intersection Observer for fade-up elements ======
+    (function(){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('inview'); });
+      },{threshold:.12});
+      document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    })();
+
+    // small polyfill to toggle feedback popup visibility class
+    (function(){
+      const popup = document.getElementById('feedback-popup');
+      const style = document.createElement('style');
+      style.textContent = '#feedback-popup{opacity:0;visibility:hidden;transition:all .18s}#feedback-popup.show{opacity:1;visibility:visible}';
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>

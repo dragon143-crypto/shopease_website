@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Details</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #f9f9f9;
+    }
+
+    header {
+      background: #007bff;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding: 40px 5%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      margin: 40px auto;
+      max-width: 1200px;
+    }
+
+    /* Left side image gallery */
+    .image-gallery {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    .main-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .main-image:hover {
+      transform: scale(1.05);
+    }
+
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .thumbnails img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .thumbnails img:hover {
+      transform: scale(1.1);
+      border-color: #007bff;
+    }
+
+    /* Right side details */
+    .details {
+      flex: 2;
+      min-width: 300px;
+    }
+
+    .details h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      color: #007bff;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .offers {
+      background: #e7f3ff;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .offers p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: transform 0.2s, opacity 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      opacity: 0.9;
+    }
+
+    .add-cart { background: #ff9800; color: #fff; }
+    .buy-now { background: #28a745; color: #fff; }
+    .save { background: #ffc107; color: #000; }
+
+    .like-btn {
+      font-size: 1.5rem;
+      color: #999;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .like-btn.liked {
+      color: red;
+    }
+
+    .specs {
+      margin-top: 20px;
+    }
+
+    .specs h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .specs ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .specs ul li {
+      background: #f1f1f1;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>📱 Mobile Details</header>
+
+<div class="container">
+  <!-- Left image section -->
+  <div class="image-gallery">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrC_qnNnrIEIeDPeVwqLT7_dxLSaWpR52DVA&s" alt="iPhone" class="main-image" id="main-img">
+    <div class="thumbnails">
+      <img src="https://os-wordpress-media.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2022/09/08000850/Apple-iPhone-14-Pro-And-Apple-iPhone-14-Pro-Plus-Features-1024x576.jpg" onclick="changeImage(this)">
+      <img src="https://www.gizmochina.com/wp-content/uploads/2022/04/Apple-iPhone-14-Pro-500x500.png?x70461" onclick="changeImage(this)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vyzS0EaZCemrpR71ktQAOKlqa9lLsy1B_gHmO93QrRIgpwogYYZ3-Fv7EQmrD0i9Ucw&usqp=CAU" onclick="changeImage(this)">
+    </div>
+  </div>
+
+  <!-- Right details section -->
+  <div class="details">
+    <h1>iPhone 14 Pro</h1>
+    <p class="price">$999</p>
+
+    <div class="offers">
+      <p>✅ 10% off on Axis Bank Cards</p>
+      <p>✅ ₹1000 Cashback on First Purchase</p>
+      <p>✅ Free Delivery within 2 Days</p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn add-cart">Add to Cart</button>
+      <a href="buy.html" class="btn buy-now">Buy Now</a>
+
+     <button onclick="saveItem('iPhone 14', 799, 'https://pngimg.com/d/smartphone_PNG8521.png')">
+    ❤️ Save
+  </button>
+      <span class="like-btn" id="like-btn">❤️</span>
+    </div>
+
+    <div class="specs">
+      <h3>Specifications</h3>
+      <ul>
+        <li>6.1-inch Super Retina XDR display</li>
+        <li>A16 Bionic chip with 5-core GPU</li>
+        <li>Triple 48MP Pro Camera system</li>
+        <li>iOS 16 with advanced features</li>
+        <li>5G, Face ID, Wireless Charging</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  function changeImage(thumbnail) {
+    document.getElementById('main-img').src = thumbnail.src;
+  }
+
+  document.getElementById('like-btn').addEventListener('click', function () {
+    this.classList.toggle('liked');
+  });
+</script>
+
+</body>
+</html>

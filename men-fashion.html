@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men's Fashion</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #fff3e0);
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(90deg, #ff4081, #2196f3);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .fashion-container {
+      padding: 40px 5%;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin: 30px 0 20px;
+      text-align: center;
+      color: #444;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #ff4081;
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .fashion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      padding: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .card img:hover {
+      transform: scale(1.05);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .price {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #ff4081;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 8px;
+      background: #2196f3;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #1976d2;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<header>👔 Men's Fashion Collection</header>
+
+<div class="fashion-container">
+
+  <!-- Innerwear -->
+  <h2 class="section-title">Innerwear</h2>
+  <div class="fashion-grid">
+    <div class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRacDGZYNckrB4W90Cw4MZXgvVU__Knw4hv0A&s" alt="Innerwear">
+      <h3>Comfort Fit Innerwear</h3>
+      <p class="price">$15</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZbuICq4jWja6ufiTd5mDtvms3bXBQz6mphpYwTX6smqznhUWwCs2ysK650xWywWaQPes&usqp=CAU" alt="Innerwear">
+      <h3>Premium Cotton Vests</h3>
+      <p class="price">$20</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Casual Wear -->
+  <h2 class="section-title">Casual Wear</h2>
+  <div class="fashion-grid">
+    <div class="card">
+      <img src="https://images.pexels.com/photos/1337477/pexels-photo-1337477.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Casual Shirt">
+      <h3>Stylish Casual Shirt</h3>
+      <p class="price">$30</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=600&q=80" alt="Jeans">
+      <h3>Denim Jeans</h3>
+      <p class="price">$40</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Formal Wear -->
+  <h2 class="section-title">Formal Wear</h2>
+  <div class="fashion-grid">
+    <div class="card">
+      <img src="https://9f8e62d4.delivery.rocketcdn.me/wp-content/uploads/2023/08/How-To-Fold-A-Pocket-Square-9-Different-Ways.jpg" alt="Suit">
+      <h3>Classic Business Suit</h3>
+      <p class="price">$120</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqSv4h5HlLvJAPxu0rKt1hDdUWqdgdzGxHag&s" alt="Blazer">
+      <h3>Premium Blazer</h3>
+      <p class="price">$99</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Ethnic Wear -->
+  <h2 class="section-title">Ethnic Wear</h2>
+  <div class="fashion-grid">
+    <div class="card">
+      <img src="https://keevaaexports.b-cdn.net/images/product/2025/06/ynf-cotton-rin223-3125c-mens-wear-wholesale-mens-kurtas-mens-kurta-pyjama-men-wedding-kurta-manufacturer-2025-06-30_17_31_57.jpg" alt="Kurta">
+      <h3>Traditional Kurta</h3>
+      <p class="price">$50</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="https://cdn.shopify.com/s/files/1/0566/3804/6391/files/TT-797MSHS-LD08_1_480x480.jpg?v=1724682566" alt="Sherwani">
+      <h3>Royal Sherwani</h3>
+      <p class="price">$150</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Accessories -->
+  <h2 class="section-title">Accessories</h2>
+  <div class="fashion-grid">
+    <div class="card">
+      <img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Watch">
+      <h3>Luxury Watch</h3>
+      <p class="price">$80</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="https://st4.depositphotos.com/17369252/25363/i/450/depositphotos_253635644-stock-photo-men-women-sneakers-colored-background.jpg" alt="Shoes">
+      <h3>Stylish Sneakers</h3>
+      <p class="price">$60</p>
+      <button class="btn">Add to Cart</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

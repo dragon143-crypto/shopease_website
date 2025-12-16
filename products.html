@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products Showcase</title>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle at center, #2b1e16, #0d0d0d);
+  font-family: Poppins, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  color: #fff;
+}
+
+/* MAIN WRAPPER */
+.showcase {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* BIG TITLE */
+.big-title {
+  position: absolute;
+  font-size: 13vw;
+  opacity: 0.15;
+  font-weight: 900;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 10px;
+  pointer-events: none;
+}
+
+/* CENTER PRODUCT */
+.product-wrapper {
+  position: relative;
+  z-index: 6;
+}
+.product {
+  height: 420px;
+  filter: drop-shadow(0 30px 50px rgba(0,0,0,0.7));
+  transform: rotate(-3deg);
+}
+
+/* LEFT INFO */
+.info {
+  position: absolute;
+  top: 20%;
+  left: 7%;
+  max-width: 400px;
+}
+.info h1 { font-size: 4rem; margin: 0; }
+.info p { opacity: 0.85; line-height: 1.5; margin-top: 10px; }
+.price { font-size: 2rem; margin-top: 20px; font-weight: 700; }
+
+/* SIDE FLOATING ITEMS */
+.float {
+  position: absolute;
+  width: 150px;
+  opacity: 0.9;
+  z-index: 5;
+}
+.left { left: 5%; top: 40%; transform: rotate(-15deg); }
+.right { right: 5%; top: 35%; transform: rotate(18deg); }
+
+/* NAVIGATION */
+.nav {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  gap: 15px;
+}
+.nav button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.nav button:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.25);
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+.back-btn:hover { background: rgba(255,255,255,0.4); }
+</style>
+</head>
+
+<body>
+
+<button class="back-btn" onclick="location.href='/mnt/data/index.html'">← Back</button>
+
+
+<div class="showcase">
+
+  <div class="big-title" id="bigTitle">COCA COLA</div>
+
+  <div class="info">
+    <h1 id="pName">COCA COLA</h1>
+    <p id="pDesc">Refreshing and bold classic taste you always love.</p>
+    <div class="price" id="pPrice">$9.99</div>
+  </div>
+
+  <img class="float left" id="floatL" src="https://pngimg.com/d/chocolate_PNG97239.png">
+  <img class="float right" id="floatR" src="https://pngimg.com/d/chocolate_PNG97402.png">
+
+  <div class="product-wrapper">
+    <img id="mainProduct" class="product" src="https://www.pngmart.com/files/22/Coca-Cola-Bottle-PNG-Clipart.png">
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn">&#10094;</button>
+    <button id="nextBtn">&#10095;</button>
+  </div>
+
+</div>
+
+<script>
+const products = [
+  {
+    name:"COCA COLA",
+    desc:"Refreshing and bold classic taste you always love.",
+    price:"$9.99",
+    img:"https://www.pngmart.com/files/22/Coca-Cola-Bottle-PNG-Clipart.png",
+    left:"https://pngimg.com/d/chocolate_PNG97239.png",
+    right:"https://pngimg.com/d/chocolate_PNG97402.png",
+    bg:"radial-gradient(circle at center,#2b1e16,#0d0d0d)"
+  },
+  {
+    name:"CHOCO DELIGHT",
+    desc:"Smooth and creamy chocolate crafted from rich cocoa.",
+    price:"$12.50",
+    img:"https://pngimg.com/d/chocolate_PNG97402.png",
+    left:"https://pngimg.com/d/chocolate_PNG97088.png",
+    right:"https://pngimg.com/d/chocolate_PNG97107.png",
+    bg:"radial-gradient(circle at center,#3c1e12,#0b0b0b)"
+  },
+  {
+    name:"COFFEE RUSH",
+    desc:"Deep roasted energy with rich aroma.",
+    price:"$13.20",
+    img:"https://pngimg.com/d/coffee_PNG17583.png",
+    left:"https://pngimg.com/d/coffee_PNG17599.png",
+    right:"https://pngimg.com/d/coffee_PNG16860.png",
+    bg:"radial-gradient(circle at center,#3b2b22,#0b0b0b)"
+  }
+];
+
+let i = 0;
+
+function loadProduct() {
+  const p = products[i];
+
+  document.body.style.background = p.bg;
+  bigTitle.textContent = p.name;
+  pName.textContent = p.name;
+  pDesc.textContent = p.desc;
+  pPrice.textContent = p.price;
+
+  gsap.to(mainProduct,{y:80,opacity:0,duration:0.4,onComplete:()=>{
+    mainProduct.src = p.img;
+    floatL.src = p.left;
+    floatR.src = p.right;
+
+    gsap.fromTo(mainProduct,
+      {y:-120,opacity:0,rotate:-8},
+      {y:0,opacity:1,rotate:-3,duration:1,ease:"elastic.out(1,0.7)"});
+  }});
+
+  gsap.fromTo(floatL,{x:-80,opacity:0},{x:0,opacity:1,duration:1,ease:"back.out(1.6)"});
+  gsap.fromTo(floatR,{x:80,opacity:0},{x:0,opacity:1,duration:1,ease:"back.out(1.6)"});
+}
+
+document.getElementById("nextBtn").onclick = ()=>{
+  i = (i+1)%products.length;
+  loadProduct();
+};
+
+document.getElementById("prevBtn").onclick = ()=>{
+  i = (i-1+products.length)%products.length;
+  loadProduct();
+};
+
+gsap.to("#floatL",{y:-20,repeat:-1,yoyo:true,duration:3,ease:"sine.inOut"});
+gsap.to("#floatR",{y:20,repeat:-1,yoyo:true,duration:3.5,ease:"sine.inOut"});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product — ShopEase</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="product-styles.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <a class="brand" href="index.html">ShopEase</a>
+    <div class="top-actions">
+      <a href="cart.html" class="icon">Cart</a>
+      <a href="profile.html" class="icon">Profile</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- PRODUCT HERO SECTION -->
+    <section class="product-hero">
+      <div class="gallery">
+        <div class="main-image" id="mainImageWrap">
+          <img id="mainImage" src="" alt="Product image" />
+        </div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="details">
+        <h1 id="pTitle"></h1>
+
+        <div class="rating-row">
+          <div id="ratingStars" class="stars"></div>
+          <div id="ratingCount" class="rating-count"></div>
+        </div>
+
+        <div class="price-row">
+          <div class="price">
+            <span class="current" id="pPrice"></span>
+            <span class="mrp" id="pMRP"></span>
+            <span class="off" id="pDiscount"></span>
+          </div>
+          <div id="stockBadge" class="stock"></div>
+        </div>
+
+        <p id="shortDesc" class="short-desc"></p>
+
+        <div class="options">
+          <div class="option">
+            <label>Colors</label>
+            <div id="colorSwatches" class="swatches"></div>
+          </div>
+
+          <div class="option">
+            <label>Quantity</label>
+            <input id="qty" type="number" min="1" value="1" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="addCart" class="btn primary">Add to Cart</button>
+          <button id="buyNow" class="btn accent">Buy Now</button>
+          <button id="wishlist" class="btn ghost">❤ Wishlist</button>
+        </div>
+
+        <div class="offers">
+          <h4>Available Offers</h4>
+          <ul id="offerList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <section class="tabs">
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="desc">Description</button>
+        <button class="tab-btn" data-tab="specs">Specifications</button>
+        <button class="tab-btn" data-tab="reviews">Customer Reviews</button>
+      </nav>
+
+      <div class="tab-content">
+        <article id="desc" class="tab-panel active">
+          <h3>Product Description</h3>
+          <div id="longDesc"></div>
+        </article>
+
+        <article id="specs" class="tab-panel">
+          <h3>Specifications</h3>
+          <table id="specTable" class="spec-table"></table>
+        </article>
+
+        <article id="reviews" class="tab-panel">
+          <h3>Customer Reviews</h3>
+          <div id="reviewList" class="reviews"></div>
+
+          <div class="write-review">
+            <h4>Write a review</h4>
+            <label>
+              Rating:
+              <select id="reviewRating">
+                <option value="5">5 — Excellent</option>
+                <option value="4">4 — Very Good</option>
+                <option value="3">3 — Good</option>
+                <option value="2">2 — Fair</option>
+                <option value="1">1 — Poor</option>
+              </select>
+            </label>
+
+            <textarea id="reviewText" rows="3" placeholder="Write your review"></textarea>
+            <button id="submitReview" class="btn small">Submit Review</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RELATED PRODUCTS -->
+    <section class="related">
+      <h3>Related Items</h3>
+      <div id="relatedContainer" class="related-row"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© ShopEase 2025</p>
+  </footer>
+
+  <!-- scripts -->
+  <script src="products-data.js"></script>
+  <script src="product-details.js"></script>
+</body>
+</html>
+
+<style>
+    /* GLOBAL */
+:root {
+  --bg:#f3f5f8;
+  --card:#fff;
+  --accent:#2874f0;
+  --muted:#777;
+}
+
+body {
+  margin:0;
+  background:var(--bg);
+  font-family:Inter,Arial,sans-serif;
+}
+
+/* HEADER */
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  padding:14px 18px;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.brand {
+  font-size:22px;
+  color:var(--accent);
+  font-weight:800;
+  text-decoration:none;
+}
+
+/* CONTAINER */
+.container {
+  max-width:1180px;
+  margin:22px auto;
+  padding:0 16px;
+}
+
+/* PRODUCT HERO */
+.product-hero {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.gallery, .details {
+  background:var(--card);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(20,20,40,.04);
+}
+
+.main-image {
+  height:420px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.main-image img {
+  max-height:100%;
+  max-width:100%;
+  object-fit:contain;
+}
+
+.thumbs {
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+}
+.thumbs button {
+  border:1px solid #ddd;
+  border-radius:6px;
+  padding:4px;
+  cursor:pointer;
+}
+.thumbs button.active {
+  border-color:var(--accent);
+}
+
+/* DETAILS */
+.details h1 {
+  margin:0;
+  font-size:24px;
+}
+.rating-row {
+  margin:12px 0;
+  display:flex;
+  gap:10px;
+}
+.stars { color:#f6b500; font-size:18px; }
+
+.price-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.price .current {
+  font-size:24px;
+  font-weight:800;
+}
+.price .mrp {
+  text-decoration:line-through;
+  color:var(--muted);
+  margin-left:10px;
+}
+.price .off {
+  color:#05944f;
+  margin-left:10px;
+}
+
+.stock {
+  padding:6px 12px;
+  border-radius:8px;
+  font-weight:600;
+}
+.in-stock { background:#e8ffe9; color:#067a0a; }
+.out { background:#ffe8e8; color:#b72828; }
+
+.short-desc { color:var(--muted); margin:12px 0; }
+
+/* options */
+.options {
+  display:flex;
+  gap:18px;
+  margin:16px 0;
+  flex-wrap:wrap;
+}
+.swatch {
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.swatch.selected {
+  border:3px solid var(--accent);
+}
+
+input[type=number] {
+  width:70px;
+  padding:8px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+/* ACTION BUTTONS */
+.actions {
+  display:flex;
+  gap:10px;
+  margin:18px 0;
+}
+.btn {
+  padding:12px 16px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+}
+.primary { background:var(--accent); color:#fff; }
+.accent { background:#ff9f00; color:#fff; }
+.ghost { background:#fff; border:1px solid #ddd; }
+
+/* OFFERS */
+.offers ul {
+  padding-left:20px;
+  color:var(--muted);
+}
+
+/* TABS */
+.tabs {
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  margin-top:22px;
+  box-shadow:0 6px 20px rgba(20,20,40,.04);
+}
+.tab-nav {
+  display:flex;
+  gap:12px;
+}
+.tab-btn {
+  padding:8px 12px;
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:8px;
+  cursor:pointer;
+}
+.tab-btn.active {
+  border-color:var(--accent);
+}
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+.spec-table td {
+  padding:8px;
+  border-bottom:1px solid #eee;
+}
+
+/* REVIEWS */
+.review {
+  padding:12px;
+  background:#fafafa;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+
+/* RELATED */
+.related {
+  margin-top:30px;
+}
+.related-row {
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+}
+.related-card {
+  min-width:200px;
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.04);
+}
+.related-card img {
+  height:140px;
+  width:100%;
+  object-fit:cover;
+}
+
+/* FOOTER */
+.site-footer {
+  text-align:center;
+  margin-top:40px;
+  color:#777;
+  padding:20px;
+}
+
+</style>
+<script>
+// Utility: read URL params
+function getParam(name) {
+  return new URL(location.href).searchParams.get(name);
+}
+
+// Find product by id
+function findProductById(id) {
+  return PRODUCTS.find(p => +p.id === +id);
+}
+
+function formatPrice(n) {
+  return "₹" + n.toLocaleString("en-IN");
+}
+
+// Make star rating
+function createStars(r) {
+  const full = Math.floor(r);
+  const half = (r - full) >= 0.5;
+  let html = "";
+  for (let i = 0; i < full; i++) html += "★";
+  if (half) html += "☆";
+  for (let i = full + (half ? 1 : 0); i < 5; i++) html += "☆";
+  return html;
+}
+
+// RENDER PRODUCT
+function renderProduct(p) {
+  if (!p) return;
+
+  document.title = p.title + " — ShopEase";
+
+  // Title, price, discount
+  document.getElementById("pTitle").textContent = p.title;
+  document.getElementById("pPrice").textContent = formatPrice(p.price);
+  document.getElementById("pMRP").textContent = formatPrice(p.mrp);
+
+  const discount = Math.round((1 - p.price / p.mrp) * 100);
+  document.getElementById("pDiscount").textContent = discount + "% off";
+
+  document.getElementById("shortDesc").textContent = p.shortDesc;
+
+  // Rating
+  document.getElementById("ratingStars").textContent = createStars(p.rating);
+  document.getElementById("ratingCount").textContent =
+    `${p.rating} (${p.ratingCount} reviews)`;
+
+  // Stock
+  const stock = document.getElementById("stockBadge");
+  if (p.inStock) {
+    stock.className = "stock in-stock";
+    stock.textContent = "In Stock";
+  } else {
+    stock.className = "stock out";
+    stock.textContent = "Out of Stock";
+  }
+
+  // Gallery
+  const mainImg = document.getElementById("mainImage");
+  const thumbs = document.getElementById("thumbs");
+
+  mainImg.src = p.images[0];
+  thumbs.innerHTML = "";
+
+  p.images.forEach((src, index) => {
+    const btn = document.createElement("button");
+    const img = document.createElement("img");
+    img.src = src;
+    btn.appendChild(img);
+
+    btn.onclick = () => {
+      mainImg.src = src;
+      [...thumbs.children].forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    };
+
+    if (index === 0) btn.classList.add("active");
+    thumbs.appendChild(btn);
+  });
+
+  // Colors
+  const swatches = document.getElementById("colorSwatches");
+  swatches.innerHTML = "";
+  p.colors.forEach((c, i) => {
+    const div = document.createElement("div");
+    div.className = "swatch";
+    div.style.background = c;
+
+    div.onclick = () => {
+      [...swatches.children].forEach(s => s.classList.remove("selected"));
+      div.classList.add("selected");
+    };
+
+    if (i === 0) div.classList.add("selected");
+    swatches.appendChild(div);
+  });
+
+  // Offers
+  const offerList = document.getElementById("offerList");
+  offerList.innerHTML = "";
+  (p.offers || []).forEach(o => {
+    const li = document.createElement("li");
+    li.textContent = o;
+    offerList.appendChild(li);
+  });
+
+  // Description
+  document.getElementById("longDesc").innerHTML = p.description;
+
+  // Specifications
+  const specTable = document.getElementById("specTable");
+  specTable.innerHTML = "";
+  for (const key in p.specs) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${key}</td><td>${p.specs[key]}</td>`;
+    specTable.appendChild(tr);
+  }
+
+  // Reviews
+  const reviewList = document.getElementById("reviewList");
+  reviewList.innerHTML = "";
+  (p.reviews || []).forEach(r => {
+    const div = document.createElement("div");
+    div.className = "review";
+    div.innerHTML = `
+      <div class="meta"><strong>${r.name}</strong> • ${r.rating} ★ • ${r.date}</div>
+      <div class="body">${r.text}</div>
+    `;
+    reviewList.appendChild(div);
+  });
+
+  // Related products
+  const related = PRODUCTS.filter(x =>
+    x.category === p.category && x.id !== p.id
+  ).slice(0, 6);
+
+  const relBox = document.getElementById("relatedContainer");
+  relBox.innerHTML = "";
+
+  related.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "related-card";
+    card.innerHTML = `
+      <a href="product-details.html?id=${r.id}">
+        <img src="${r.images[0]}" />
+        <h4>${r.title}</h4>
+        <div class="price">${formatPrice(r.price)}</div>
+      </a>
+    `;
+    relBox.appendChild(card);
+  });
+}
+
+// Tabs
+document.addEventListener("click", (e) => {
+  if (e.target.matches(".tab-btn")) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    e.target.classList.add("active");
+
+    const tab = e.target.dataset.tab;
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.getElementById(tab).classList.add("active");
+  }
+});
+
+// Load page
+document.addEventListener("DOMContentLoaded", () => {
+  const id = getParam("id");
+  const product = findProductById(id);
+
+  if (!product) {
+    document.querySelector(".container").innerHTML =
+      "<h2>Product not found.</h2>";
+    return;
+  }
+
+  renderProduct(product);
+
+  // Add to cart
+  document.getElementById("addCart").onclick = () => {
+    const qty = +document.getElementById("qty").value;
+    alert(`${qty} × ${product.title} added to cart`);
+  };
+
+  // Wishlist
+  document.getElementById("wishlist").onclick = () => {
+    alert("Added to wishlist");
+  };
+
+  // Submit review
+  document.getElementById("submitReview").onclick = () => {
+    const rating = +document.getElementById("reviewRating").value;
+    const text = document.getElementById("reviewText").value.trim();
+    if (!text) return alert("Write a review!");
+
+    product.reviews.unshift({
+      name: "You",
+      rating,
+      text,
+      date: new Date().toISOString().split("T")[0]
+    });
+
+    renderProduct(product);
+    document.getElementById("reviewText").value = "";
+  };
+});
+</script>

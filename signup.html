@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <style>
+    /* Background with gradient animation */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #ff6a00, #ee0979, #00c9ff, #92fe9d);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Sign in card */
+    .signin-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+      color: #fff;
+      animation: fadeIn 1.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .signin-container h2 { margin-bottom: 20px; font-size: 28px; font-weight: bold; }
+
+    .input-field {
+      width: 100%; padding: 12px; margin: 12px 0;
+      border: none; border-radius: 8px;
+      font-size: 16px; outline: none;
+      transition: 0.3s;
+    }
+    .input-field:focus {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00c9ff;
+    }
+
+    .signin-btn {
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      color: #fff; padding: 12px; border: none;
+      border-radius: 8px; cursor: pointer;
+      font-size: 16px; width: 100%; margin-top: 15px;
+      transition: 0.3s;
+    }
+    .signin-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff6a00;
+    }
+
+    .extra-links { margin-top: 15px; font-size: 14px; }
+    .extra-links a { color: #00f7ff; text-decoration: none; font-weight: bold; }
+    .extra-links a:hover { text-decoration: underline; }
+
+    /* Social Login Buttons */
+    .social-login { margin-top: 20px; }
+    .social-btn {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 12px; border: none; border-radius: 8px;
+      font-size: 16px; cursor: pointer; width: 100%;
+      margin-top: 10px; transition: 0.3s;
+    }
+    .google-btn { background: #fff; color: #444; }
+    .google-btn:hover { transform: scale(1.05); box-shadow: 0 0 12px rgba(255,255,255,0.3); }
+    .facebook-btn { background: #1877f2; color: #fff; }
+    .facebook-btn:hover { transform: scale(1.05); box-shadow: 0 0 12px rgba(24,119,242,0.6); }
+  </style>
+</head>
+<body>
+  <div class="signin-container">
+    <h2>Sign In</h2>
+    <form onsubmit="handleLogin(event)">
+      <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+      <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+      <input type="text" id="nickname" class="input-field" placeholder="Enter your nickname (e.g. DragonMaster)" required>
+
+      <button type="submit" class="signin-btn">Sign In</button>
+    </form>
+
+    <div class="extra-links">
+      <p>Don’t have an account? <a href="signup.html">Sign Up</a></p>
+      <p><a href="https://mail.google.com/" target="_blank">Forgot Password?</a></p>
+    </div>
+
+    <!-- Social Login Section -->
+    <div class="social-login">
+      <button class="social-btn google-btn" onclick="window.open('https://accounts.google.com/', '_blank')">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" width="20"> 
+        Continue with Google
+      </button>
+      <button class="social-btn facebook-btn" onclick="window.open('https://www.facebook.com/login/', '_blank')">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook" width="20"> 
+        Continue with Facebook
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function handleLogin(e) {
+      e.preventDefault();
+      let email = document.getElementById("email").value;
+      let nickname = document.getElementById("nickname").value;
+
+      // Save to localStorage
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userNickname", nickname);
+
+      // Redirect to profile page
+      window.location.href = "profile.html";
+    }
+  </script>
+</body>
+</html>

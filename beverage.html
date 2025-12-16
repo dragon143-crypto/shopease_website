@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeverageBazaar — Drinks & Refreshments</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root{
+  --bg1:#e0f7fa;
+  --bg2:#b2ebf2;
+  --accent1:#00bcd4;
+  --accent2:#ff4081;
+  --accent3:#ffc107;
+  --text:#033;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:var(--text);
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Bubble animation */
+.bubble{
+  position:absolute;
+  bottom:-50px;
+  width:20px;
+  height:20px;
+  background:rgba(255,255,255,0.7);
+  border-radius:50%;
+  animation:rise 8s infinite ease-in;
+}
+@keyframes rise{
+  0%{transform:translateY(0) scale(1);opacity:0.7}
+  50%{opacity:1}
+  100%{transform:translateY(-110vh) scale(1.2);opacity:0}
+}
+.bubble:nth-child(1){left:5%;width:14px;height:14px;animation-delay:0s;}
+.bubble:nth-child(2){left:25%;width:20px;height:20px;animation-delay:2s;}
+.bubble:nth-child(3){left:45%;width:16px;height:16px;animation-delay:4s;}
+.bubble:nth-child(4){left:65%;width:22px;height:22px;animation-delay:1s;}
+.bubble:nth-child(5){left:85%;width:18px;height:18px;animation-delay:3s;}
+
+/* Header */
+header{display:flex;justify-content:space-between;align-items:center;padding:24px 30px;position:relative;z-index:2;}
+.logo{
+  width:64px;height:64px;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:700;color:#fff;
+  box-shadow:0 0 20px rgba(0,188,212,0.5);
+}
+header h1{font-size:26px;margin-left:14px}
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search,.select,.btn{
+  padding:10px 14px;border:none;border-radius:10px;
+  background:rgba(255,255,255,0.8);color:#033;
+  font-family:inherit;outline:none;transition:.3s;
+}
+.search:focus,.select:focus{box-shadow:0 0 10px var(--accent1);}
+.btn{cursor:pointer;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:600;}
+.btn:hover{transform:scale(1.05)}
+
+/* Banner */
+.banner{
+  margin:20px 30px;padding:24px;
+  background:linear-gradient(135deg,#80deea,#ffccbc);
+  border-radius:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 0 20px rgba(0,0,0,0.1);
+}
+.banner h2{font-size:22px;color:#004d40;}
+.cta{
+  background:linear-gradient(90deg,var(--accent2),var(--accent3));
+  border:none;padding:10px 18px;border-radius:12px;
+  font-weight:600;color:#fff;cursor:pointer;transition:.3s;
+}
+.cta:hover{transform:scale(1.08)}
+
+/* Grid */
+main{padding:20px 30px;position:relative;z-index:2;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:24px;
+}
+.card{
+  background:rgba(255,255,255,0.95);
+  border-radius:14px;padding:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  transition:.4s ease;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  animation:fadeInUp .7s ease forwards;opacity:0;
+}
+@keyframes fadeInUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.card:hover{
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:0 0 25px rgba(0,188,212,0.6);
+}
+.thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.6);
+  border-radius:12px;margin-bottom:10px;overflow:hidden;
+}
+.thumb img{
+  max-height:150px;transition:transform .5s ease;
+}
+.card:hover .thumb img{transform:scale(1.1) rotate(-3deg);}
+h3{margin:6px 0;font-size:16px;}
+.brand{font-size:13px;color:#555;}
+.desc{font-size:13px;color:#444;min-height:38px;}
+.price{font-weight:700;color:#00796b;margin-top:6px;}
+.rating{color:#ffb300;font-size:13px;margin-top:4px;}
+.actions{display:flex;gap:8px;margin-top:10px;}
+.buy{
+  flex:1;padding:10px;border:none;border-radius:8px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;font-weight:600;cursor:pointer;transition:.3s;
+}
+.buy:hover{transform:scale(1.05)}
+.wish{
+  padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.2);
+  background:transparent;color:#444;cursor:pointer;
+}
+.footer{text-align:center;padding:20px;color:#555}
+
+/* Modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  display:flex;justify-content:center;align-items:center;
+  backdrop-filter:blur(10px);z-index:100;
+}
+.modal{
+  background:rgba(255,255,255,0.95);border-radius:20px;padding:24px;
+  width:90%;max-width:460px;text-align:center;
+  color:#333;animation:pop .4s ease forwards;position:relative;
+}
+@keyframes pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal img{width:100%;border-radius:14px;margin-bottom:10px;}
+.close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:24px;color:#333;cursor:pointer;}
+.modal h2{font-size:20px;margin-bottom:6px}
+.modal p{font-size:13px;color:#666;margin-bottom:8px}
+.modal .price{color:#00796b;font-size:18px;margin-bottom:10px}
+.modal .actions{justify-content:center}
+
+@media(max-width:640px){
+  header{flex-direction:column;align-items:flex-start}
+  .search{min-width:100%}
+}
+</style>
+</head>
+<body>
+<!-- Animated bubbles -->
+<div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="logo">BB</div>
+    <h1>BeverageBazaar</h1>
+  </div>
+  <div class="controls">
+    <input id="search" class="search" placeholder="Search drinks...">
+    <select id="sort" class="select">
+      <option value="pop">Sort: Popular</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+    </select>
+    <button id="shuffle" class="btn">Color Splash</button>
+  </div>
+</header>
+
+<div class="banner">
+  <div>
+    <h2>🥤 Refreshing Beverages</h2>
+    <p>Up to <strong>30% OFF</strong> • Juices • Soft Drinks • Coffee • Tea & more!</p>
+  </div>
+  <button class="cta" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</div>
+
+<main>
+  <section class="grid" id="grid"></section>
+</main>
+<div class="footer">Showing <span id="count">0</span> beverages • Stay Hydrated 💧</div>
+
+<script>
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const sort=document.getElementById('sort');
+const shuffle=document.getElementById('shuffle');
+const count=document.getElementById('count');
+
+const items=[
+  {brand:"Coca-Cola",name:"Coke Classic 1.25L",desc:"Original taste • Sparkling soft drink",price:89,rating:4.7,img:"https://m.media-amazon.com/images/I/61syx9yApPL._SL1500_.jpg"},
+  {brand:"Pepsi",name:"Pepsi 1.25L",desc:"Refreshing cola drink",price:85,rating:4.6,img:"https://m.media-amazon.com/images/I/81Kh2A7ZC2L._SL1500_.jpg"},
+  {brand:"Tropicana",name:"Mixed Fruit Juice 1L",desc:"Real fruit juice • No added preservatives",price:110,rating:4.8,img:"https://m.media-amazon.com/images/I/71d9IQdIbML._SL1500_.jpg"},
+  {brand:"Real",name:"Orange Juice 1L",desc:"Vitamin C rich • Tangy taste",price:105,rating:4.6,img:"https://m.media-amazon.com/images/I/71s2N5zSxHL._SL1500_.jpg"},
+  {brand:"Bru Gold",name:"Instant Coffee 200g",desc:"Rich aroma • Premium blend",price:299,rating:4.8,img:"https://m.media-amazon.com/images/I/71hRgSGH2tL._SL1500_.jpg"},
+  {brand:"Lipton",name:"Green Tea 25 Bags",desc:"Pure & refreshing • Antioxidants",price:150,rating:4.7,img:"https://m.media-amazon.com/images/I/61WJ9nI8gQL._SL1500_.jpg"},
+  {brand:"Sprite",name:"Lemon Lime Drink 1.25L",desc:"Crisp & clear refreshment",price:85,rating:4.6,img:"https://m.media-amazon.com/images/I/61ROyXqMgML._SL1500_.jpg"},
+  {brand:"Paper Boat",name:"Aam Panna 600ml",desc:"Authentic Indian summer drink",price:65,rating:4.5,img:"https://m.media-amazon.com/images/I/81m8C99iE6L._SL1500_.jpg"},
+  {brand:"Red Bull",name:"Energy Drink 250ml",desc:"Gives you wings! High energy drink",price:125,rating:4.8,img:"https://m.media-amazon.com/images/I/71u3P1Qz7LL._SL1500_.jpg"},
+  {brand:"Amul",name:"Chocolate Milk 200ml",desc:"Chilled choco milk drink",price:30,rating:4.7,img:"https://m.media-amazon.com/images/I/71Q7STdZ4gL._SL1500_.jpg"}
+];
+
+function createCard(it){
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <div class="thumb"><img src="${it.img}" alt="${it.name}"></div>
+    <div class="brand">${it.brand}</div>
+    <h3>${it.name}</h3>
+    <div class="desc">${it.desc}</div>
+    <div class="price">₹${it.price.toLocaleString()}</div>
+    <div class="rating">★ ${it.rating}</div>
+    <div class="actions">
+      <button class="buy">Buy Now</button>
+      <button class="wish">♡</button>
+    </div>`;
+  card.querySelector('.buy').onclick=e=>{e.stopPropagation();alert('Buying '+it.name)};
+  card.querySelector('.wish').onclick=e=>{e.stopPropagation();e.target.textContent='♥'};
+  card.onclick=()=>openModal(it);
+  grid.appendChild(card);
+}
+
+function render(list){grid.innerHTML='';list.forEach(createCard);count.textContent=list.length;}
+
+function openModal(it){
+  const bg=document.createElement('div');
+  bg.className='modal-bg';
+  bg.innerHTML=`
+    <div class="modal">
+      <button class="close">&times;</button>
+      <img src="${it.img}" alt="${it.name}">
+      <h2>${it.name}</h2>
+      <p>${it.desc}</p>
+      <div class="price">₹${it.price.toLocaleString()}</div>
+      <div class="rating">★ ${it.rating}</div>
+      <div class="actions">
+        <button class="buy">Buy Now</button>
+        <button class="wish">♡</button>
+      </div>
+    </div>`;
+  document.body.appendChild(bg);
+  bg.querySelector('.close').onclick=()=>bg.remove();
+  bg.addEventListener('click',e=>{if(e.target===bg)bg.remove()});
+}
+
+search.addEventListener('input',()=>{
+  const q=search.value.toLowerCase();
+  const filtered=items.filter(it=>it.name.toLowerCase().includes(q)||it.brand.toLowerCase().includes(q));
+  applySort(filtered);
+});
+sort.addEventListener('change',()=>applySort(items.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase()))));
+function applySort(list){
+  const val=sort.value;
+  const copy=[...list];
+  if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
+  else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
+  render(copy);
+}
+shuffle.onclick=()=>{
+  document.querySelectorAll('.card').forEach(c=>{
+    const glow=`0 0 20px hsl(${Math.random()*360},80%,60%)`;
+    c.style.boxShadow=glow;
+  });
+};
+render(items);
+</script>
+</body>
+</html>

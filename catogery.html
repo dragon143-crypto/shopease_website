@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ShopEase — Advanced Category Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- THEME PALETTES ----------
+Set body[data-theme="sports"] etc. to customize look.
+Palettes: sports, music, health, auto, gifts, books
+--------------------------------------*/
+:root{
+  --bg: #0b1220; --panel: #0f1724; --muted:#9fb0bd; --text:#e6eef6;
+  --accent: #00ff9f; --accent-2: #00b3ff; --card-bg: rgba(255,255,255,0.03);
+  --glass: rgba(255,255,255,0.04);
+  --radius: 12px;
+  --transition: 220ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* Themes */
+body[data-theme="sports"]{
+  --bg:#041622; --panel:#071827; --text:#e6fbf7; --muted:#8fb8bf;
+  --accent:#00ff9f; --accent-2:#00b3ff;
+}
+body[data-theme="music"]{
+  --bg:#0a0310; --panel:#12041a; --text:#faf6ff; --muted:#b9aee0;
+  --accent:#c79bff; --accent-2:#ffd38a;
+}
+body[data-theme="health"]{
+  --bg:#f8fffb; --panel:#ffffff; --text:#05201a; --muted:#6b8b7a;
+  --accent:#18b47a; --accent-2:#ff9f43; --card-bg: rgba(2,72,54,0.02);
+}
+body[data-theme="auto"]{
+  --bg:#070708; --panel:#0f1214; --text:#f0f0f0; --muted:#9a9a9a;
+  --accent:#ff3b3b; --accent-2:#1e90ff;
+}
+body[data-theme="gifts"]{
+  --bg:#fff6fb; --panel:#fffafc; --text:#2a1a22; --muted:#8c6f7a;
+  --accent:#ff6fb5; --accent-2:#ffd36b; --card-bg: rgba(255,240,248,0.6);
+}
+body[data-theme="books"]{
+  --bg:#f4fbff; --panel:#ffffff; --text:#1e2b3a; --muted:#6b7b8c;
+  --accent:#5b87ff; --accent-2:#8fc1ff; --card-bg: rgba(9,35,66,0.02);
+}
+
+/* ---------- BASE LAYOUT ---------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:linear-gradient(180deg,var(--bg), color-mix(in srgb, var(--panel) 15%, transparent));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+/* Header */
+header{
+  position:sticky; top:0; z-index:1200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 22px; gap:16px;
+  backdrop-filter:blur(6px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.brand img{width:42px;height:42px;border-radius:10px;object-fit:contain}
+.header-controls{display:flex;align-items:center;gap:10px}
+.searchbar{display:flex;align-items:center; gap:10px; padding:8px 12px; border-radius:999px; background:var(--glass); border:1px solid rgba(255,255,255,0.03); min-width:320px}
+.searchbar input{background:transparent;border:0;color:var(--text);outline:none;width:280px}
+.theme-switch{padding:8px 10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
+
+/* Main area */
+.main{display:flex; gap:22px; padding:28px 4%; align-items:flex-start}
+.sidebar{
+  width:300px; min-width:260px;
+  position:sticky; top:78px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-radius:var(--radius); padding:18px; border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 8px 22px rgba(2,6,14,0.4);
+}
+.sidebar h3{margin:0 0 12px;color:var(--accent)}
+.filter-group{margin-bottom:14px}
+.filter-group label{display:flex; gap:10px; align-items:center; padding:8px 6px; border-radius:8px; cursor:pointer; color:var(--muted)}
+.filter-group label input{accent-color:var(--accent)}
+.chips{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+.chip{background:transparent;border:1px solid rgba(255,255,255,0.03); padding:6px 10px; border-radius:999px; color:var(--muted); font-size:13px}
+
+/* content */
+.content{flex:1; display:flex; flex-direction:column; gap:18px}
+.hero{
+  display:flex; gap:22px; align-items:center; justify-content:space-between;
+  padding:28px; border-radius:var(--radius); overflow:hidden;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+  border:1px solid rgba(255,255,255,0.03);
+}
+.hero-left{max-width:58%}
+.hero-title{font-size:32px;margin:0 0 8px}
+.hero-sub{color:var(--muted); margin:0}
+.hero-right{width:360px;height:220px;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,0.2)}
+.hero-right img{width:100%;height:100%;object-fit:cover}
+
+/* topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center; gap:10px; margin-top:6px}
+.sort-select, .view-toggle{background:var(--glass); padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); color:var(--muted)}
+
+/* grid */
+.grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:18px}
+.card{
+  background:var(--card-bg); border-radius:14px; overflow:hidden; position:relative;
+  border:1px solid rgba(255,255,255,0.03); transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 10px 30px rgba(2,6,14,0.4);
+}
+.card:hover{ transform: translateY(-10px) scale(1.02); box-shadow:0 28px 90px rgba(0,0,0,0.5) }
+
+/* image */
+.card .img{
+  height:160px; overflow:hidden; position:relative; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+.card .img img{width:100%;height:100%;object-fit:cover; transition: transform 400ms cubic-bezier(.2,.9,.2,1) }
+.card:hover .img img{ transform: scale(1.08) rotate(-1deg) }
+
+/* ribbon (small professional) */
+.ribbon{
+  position:absolute; top:12px; left:0; padding:6px 10px; font-weight:700; font-size:12px;
+  border-radius:0 8px 8px 0; color: #07101a; background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 6px 22px rgba(0,0,0,0.18);
+}
+
+/* body */
+.card .body{ padding:12px 14px }
+.title{font-weight:700; font-size:15px; margin-bottom:6px}
+.meta{display:flex; justify-content:space-between; align-items:center; gap:8px; color:var(--muted); font-size:13px}
+.price{color:var(--accent); font-weight:800}
+
+/* actions */
+.actions{display:flex; gap:8px; margin-top:10px}
+.btn{flex:1;padding:9px 10px;border-radius:10px;border:0;font-weight:700;cursor:pointer; transition:transform 160ms}
+.btn.add{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:var(--panel)}
+.btn.wish{background:transparent;border:1px solid rgba(255,255,255,0.03); color:var(--muted)}
+
+/* quick view */
+.modal{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background: rgba(2,6,14,0.6); z-index:1400; opacity:0; pointer-events:none; transition:opacity 220ms;
+}
+.modal.show{opacity:1; pointer-events:auto}
+.modal-card{width:920px; max-width:95%; display:flex; gap:18px; background:var(--panel); border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.03)}
+
+/* mini cart */
+.mini-cart{
+  position:fixed; right:20px; top:88px; width:380px; max-height:72vh; overflow:auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent); border-radius:12px; padding:12px;
+  border:1px solid rgba(255,255,255,0.03); box-shadow: 0 20px 60px rgba(0,0,0,0.6); z-index:1500; transform:translateX(14px); transition:transform 280ms ease, opacity 220ms;
+  opacity:0; pointer-events:none;
+}
+.mini-cart.open{ transform:translateX(0); opacity:1; pointer-events:auto }
+.mini-cart h4{margin:0 0 8px}
+.cart-item{display:flex; gap:10px; align-items:center; padding:8px; border-radius:8px; border-bottom:1px dashed rgba(255,255,255,0.02)}
+.cart-item img{width:54px; height:54px; object-fit:cover; border-radius:8px}
+
+/* toast */
+.toast{
+  position:fixed; right:24px; bottom:24px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:var(--panel);
+  padding:10px 14px; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.4); z-index:1600; transform:translateY(18px); opacity:0; transition:all 280ms;
+}
+.toast.show{ transform:translateY(0); opacity:1}
+
+/* responsive */
+@media (max-width:980px){
+  .sidebar{position:relative; width:100%; top:0}
+  .main{flex-direction:column; padding:18px}
+  .hero-right{width:100%; height:200px}
+  .mini-cart{right:12px; top:auto; bottom:80px; width:320px}
+}
+</style>
+</head>
+<body data-theme="sports">
+<!--
+  Change body[data-theme="..."] to: sports | music | health | auto | gifts | books
+  Or change CURRENT_THEME in the script section to programmatically switch.
+-->
+
+<header>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="brand"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050529.png" alt=""><span style="margin-left:6px">ShopEase</span></div>
+    <div class="searchbar" role="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.8"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <input id="globalSearch" placeholder="Search products, e.g. 'yoga mat', 'guitar'...">
+    </div>
+  </div>
+
+  <div class="header-controls">
+    <select id="themePreview" class="theme-switch" title="Preview themes">
+      <option value="sports">Sports</option>
+      <option value="music">Music</option>
+      <option value="health">Health</option>
+      <option value="auto">Auto</option>
+      <option value="gifts">Gifts</option>
+      <option value="books">Books</option>
+    </select>
+
+    <button id="cartToggle" class="theme-switch">🛒 Cart <span id="cartCount">0</span></button>
+    <button id="openQuick" class="theme-switch">Quick View</button>
+  </div>
+</header>
+
+<main class="main">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Filters">
+    <h3>Filters</h3>
+
+    <div class="filter-group">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong>Categories</strong>
+        <button id="clearFilters" style="background:transparent;border:0;color:var(--muted);cursor:pointer">Clear</button>
+      </div>
+      <div id="categoryFilters">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <strong>Price</strong>
+      <div class="chips" style="margin-top:8px">
+        <button class="chip" data-price="0-999">Under ₹999</button>
+        <button class="chip" data-price="1000-4999">₹1k–4.9k</button>
+        <button class="chip" data-price="5000-19999">₹5k–19.9k</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <strong>Material / Type</strong>
+      <div id="materialFilters">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <button id="applyBtn" class="chip" style="background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:var(--panel);border:0">Apply Filters</button>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <section class="content" aria-live="polite">
+    <div class="hero" role="banner">
+      <div class="hero-left">
+        <h1 class="hero-title" id="heroTitle">Category Title</h1>
+        <p class="hero-sub" id="heroSub">Curated picks, latest arrivals and exclusive discounts.</p>
+        <div style="margin-top:12px;display:flex; gap:10px">
+          <button id="heroShop" class="btn add">Shop Collection</button>
+          <button id="heroExplore" class="btn wish">Explore More</button>
+        </div>
+      </div>
+      <div class="hero-right"><img id="heroImg" src="" alt=""></div>
+    </div>
+
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="chips" id="activeChips"></div>
+      </div>
+
+      <div style="display:flex;gap:8px; align-items:center">
+        <select id="sort" class="sort-select">
+          <option value="default">Recommended</option>
+          <option value="low-high">Price: Low → High</option>
+          <option value="high-low">Price: High → Low</option>
+          <option value="popular">Most Popular</option>
+        </select>
+        <div class="view-toggle">Grid</div>
+      </div>
+    </div>
+
+    <section id="productsGrid" class="grid" aria-live="polite"></section>
+
+    <div style="text-align:center; margin-top:8px">
+      <button id="loadMore" class="chip">Load more</button>
+    </div>
+  </section>
+</main>
+
+<!-- Quick View Modal -->
+<div id="quickModal" class="modal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div style="flex:1;min-width:320px">
+      <div style="width:100%;height:320px;border-radius:12px;overflow:hidden"><img id="modalImg" src="" style="width:100%;height:100%;object-fit:cover"></div>
+    </div>
+    <div style="flex:1.1;display:flex;flex-direction:column;gap:8px">
+      <h3 id="modalTitle">Product Title</h3>
+      <div style="color:var(--muted)" id="modalDesc">Product description goes here — short summary, key features.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <div style="font-weight:800;color:var(--accent)" id="modalPrice">₹0</div>
+        <div><button id="modalAdd" class="btn add">Add to cart</button></div>
+      </div>
+      <div style="margin-top:auto;display:flex;gap:8px">
+        <button id="modalWish" class="btn wish">♡ Wishlist</button>
+        <button id="modalClose" class="chip">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mini cart -->
+<div id="miniCart" class="mini-cart" aria-hidden="true">
+  <h4>Cart</h4>
+  <div id="cartItems" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+    <div style="font-weight:800">Total</div><div id="cartTotal" style="font-weight:800">₹0</div>
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button id="checkout" class="btn add">Checkout</button>
+    <button id="closeCart" class="chip">Close</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast" aria-hidden="true">Added to cart</div>
+
+<script>
+/* ----------------------
+  MASTER DATASETS (example items for each section)
+  Replace with your real products or export per-page.
+-------------------------*/
+const DATASETS = {
+  sports: {
+    title: "Sports & Fitness",
+    sub: "Performance gear for athletes, trainers & weekend warriors.",
+    hero: "https://images.pexels.com/photos/274973/pexels-photo-274973.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories: ["Cricket","Fitness","Racquets","Apparel"],
+    materials: ["Leather","Rubber","Metal","Fabric"],
+    products: [
+      {id:1,title:"Pro Tennis Racquet",price:8999,category:"Racquets",material:"Graphite",img:"https://images.pexels.com/photos/39323/tennis-ball-sport-racket-39323.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+      {id:2,title:"Adjustable Dumbbell 20kg",price:5999,category:"Fitness",material:"Metal",img:"https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Popular"},
+      {id:3,title:"Cricket Bat (English Willow)",price:12999,category:"Cricket",material:"Willow",img:"https://images.pexels.com/photos/209671/pexels-photo-209671.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Hot"}
+    ]
+  },
+  music: {
+    title: "Musical Instruments",
+    sub: "Instruments & studio gear for every musician and producer.",
+    hero: "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories: ["Guitar","Keyboard","Percussion"],
+    materials: ["Wood","Metal","Synthetic"],
+    products:[
+      {id:1,title:"Acoustic Guitar (Dreadnought)",price:9999,category:"Guitar",material:"Spruce",img:"https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"},
+      {id:2,title:"88-Key Digital Piano",price:35999,category:"Keyboard",material:"Wood",img:"https://images.pexels.com/photos/164832/pexels-photo-164832.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Premium"},
+      {id:3,title:"Compact Drum Pad",price:7499,category:"Percussion",material:"Plastic",img:"https://images.pexels.com/photos/210152/pexels-photo-210152.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Popular"}
+    ]
+  },
+  health: {
+    title:"Health & Nutrition",
+    sub:"Supplements, protein, wellness kits & healthy snacks.",
+    hero:"https://images.pexels.com/photos/5938351/pexels-photo-5938351.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories:["Supplements","Protein","Snacks"],
+    materials:["Powder","Capsules","Pack"],
+    products:[
+      {id:1,title:"Whey Protein (2kg)",price:3499,category:"Protein",material:"Powder",img:"https://images.pexels.com/photos/4055922/pexels-photo-4055922.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Top"},
+      {id:2,title:"Omega-3 Fish Oil",price:899,category:"Supplements",material:"Capsule",img:"https://images.pexels.com/photos/4055927/pexels-photo-4055927.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+      {id:3,title:"Keto Snack Box",price:1299,category:"Snacks",material:"Pack",img:"https://images.pexels.com/photos/5945902/pexels-photo-5945902.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"}
+    ]
+  },
+  auto: {
+    title:"Auto Accessories",
+    sub:"Seat covers, chargers, mats, cleaning kits and more.",
+    hero:"https://images.pexels.com/photos/3806241/pexels-photo-3806241.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories:["Interior","Electronics","Cleaning"],
+    materials:["Fabric","Electronics","Kit"],
+    products:[
+      {id:1,title:"All-Weather Seat Covers",price:4999,category:"Interior",material:"Fabric",img:"https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Popular"},
+      {id:2,title:"Fast Charger (USB-C PD)",price:1299,category:"Electronics",material:"Electronics",img:"https://images.pexels.com/photos/66307/charger-power-count-technology-66307.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Hot"},
+      {id:3,title:"Car Care Cleaning Kit",price:799,category:"Cleaning",material:"Kit",img:"https://images.pexels.com/photos/599872/pexels-photo-599872.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"}
+    ]
+  },
+  gifts: {
+    title:"Gift Sets",
+    sub:"Premium packaging, heartwarming picks and festive bundles.",
+    hero:"https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories:["Birthday","Anniversary","Corporate"],
+    materials:["Box","Chocolate","Custom"],
+    products:[
+      {id:1,title:"Spa Gift Hamper",price:2499,category:"Birthday",material:"Box",img:"https://images.pexels.com/photos/34162/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600",badge:"Premium"},
+      {id:2,title:"Gourmet Chocolate Set",price:1599,category:"Anniversary",material:"Chocolate",img:"https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+      {id:3,title:"Corporate Gift Box (Custom)",price:3999,category:"Corporate",material:"Custom",img:"https://images.pexels.com/photos/59456/gift-present-presents-box-59456.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"}
+    ]
+  },
+  books: {
+    title:"Books & Stationery",
+    sub:"Books, journals, pens and study essentials for students and creators.",
+    hero:"https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    categories:["Books","Stationery","Art Supplies"],
+    materials:["Paper","Ink","Paint"],
+    products:[
+      {id:1,title:"Modern JavaScript Book",price:799,category:"Books",material:"Paper",img:"https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"},
+      {id:2,title:"Hardcover Sketchbook",price:499,category:"Stationery",material:"Paper",img:"https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"},
+      {id:3,title:"Artist Watercolor Set",price:1299,category:"Art Supplies",material:"Paints",img:"https://images.pexels.com/photos/205961/pexels-photo-205961.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Popular"}
+    ]
+  }
+};
+
+/* ----------------------
+  State + Helpers
+-------------------------*/
+let CURRENT_THEME = 'sports';
+let DATA = DATASETS[CURRENT_THEME];
+let PRODUCTS = [...DATA.products];
+let CART = JSON.parse(localStorage.getItem('shopease_cart') || '[]');
+let WISH = JSON.parse(localStorage.getItem('shopease_wish') || '[]');
+
+const q = (s) => document.querySelector(s);
+const grid = q('#productsGrid');
+const heroTitle = q('#heroTitle'), heroSub = q('#heroSub'), heroImg = q('#heroImg');
+const categoryFiltersEl = q('#categoryFilters'), materialFiltersEl = q('#materialFilters');
+const activeChipsEl = q('#activeChips');
+const toastEl = q('#toast');
+const miniCartEl = q('#miniCart'), cartItemsEl = q('#cartItems'), cartTotalEl = q('#cartTotal'), cartCountEl = q('#cartCount');
+
+/* ---------- Init / Render ---------- */
+function setTheme(theme){
+  CURRENT_THEME = theme;
+  document.body.setAttribute('data-theme', theme);
+  DATA = DATASETS[theme];
+  PRODUCTS = [...DATA.products];
+  // hero
+  heroTitle.textContent = DATA.title;
+  heroSub.textContent = DATA.sub;
+  heroImg.src = DATA.hero;
+  q('#themePreview').value = theme;
+  // populate filters
+  renderFilters();
+  applyFiltersAndRender();
+}
+function renderFilters(){
+  categoryFiltersEl.innerHTML = '';
+  materialFiltersEl.innerHTML = '';
+  DATA.categories.forEach(cat => {
+    const id = `cat_${cat.replace(/\s+/g,'_')}`;
+    categoryFiltersEl.insertAdjacentHTML('beforeend', `<label><input type="checkbox" data-filter="${cat}"> ${cat}</label>`);
+  });
+  DATA.materials.forEach(mat => {
+    materialFiltersEl.insertAdjacentHTML('beforeend', `<label><input type="checkbox" data-material="${mat}"> ${mat}</label>`);
+  });
+}
+
+/* products rendering */
+function renderProducts(items){
+  grid.innerHTML = '';
+  if(!items.length){ grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--muted); padding:40px">No items match your filters.</div>`; return; }
+  items.forEach(p=>{
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="img">
+        <img src="${p.img}" alt="${escapeHtml(p.title)}" loading="lazy">
+        ${p.badge?`<div class="ribbon">${escapeHtml(p.badge)}</div>`:''}
+      </div>
+      <div class="body">
+        <div class="title">${escapeHtml(p.title)}</div>
+        <div class="meta"><div class="price">₹${format(p.price)}</div><div style="color:var(--muted)">${escapeHtml(p.material)}</div></div>
+        <div class="actions">
+          <button class="btn add" data-id="${p.id}">Add</button>
+          <button class="btn wish" data-id="${p.id}">${WISH.includes(p.id)?'♥':'♡'} Wish</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- Utilities ---------- */
+function format(n){ return Number(n).toLocaleString('en-IN') }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------- Filters & Search ---------- */
+function getActiveFilters(){
+  const cats = Array.from(categoryFiltersEl.querySelectorAll('input:checked')).map(i=>i.dataset.filter).filter(Boolean);
+  const mats = Array.from(materialFiltersEl.querySelectorAll('input:checked')).map(i=>i.dataset.material).filter(Boolean);
+  const priceChips = Array.from(document.querySelectorAll('.chip[data-price].active')).map(b => b.dataset.price);
+  const qText = q('#globalSearch').value.trim().toLowerCase();
+  return {cats, mats, priceChips, qText};
+}
+function applyFiltersAndRender(){
+  const f = getActiveFilters();
+  // update active chips UI
+  updateActiveChips(f);
+  let res = PRODUCTS.filter(p=>{
+    const catMatch = !f.cats.length || f.cats.includes(p.category);
+    const matMatch = !f.mats.length || f.mats.includes(p.material);
+    const priceMatch = !f.priceChips.length || f.priceChips.some(range => {
+      const [lo,hi] = range.split('-').map(Number);
+      return p.price >= lo && p.price <= hi;
+    });
+    const searchMatch = !f.qText || p.title.toLowerCase().includes(f.qText) || (p.material && p.material.toLowerCase().includes(f.qText));
+    return catMatch && matMatch && priceMatch && searchMatch;
+  });
+  const sort = q('#sort').value;
+  if(sort === 'low-high') res.sort((a,b)=>a.price-b.price);
+  else if(sort === 'high-low') res.sort((a,b)=>b.price-a.price);
+  else if(sort === 'popular') res.sort((a,b)=> (b.id - a.id)); // simple
+  renderProducts(res);
+}
+
+/* update chips */
+function updateActiveChips(f){
+  activeChipsEl.innerHTML = '';
+  if(f.qText) activeChipsEl.insertAdjacentHTML('beforeend', `<div class="chip">${escapeHtml(f.qText)} <span data-remove="q">✕</span></div>`);
+  f.cats.forEach(c => activeChipsEl.insertAdjacentHTML('beforeend', `<div class="chip">${escapeHtml(c)} <span data-remove="cat" data-val="${escapeHtml(c)}">✕</span></div>`));
+  f.mats.forEach(m => activeChipsEl.insertAdjacentHTML('beforeend', `<div class="chip">${escapeHtml(m)} <span data-remove="mat" data-val="${escapeHtml(m)}">✕</span></div>`));
+  // price chip visuals are toggled via .active class on those buttons
+}
+
+/* ---------- Cart / Wishlist ---------- */
+function saveCart(){ localStorage.setItem('shopease_cart', JSON.stringify(CART)) }
+function saveWish(){ localStorage.setItem('shopease_wish', JSON.stringify(WISH)) }
+function updateCartUI(){
+  cartCountEl.textContent = CART.length;
+  cartItemsEl.innerHTML = '';
+  let total = 0;
+  CART.forEach((it, idx) => {
+    total += it.price;
+    cartItemsEl.insertAdjacentHTML('beforeend', `
+      <div class="cart-item">
+        <img src="${it.img}" alt="" />
+        <div style="flex:1">
+          <div style="font-weight:700">${escapeHtml(it.title)}</div>
+          <div style="color:var(--muted);font-size:13px">₹${format(it.price)}</div>
+        </div>
+        <div><button onclick="removeFromCart(${idx})" class="chip">Remove</button></div>
+      </div>
+    `);
+  });
+  cartTotalEl.textContent = `₹${format(total)}`;
+}
+
+/* add/remove */
+function addToCartById(id){
+  const p = PRODUCTS.find(x=>x.id==id);
+  if(!p) return;
+  CART.push(p);
+  saveCart();
+  updateCartUI();
+  showToast(`${p.title} added to cart`);
+}
+function removeFromCart(index){
+  CART.splice(index,1);
+  saveCart();
+  updateCartUI();
+}
+
+/* wishlist */
+function toggleWishById(id, btn){
+  const idx = WISH.indexOf(id);
+  if(idx === -1){ WISH.push(id); btn && (btn.textContent='♥ Wish') }
+  else { WISH.splice(idx,1); btn && (btn.textContent='♡ Wish') }
+  saveWish();
+}
+
+/* ---------- Quick view ---------- */
+function openQuick(p){
+  q('#modalImg').src = p.img;
+  q('#modalTitle').textContent = p.title;
+  q('#modalDesc').textContent = `${p.category} • ${p.material} — high quality item.`;
+  q('#modalPrice').textContent = `₹${format(p.price)}`;
+  q('#modalAdd').dataset.id = p.id;
+  q('#modalWish').dataset.id = p.id;
+  q('#quickModal').classList.add('show');
+  q('#quickModal').setAttribute('aria-hidden','false');
+}
+function closeQuick(){
+  q('#quickModal').classList.remove('show');
+  q('#quickModal').setAttribute('aria-hidden','true');
+}
+
+/* ---------- Toast ---------- */
+let toastTimeout;
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(()=> toastEl.classList.remove('show'), 2100);
+}
+
+/* ---------- Events & Delegation ---------- */
+document.addEventListener('click', (e)=>{
+  // theme switcher
+  if(e.target.matches('#themePreview')) return;
+  if(e.target.matches('#themePreview, #themePreview *')) {}
+});
+q('#themePreview').addEventListener('change', (e)=>{
+  setTheme(e.target.value);
+});
+
+q('#globalSearch').addEventListener('input', debounce(()=> applyFiltersAndRender(), 220));
+q('#sort').addEventListener('change', applyFiltersAndRender);
+
+q('#clearFilters').addEventListener('click', ()=>{
+  document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(i=>i.checked=false);
+  document.querySelectorAll('.chip[data-price]').forEach(b=>b.classList.remove('active'));
+  q('#globalSearch').value='';
+  applyFiltersAndRender();
+});
+
+/* chip price toggles */
+document.querySelectorAll('.chip[data-price]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    b.classList.toggle('active');
+    applyFiltersAndRender();
+  });
+});
+
+/* apply button */
+q('#applyBtn').addEventListener('click', applyFiltersAndRender);
+
+/* product actions (delegation) */
+grid.addEventListener('click', (e)=>{
+  const addBtn = e.target.closest('.btn.add');
+  const wishBtn = e.target.closest('.btn.wish');
+  const card = e.target.closest('.card');
+  if(addBtn){
+    const id = Number(addBtn.dataset.id);
+    addToCartById(id);
+    // small animation: change text
+    addBtn.textContent = 'Added ✓';
+    addBtn.disabled = true;
+    setTimeout(()=>{ addBtn.textContent = 'Add'; addBtn.disabled = false }, 900);
+    updateCartUI();
+  } else if(wishBtn){
+    const id = Number(wishBtn.dataset.id);
+    toggleWishById(id, wishBtn);
+  } else if(card){
+    // quick-view on card click except when clicked on button
+    if(!e.target.closest('button')) {
+      const img = card.querySelector('.img img');
+      const title = card.querySelector('.title').textContent;
+      const price = card.querySelector('.price').textContent.replace(/[^0-9]/g,'');
+      openQuick({ img: img.src, title, price: Number(price), category: '—', material: '—', id: Number(card.querySelector('.btn.add')?.dataset.id || 0) });
+    }
+  }
+});
+
+/* quick modal buttons */
+q('#modalClose').addEventListener('click', closeQuick);
+q('#modalAdd').addEventListener('click', (e)=>{ addToCartById(Number(e.target.dataset.id)); });
+q('#modalWish').addEventListener('click', (e)=>{ toggleWishById(Number(e.target.dataset.id)); });
+
+/* cart toggle */
+q('#cartToggle').addEventListener('click', ()=>{
+  miniCartEl.classList.toggle('open');
+  updateCartUI();
+});
+
+/* open quick sample */
+q('#openQuick').addEventListener('click', ()=>{
+  openQuick(PRODUCTS[0]);
+});
+
+/* quick close modal by clicking overlay */
+q('#quickModal').addEventListener('click', (e)=>{ if(e.target===q('#quickModal')) closeQuick(); });
+
+/* load more (for demo just repeat) */
+let loadCount = 0;
+q('#loadMore').addEventListener('click', ()=>{
+  // For demo: append the same set again with new ids
+  const appended = DATA.products.map(p => ({ ...p, id: p.id + (++loadCount*100) }));
+  PRODUCTS.push(...appended);
+  applyFiltersAndRender();
+});
+
+/* active chips remove */
+activeChipsEl.addEventListener('click', (e)=>{
+  const rem = e.target.closest('[data-remove]');
+  if(!rem) return;
+  const type = rem.dataset.remove;
+  if(type === 'q'){ q('#globalSearch').value=''; applyFiltersAndRender(); }
+  else if(type === 'cat'){ const val = rem.dataset.val; Array.from(categoryFiltersEl.querySelectorAll('input')).find(i=>i.dataset.filter===val).checked=false; applyFiltersAndRender(); }
+  else if(type === 'mat'){ const val = rem.dataset.val; Array.from(materialFiltersEl.querySelectorAll('input')).find(i=>i.dataset.material===val).checked=false; applyFiltersAndRender(); }
+});
+
+/* helper: debounce */
+function debounce(fn, t=200){ let to; return function(...a){ clearTimeout(to); to = setTimeout(()=>fn(...a), t)} }
+
+/* escape delegation for product actions in modal */
+document.addEventListener('click', (e)=>{
+  // modal add/wish delegated already
+});
+
+/* ---------- Init app ---------- */
+function init(){
+  // wire up category/material checkboxes to trigger apply
+  categoryFiltersEl.addEventListener('change', e => applyFiltersAndRender());
+  materialFiltersEl.addEventListener('change', e => applyFiltersAndRender());
+  // initial render
+  setTheme(CURRENT_THEME);
+  updateCartUI();
+}
+init();
+
+/* Expose small API for easy duplication as separate pages */
+window.ShopeeAdvanced = {
+  setTheme, applyFiltersAndRender, addToCartById, toggleWishById, DATASETS
+};
+</script>
+</body>
+</html>

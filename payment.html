@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — ShopEase</title>
+
+  <!-- Lottie player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
+  <!-- Feather icons (small) -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1: linear-gradient(135deg,#dbeafe 0%, #e6fffa 45%, #f9f7ff 100%);
+      --glass: rgba(255,255,255,0.16);
+      --glass-2: rgba(255,255,255,0.06);
+      --accent: #286df6;
+      --accent-2: #7c3aed;
+      --muted: #64748b;
+      --success: #06b6a4;
+      --card-shadow: 0 8px 40px rgba(12, 15, 30, 0.08);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent 8%),
+                  radial-gradient(900px 400px at 90% 90%, rgba(40,109,246,0.08), transparent 6%),
+                  var(--bg-1);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#0f1724;
+      min-height:100vh;
+      padding:36px 24px;
+    }
+
+    .wrap { max-width:1100px; margin:0 auto; display:grid; grid-template-columns: 540px 1fr; gap:28px; align-items:start; }
+
+    /* Floating blobs */
+    .bg-blobs { position:fixed; inset:0; pointer-events:none; z-index:0 }
+    .blob {
+      position:absolute; filter:blur(40px); opacity:.45; transform:translate3d(0,0,0);
+    }
+    .blob.b1{width:420px;height:420px;background:linear-gradient(135deg,#7c3aed,#06b6a4);left:-80px;top:-60px}
+    .blob.b2{width:320px;height:320px;background:linear-gradient(135deg,#ff7ab6,#ffb86b);right:-90px;bottom:-90px}
+
+    /* Left column: card */
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.55));
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.6);
+      position:relative;
+      z-index:2;
+    }
+    .panel h2{margin:4px 0 8px; font-size:20px}
+    .muted{color:var(--muted); font-size:13px}
+
+    .order-summary {
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding:12px; border-radius:12px; background: linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.35));
+      border:1px solid rgba(255,255,255,0.5); margin-bottom:16px;
+    }
+
+    .amount { font-weight:800; font-size:20px; color:var(--accent) }
+
+    /* Payment methods */
+    .methods { display:grid; grid-template-columns: repeat(2,1fr); gap:12px; margin-bottom:14px; }
+    .method {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border-radius:12px; padding:14px;
+      display:flex; gap:12px; align-items:center; cursor:pointer; transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .method:hover{ transform:translateY(-6px); box-shadow: 0 20px 40px rgba(2,6,23,0.08) }
+    .method.selected{ outline: 2px solid rgba(40,109,246,0.14); box-shadow:0 30px 60px rgba(40,109,246,0.06) }
+
+    .method .icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); box-shadow:0 6px 18px rgba(2,6,23,0.05) }
+    .method strong { display:block; font-weight:700 }
+    .method span.small { font-size:13px; color:var(--muted) }
+
+    /* Card input area */
+    .card-area { margin-top:12px; border-radius:12px; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04) }
+    .field { display:flex; flex-direction:column; gap:6px; margin-bottom:10px }
+    .field input, .field select { padding:12px 14px; border-radius:10px; border:1px solid rgba(15,23,36,0.06); background: rgba(255,255,255,0.8); font-weight:600; outline:none }
+    .small-help{ font-size:12px; color:var(--muted) }
+
+    /* Right column: details / trust */
+    .side {
+      position:relative; z-index:2;
+      display:flex; flex-direction:column; gap:14px;
+    }
+
+    .card-preview {
+      border-radius:12px; padding:16px; background:linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border:1px solid rgba(255,255,255,0.06); box-shadow:var(--card-shadow);
+      transform-style:preserve-3d; transition:transform .25s ease;
+    }
+    .cc { display:flex; justify-content:space-between; align-items:center }
+    .cc-number{font-weight:800; letter-spacing:2px; font-size:20px}
+    .cc-meta { text-align:right; color:var(--muted) }
+
+    .trust { display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px; margin-top:8px }
+    .trust .badge { display:inline-flex; gap:8px; align-items:center; padding:8px 10px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.03) }
+
+    .pay-btn {
+      margin-top:12px; padding:14px; width:100%; border-radius:12px; border:none; color:#fff; font-weight:800;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      box-shadow: 0 12px 30px rgba(124,58,237,0.12), inset 0 -4px 20px rgba(0,0,0,0.08);
+      cursor:pointer; transform-style:preserve-3d;
+    }
+    .pay-btn[disabled]{ opacity:0.6; cursor:not-allowed }
+
+    /* Sticky bottom bar for mobile */
+    .sticky-bar {
+      position: fixed; left:0; right:0; bottom:18px; display:flex; gap:12px; justify-content:center; z-index:60;
+      pointer-events:none;
+    }
+    .sticky-inner { pointer-events:auto; max-width:1100px; width:95%; display:flex; gap:12px; justify-content:space-between; align-items:center; background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.8)); padding:12px;border-radius:12px; box-shadow:0 18px 40px rgba(2,6,23,0.08) }
+
+    /* Modal */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(2,6,23,0.36); display:flex; align-items:center; justify-content:center; z-index:80; opacity:0; pointer-events:none; transition:opacity .18s }
+    .modal-backdrop.open{ opacity:1; pointer-events:auto }
+    .modal { width:420px; max-width:94%; background:linear-gradient(180deg,#fff,#fbfbff); border-radius:12px; box-shadow:0 20px 48px rgba(2,6,23,0.2); padding:18px; transform:translateY(12px); transition:transform .18s }
+    .modal-backdrop.open .modal{ transform:none }
+
+    /* success */
+    .success-box{ display:flex; gap:12px; align-items:center; padding:14px; border-radius:12px; background:linear-gradient(90deg, rgba(6,182,164,0.12), rgba(124,58,237,0.04)); border:1px solid rgba(6,182,164,0.12) }
+
+    @media(max-width:980px){
+      .wrap{ grid-template-columns: 1fr; padding-bottom:120px }
+      .side{ order:2 }
+      .panel{ order:1 }
+      .sticky-bar{ display:block }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="wrap" role="main">
+    <!-- LEFT: payment panel -->
+    <section class="panel" aria-labelledby="checkoutTitle">
+      <h2 id="checkoutTitle">Secure Checkout</h2>
+      <div class="muted">Complete your purchase — secure, fast, and protected</div>
+
+      <div class="order-summary" id="orderSummary">
+        <div>
+          <div class="muted">Order</div>
+          <div id="orderId" style="font-weight:700">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Payable</div>
+          <div class="amount" id="payAmount">—</div>
+        </div>
+      </div>
+
+      <div class="muted" style="margin-bottom:8px">Choose payment method</div>
+
+      <div class="methods" id="methods">
+        <div class="method selected" data-method="card" tabindex="0">
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+          <div>
+            <strong>Card</strong>
+            <span class="small">Credit / Debit / Apple/Google Pay</span>
+          </div>
+        </div>
+
+        <div class="method" data-method="upi" tabindex="0">
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.6"><path d="M3 7h18"/><path d="M12 21V7"/></svg></div>
+          <div>
+            <strong>UPI / QR</strong>
+            <span class="small">Pay using UPI apps or scan QR</span>
+          </div>
+        </div>
+
+        <div class="method" data-method="wallet" tabindex="0">
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.6"><path d="M21 12v6a2 2 0 0 1-2 2H5"/><path d="M16 6H8v6h8z"/></svg></div>
+          <div>
+            <strong>Wallet / BNPL</strong>
+            <span class="small">PayLater & popular wallets</span>
+          </div>
+        </div>
+
+        <div class="method" data-method="paypal" tabindex="0">
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.6"><path d="M7 7h4l-1 10H7z"/><path d="M12 7h5.5a1.5 1.5 0 0 1 0 3H14"/></svg></div>
+          <div>
+            <strong>PayPal</strong>
+            <span class="small">Pay with PayPal account</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- dynamic method area -->
+      <div id="methodArea" class="card-area">
+        <!-- Default: Card area -->
+        <div id="cardArea">
+          <div class="field">
+            <label class="small-help">Cardholder name</label>
+            <input id="cardName" placeholder="Full name as on card" />
+          </div>
+
+          <div class="field">
+            <label class="small-help">Card details</label>
+            <!--
+              In production replace the mock input below with Stripe Elements:
+              1) Load Stripe.js (https://js.stripe.com/v3/)
+              2) create elements = stripe.elements(); card = elements.create('card');
+              3) card.mount('#cardElement');
+              4) on Pay -> call backend /api/create-payment-intent and confirm with stripe.confirmCardPayment(clientSecret, {payment_method: {card}})
+            -->
+            <div id="cardElement" style="padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fff);">
+              <input id="cardNum" placeholder="4242 4242 4242 4242" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eef2ff;font-weight:700" />
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px">
+            <div style="flex:1" class="field">
+              <label class="small-help">Expiry</label>
+              <input id="cardExp" placeholder="MM/YY" />
+            </div>
+            <div style="width:120px" class="field">
+              <label class="small-help">CVV</label>
+              <input id="cardCvv" placeholder="123" />
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <div class="small-help">Secured by <strong>ShopEase</strong></div>
+            <div class="small-help">3DS & tokenized</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="payNow" class="pay-btn">Pay securely</button>
+
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="trust">
+          <div class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.6"><path d="M12 2l2 5 5 .5-4 3 1 5-4-3-4 3 1-5-4-3L10 7 12 2z"/></svg> <span>PCI Compliant</span></div>
+          <div class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f1724" stroke-width="1.6"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM7 12h10"/></svg> <span>256-bit TLS</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: preview & details -->
+    <aside class="side">
+      <div class="card-preview" id="cardPreview" onmousemove="tiltCard(event)" onmouseleave="resetTilt()">
+        <div class="cc">
+          <div>
+            <div style="font-size:12px;color:var(--muted)">Paying with</div>
+            <div style="font-weight:800;font-size:18px" id="previewMethod">Card</div>
+          </div>
+          <div class="cc-meta">
+            <div id="previewAmount" style="font-weight:800;color:var(--accent);font-size:18px">₹0</div>
+            <div class="muted">Secure</div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="cc-number" id="previewNumber">•••• •••• •••• 4242</div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="muted">Cardholder</div>
+            <div class="muted">Expiry</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <div id="previewName" style="font-weight:700">Guest</div>
+            <div id="previewExp" style="font-weight:700">MM/YY</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>Billing summary</strong><div class="muted" style="font-size:13px">Items & taxes</div></div>
+          <div style="text-align:right">
+            <div id="sumAmount" style="font-weight:800">₹0</div>
+            <div class="muted" style="font-size:13px">incl. taxes</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+          <ul style="padding-left:18px;margin:0">
+            <li id="sumItems">1 × Awesome Mobile</li>
+            <li>GST & service charges included</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          <button class="pay-btn" id="fastPay" style="flex:1;background:linear-gradient(90deg,#06b6a4,#14b8a6)">Fast Pay</button>
+          <button class="pay-btn" id="savePay" style="flex:1;background:linear-gradient(90deg,#7c3aed,#4f46e5)">Save & Pay</button>
+        </div>
+      </div>
+
+      <div class="panel" style="display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>Need help?</strong><div class="muted" style="font-size:13px">24/7 support</div></div>
+         <div>
+  <button class="pay-btn" style="background:#111;padding:8px 10px;border-radius:10px" 
+          id="helpBtn"
+          onclick="location.href='support.html'">
+    Chat
+  </button>
+</div>
+
+        </div>
+
+        <div style="margin-top:12px" class="muted">We protect your payment. Click pay to proceed — you will be redirected to your chosen provider if required.</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Sticky mobile checkout -->
+  <div class="sticky-bar" aria-hidden="true">
+    <div class="sticky-inner" role="region" aria-label="quick-checkout">
+      <div>
+        <div style="font-size:13px;color:var(--muted)">Total</div>
+        <div style="font-weight:800;font-size:18px" id="stickyTotal">₹0</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="pay-btn" id="stickyPay" style="width:160px">Pay now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for UPI / QR / Success -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-hidden="true">
+    <div class="modal" id="modalContent">
+      <!-- content inserted programmatically -->
+    </div>
+  </div>
+
+<script>
+/* ---------- Startup & helpers ---------- */
+feather.replace();
+
+const API_BASE = ''; // set if backend on different origin
+// Read orderId & amount from query (or you can set programmatically)
+const params = new URLSearchParams(location.search);
+let orderId = params.get('orderId') || 'ORD_'+Date.now();
+let amount = params.get('amount') ? Number(params.get('amount')) : 199900; // paise units: 1999.00 => 199900
+// normalize amount display (rupees)
+function money(paise){ return '₹' + (paise/100).toLocaleString('en-IN', {minimumFractionDigits: paise%100 ? 2:0}); }
+
+document.getElementById('orderId').textContent = orderId;
+document.getElementById('payAmount').textContent = money(amount);
+document.getElementById('previewAmount').textContent = money(amount);
+document.getElementById('sumAmount').textContent = money(amount);
+document.getElementById('stickyTotal').textContent = money(amount);
+
+/* Method selection wiring */
+const methods = Array.from(document.querySelectorAll('.method'));
+const methodArea = document.getElementById('methodArea');
+const previewMethod = document.getElementById('previewMethod');
+
+methods.forEach(m=>{
+  m.addEventListener('click', ()=>selectMethod(m.dataset.method, m));
+  m.addEventListener('keydown', (e)=>{ if(e.key==='Enter') selectMethod(m.dataset.method, m); });
+});
+
+let selectedMethod = 'card';
+function selectMethod(name, elem){
+  methods.forEach(x=>x.classList.remove('selected'));
+  elem.classList.add('selected');
+  selectedMethod = name;
+  previewMethod.textContent = (name === 'card' ? 'Card' : name.toUpperCase());
+  // render area
+  renderMethodArea(name);
+}
+
+/* Render method area (smooth animation) */
+function renderMethodArea(name){
+  methodArea.innerHTML = '';
+  if(name === 'card'){
+    const html = document.getElementById('cardArea').outerHTML;
+    methodArea.innerHTML = html;
+    // wire simple preview updates
+    const cardName = document.getElementById('cardName') || document.querySelector('#methodArea #cardName');
+    const cardNum = document.getElementById('cardNum') || document.querySelector('#methodArea #cardNum');
+    const cardExp = document.getElementById('cardExp') || document.querySelector('#methodArea #cardExp');
+    const previewName = document.getElementById('previewName');
+    const previewNumber = document.getElementById('previewNumber');
+    const previewExp = document.getElementById('previewExp');
+
+    if(cardName){ cardName.addEventListener('input', ()=> previewName.textContent = cardName.value || 'Guest'); }
+    if(cardNum){ cardNum.addEventListener('input', ()=> {
+      let v = cardNum.value.replace(/\D/g,'').padEnd(16,'•');
+      v = v.match(/.{1,4}/g).slice(0,4).join(' ');
+      previewNumber.textContent = v;
+    }) }
+    if(cardExp){ cardExp.addEventListener('input', ()=> previewExp.textContent = cardExp.value || 'MM/YY'); }
+  } else if(name === 'upi'){
+    methodArea.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="small-help">Pay via UPI — choose your app</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="pay-btn" id="upiPay">Pay with UPI App</button>
+          <button class="pay-btn" id="upiQR" style="background:#fff;color:#111;border:1px solid #eee">Show QR</button>
+        </div>
+        <div class="muted" style="margin-top:6px">You will be redirected to your UPI app or shown a QR to scan.</div>
+      </div>`;
+    document.getElementById('upiPay').onclick = doUPI;
+    document.getElementById('upiQR').onclick = showQR;
+  } else if(name === 'wallet'){
+    methodArea.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="small-help">Choose wallet / BNPL provider</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="pay-btn" id="walletPay" style="background:linear-gradient(90deg,#ff8a65,#ffb36b)">Pay with Wallet</button>
+          <button class="pay-btn" id="bnplPay" style="background:linear-gradient(90deg,#7c3aed,#4f46e5)">Pay Later (BNPL)</button>
+        </div>
+      </div>`;
+    document.getElementById('walletPay').onclick = doWallet;
+    document.getElementById('bnplPay').onclick = doBNPL;
+  } else if(name === 'paypal'){
+    methodArea.innerHTML = `<div class="small-help">You will be redirected to PayPal to complete the payment securely.</div>
+      <div style="margin-top:8px"><button class="pay-btn" id="paypalBtn">Pay with PayPal</button></div>`;
+    document.getElementById('paypalBtn').onclick = doPayPal;
+  }
+}
+
+// default render
+renderMethodArea('card');
+
+/* ---------- Actions ---------- */
+document.getElementById('payNow').addEventListener('click', () => triggerPayment(false));
+document.getElementById('stickyPay').addEventListener('click', () => triggerPayment(false));
+document.getElementById('fastPay').addEventListener('click', () => triggerPayment(true));
+document.getElementById('savePay').addEventListener('click', () => triggerPayment(false));
+
+/* Payment flows (mock + integration points) */
+async function triggerPayment(isFast){
+  disableUI(true);
+  showToast('Processing payment...', {type:'loading'});
+
+  try{
+    if(selectedMethod === 'card'){
+      // Example: call backend to create PaymentIntent and get client_secret,
+      // then confirm using Stripe.js.
+      // For demo: we show success after delay.
+
+      // ---- Integration notes:
+      // POST /api/create-payment-intent { orderId } -> returns { clientSecret }
+      // Load Stripe.js, stripe.confirmCardPayment(clientSecret, {payment_method: {card}})
+      await sleep(900);
+      successUI({tranId:'TXN_'+Date.now(), provider:'stripe'});
+    } else if(selectedMethod === 'upi'){
+      // call backend to create UPI order (Razorpay or provider)
+      // POST /api/create-razorpay-order { orderId } -> returns rzp.options or deeplink
+      await sleep(800);
+      // show QR modal
+      showModalQR();
+    } else if(selectedMethod === 'wallet'){
+      await sleep(700);
+      // Show wallet success trial
+      successUI({tranId:'WALLET_'+Date.now(), provider:'wallet'});
+    } else if(selectedMethod === 'paypal'){
+      // create server side PayPal order and redirect
+      // POST /api/create-paypal-order { orderId } -> returns redirectUrl
+      await sleep(600);
+      // Demo redirect simulation: open modal success
+      successUI({tranId:'PP_'+Date.now(), provider:'paypal'});
+    }
+  } catch(err){
+    console.error(err);
+    showToast('Payment failed: ' + (err.message || 'Unknown'), {type:'error'});
+    disableUI(false);
+  }
+}
+
+/* UI helpers */
+function disableUI(v){
+  document.querySelectorAll('button, input, select').forEach(el => el.disabled = v);
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+function showToast(msg, {type='info'} = {}){ 
+  // simple ephemeral message at top
+  const t = document.createElement('div');
+  t.style.position='fixed'; t.style.left='50%'; t.style.top='28px'; t.style.transform='translateX(-50%)';
+  t.style.background='rgba(0,0,0,0.8)'; t.style.color='#fff'; t.style.padding='10px 16px'; t.style.borderRadius='10px';
+  t.style.zIndex = 9999; t.style.fontWeight=700; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=> t.style.opacity = '0', 1800);
+  setTimeout(()=> t.remove(), 2200);
+}
+
+/* Modal & UPI */
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modalContent');
+
+function showModal(html){
+  modalContent.innerHTML = html;
+  modal.classList.add('open');
+}
+function hideModal(){ modal.classList.remove('open'); }
+
+/* show QR for UPI */
+function showModalQR(){
+  showModal(`
+    <div style="text-align:center">
+      <h3>Scan to Pay (UPI)</h3>
+      <div style="margin:14px auto; width:200px; height:200px; background:#fff; display:flex;align-items:center;justify-content:center;border-radius:12px">
+        <!-- Replace with server-generated QR image -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=demo@upi&amp;pn=ShopEase" alt="qr">
+      </div>
+      <div style="margin-top:8px" class="muted">Open your UPI app and scan the QR or click the button to launch your app.</div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="pay-btn" id="confirmUpiPay">I have paid</button>
+        <button class="pay-btn" style="background:#fff;color:#222;border:1px solid #eee" id="cancelUpi">Cancel</button>
+      </div>
+    </div>
+  `);
+  document.getElementById('confirmUpiPay').onclick = ()=> { hideModal(); successUI({tranId:'UPI_'+Date.now(), provider:'upi'}); };
+  document.getElementById('cancelUpi').onclick = hideModal;
+}
+
+/* doUPI / showQR / wallet / BNPL / paypal mocks */
+function doUPI(){ showModalQR(); }
+function showQR(){ showModalQR(); }
+function doWallet(){ successUI({tranId:'WALLET_'+Date.now(), provider:'wallet'}); }
+function doBNPL(){ successUI({tranId:'BNPL_'+Date.now(), provider:'bnpl'}); }
+function doPayPal(){ successUI({tranId:'PP_'+Date.now(), provider:'paypal'}); }
+
+/* success UI */
+function successUI(info){
+  disableUI(false);
+  showToast('Payment Completed ✔', {type:'success'});
+  // show success modal with Lottie
+  showModal(`
+    <div style="text-align:center">
+      <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_jbrw3hcz.json"  background="transparent"  speed="1"  style="width:180px; height:180px;"  loop  autoplay></lottie-player>
+      <h3>Payment successful</h3>
+      <p class="muted">Transaction ID: <strong>${info.tranId}</strong></p>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+        <button class="pay-btn" onclick="onSuccessViewOrder()">View Order</button>
+        <button class="pay-btn" style="background:#fff;color:#111;border:1px solid #eee" onclick="onSuccessClose()">Continue shopping</button>
+      </div>
+    </div>
+  `);
+  // trigger backend confirm webhook or finalization here in real flow:
+  // fetch('/api/confirm-payment',{method:'POST',body: JSON.stringify({orderId, tranId: info.tranId})});
+}
+
+function onSuccessViewOrder(){ hideModal(); location.href = '/order-success.html?orderId=' + encodeURIComponent(orderId); }
+function onSuccessClose(){ hideModal(); location.href = '/mobiles.html'; }
+
+/* card tilt effect */
+function tiltCard(e){
+  const el = document.getElementById('cardPreview');
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+  const dx = e.clientX - cx;
+  const dy = e.clientY - cy;
+  const tiltX = (dy / rect.height) * -8;
+  const tiltY = (dx / rect.width) * 10;
+  el.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(8px)`;
+}
+function resetTilt(){ document.getElementById('cardPreview').style.transform = 'none'; }
+
+/* close modal on backdrop click */
+modal.addEventListener('click', (e)=>{ if(e.target === modal) hideModal(); });
+
+</script>
+</body>
+</html>

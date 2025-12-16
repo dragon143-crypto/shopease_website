@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids' Fashion</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #fff7e6;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #ffcc00, #ff6699);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* HERO BANNER */
+    .hero {
+      background: url('https://anakoskaphotography.com/wp-content/uploads/2018/09/professional-picture-of-a-cute-baby-boy-in-white.jpg') no-repeat center/cover;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      border-bottom: 5px solid #ffcc00;
+    }
+
+    /* PRODUCTS SECTION */
+    .products-section {
+      padding: 50px 5%;
+    }
+
+    .products-section h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff6699;
+    }
+
+    /* GRID LAYOUT */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    /* PRODUCT CARD */
+    .product-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      border: 2px dashed #ffcc00;
+    }
+
+    .product-card:hover {
+      transform: rotate(-2deg) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card img:hover {
+      transform: scale(1.1);
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff6699;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .product-name {
+      margin: 15px 0 5px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 1.1rem;
+      color: #ff6600;
+      font-weight: bold;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn.cart { background: #ffcc00; color: #333; }
+    .btn.buy { background: #ff6699; color: white; }
+    .btn.save { background: #00cc99; color: white; }
+
+    .btn:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header>🧸 Kids' Fashion</header>
+
+  <div class="hero">
+    <p>Playful & Colorful Styles</p>
+  </div>
+
+  <section class="products-section">
+    <h2>Top Picks for Kids</h2>
+    <div class="products-grid">
+      
+      <!-- Product 1 -->
+      <div class="product-card">
+        <span class="discount-badge">-25%</span>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaBrDUfCgM4d6xSExjKiXBlBPfoUcPIc4NxA&s" alt="Kids T-shirt">
+        <h3 class="product-name">Colorful T-Shirt</h3>
+        <p class="price">$19.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <span class="discount-badge">-30%</span>
+        <img src="https://images-cdn.ubuy.co.in/66e3127ae73098540f227e64-winter-down-coats-for-kids-baby-boys.jpg" alt="Kids Jacket">
+      
+        <h3 class="product-name">Winter Jacket</h3>
+        <p class="price">$39.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <span class="discount-badge">-20%</span>
+        <img src="https://onyc.in/cdn/shop/files/LMC9632.jpg?v=1732952362&width=2048" alt="Kids Shoes">
+        
+        <h3 class="product-name">Comfy Sneakers</h3>
+        <p class="price">$24.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <span class="discount-badge">-15%</span>
+        <img src="https://m.media-amazon.com/images/I/51AyNmonhWL._UY1100_.jpg" alt="Kids Cap">
+        <h3 class="product-name">Cute Cap</h3>
+        <p class="price">$9.99</p>
+        <div class="btn-group">
+          <button class="btn cart">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+          <button class="btn save">Save</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

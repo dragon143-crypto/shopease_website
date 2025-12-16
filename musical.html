@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ShopEase — Musical Instruments</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0210;--panel:#12041a;--accent:#c79bff;--accent2:#ffd38a;--muted:#a99fb2}
+*{box-sizing:border-box}body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#060009,#12041a);color:#f6f2ff}
+header{position:sticky;top:0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--accent);font-weight:700}
+.hero{height:350px;padding:36px 6%;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-20px;width:420px;height:420px;background:radial-gradient(circle,rgba(199,155,255,0.12),transparent);filter:blur(40px)}
+.hero-title{font-size:36px;color:#fff;margin:0}
+.hero-sub{color:var(--muted)}
+.wave{position:absolute;left:3%;bottom:10%;width:80%;height:90px;background:linear-gradient(90deg,transparent,rgba(199,155,255,0.06),transparent);border-radius:50px;filter:blur(12px);transform:translateY(0);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+.layout{display:flex;gap:20px;padding:28px 6%}
+.sidebar{width:260px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.area{flex:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.search{flex:1;background:rgba(255,255,255,0.02);padding:8px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:0;overflow:hidden;border:1px solid rgba(255,255,255,0.03);transition:transform .28s,box-shadow .28s}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(199,155,255,0.06)}
+.imgwrap{height:160px;position:relative}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .45s}
+.card:hover img{transform:scale(1.06) rotate(-1deg)}
+.ribbon{position:absolute;top:10px;left:0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#12041a;padding:6px 10px;border-radius:0 6px 6px 0;font-weight:700}
+.card-body{padding:12px}
+.title{font-weight:700}
+.meta{display:flex;justify-content:space-between;color:var(--muted)}
+.actions{display:flex;gap:8px;margin-top:10px}
+.add{background:linear-gradient(90deg,var(--accent),#ffd38a);border:0;padding:8px;border-radius:8px;color:#12041a;font-weight:700}
+.wish{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--muted)}
+footer{padding:24px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header><div class="brand">🎵 ShopEase — Musical Instruments</div><div id="cart-num">🛒 0</div></header>
+
+<section class="hero">
+  <div style="width:60%">
+    <h2 class="hero-title">Sound. Craft. Soul.</h2>
+    <p class="hero-sub">Guitars, keyboards, percussion & studio gear — curated for musicians.</p>
+  </div>
+  <div style="flex:1;display:flex;justify-content:flex-end">
+    <img src="https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" style="width:320px;height:220px;border-radius:14px;object-fit:cover;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
+  </div>
+  <div class="wave"></div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Filters</h3>
+    <div><strong>Instrument</strong>
+      <label><input type="checkbox" class="f" data-filter="guitar"> Guitar</label>
+      <label><input type="checkbox" class="f" data-filter="keyboard"> Keyboard</label>
+      <label><input type="checkbox" class="f" data-filter="drum"> Drums</label>
+    </div>
+  </aside>
+
+  <main class="area">
+    <div class="topbar">
+      <div class="search"><input id="q" placeholder="Search instruments..."></div>
+      <div class="badge" id="activeFilters">All items</div>
+    </div>
+
+    <section id="productsGrid" class="grid"></section>
+    <div id="emptyState" style="display:none;padding:30px;text-align:center;color:var(--muted)">No items</div>
+  </main>
+</div>
+
+<footer>© 2025 ShopEase — Instruments</footer>
+
+<script>
+const PRODUCTS=[
+  {id:1,title:"Acoustic Guitar (Dreadnought)",category:"guitar",price:9999,material:"spruce",img:"https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"New"},
+  {id:2,title:"88-Key Digital Piano",category:"keyboard",price:35999,material:"wood",img:"https://images.pexels.com/photos/164832/pexels-photo-164832.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Premium"},
+  {id:3,title:"Drum Set Starter Pack",category:"drum",price:14999,material:"metal",img:"https://images.pexels.com/photos/210152/pexels-photo-210152.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Bestseller"}
+];
+
+let cart=JSON.parse(localStorage.getItem('music_cart')||'[]'), wish=JSON.parse(localStorage.getItem('music_wish')||'[]');
+const grid=document.getElementById('productsGrid'), q=document.getElementById('q');
+
+function format(n){return n.toLocaleString()}
+function render(items){grid.innerHTML=''; if(!items.length){document.getElementById('emptyState').style.display='block';return} document.getElementById('emptyState').style.display='none';
+  items.forEach(p=>{ const card=document.createElement('div'); card.className='card'; card.innerHTML=`
+    <div class="imgwrap"><img src="${p.img}" alt="${p.title}">${p.badge?`<div class="ribbon">${p.badge}</div>`:''}</div>
+    <div class="card-body"><div class="title">${p.title}</div><div class="meta"><div>₹${format(p.price)}</div><div style="color:var(--muted)">${p.material}</div></div>
+    <div class="actions"><button class="add" onclick="add(${p.id})">Add</button><button class="wish" onclick="twish(${p.id},this)">${wish.includes(p.id)?'♥':'♡'} Wish</button></div></div>`; grid.appendChild(card); });
+}
+function add(id){ cart.push(PRODUCTS.find(p=>p.id===id)); localStorage.setItem('music_cart',JSON.stringify(cart)); update(); }
+function twish(id,btn){ const i=wish.indexOf(id); if(i===-1){wish.push(id);btn.textContent='♥ Wish'}else{wish.splice(i,1);btn.textContent='♡ Wish'} localStorage.setItem('music_wish',JSON.stringify(wish)); update(); }
+function update(){ document.getElementById('cart-num').textContent = `🛒 ${cart.length}` }
+function apply(){ const term=q.value.toLowerCase(); const cats=[...document.querySelectorAll('.f:checked')].map(e=>e.dataset.filter).filter(Boolean); render(PRODUCTS.filter(p=>(!cats.length||cats.includes(p.category))&&(!term||p.title.toLowerCase().includes(term))))}
+document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',apply)); q.addEventListener('input',()=>setTimeout(apply,150));
+update(); render(PRODUCTS);
+</script>
+</body>
+</html>

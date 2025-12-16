@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accessories Shop — Colorful & Animated</title>
+  <style>
+    :root{
+      --bg:#101820;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.05);
+      --accent1:#ff6f61;
+      --accent2:#fddb3a;
+      --accent3:#1dd3b0;
+      --accent4:#a29bfe;
+      --text:#f5f7fa;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#0a0f29,#102438);color:var(--text);}
+
+    header{padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent3),var(--accent4));display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,0.5)}
+    .brand h1{font-size:20px;margin:0}
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{padding:10px 14px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:var(--text);min-width:220px}
+    .select,.button{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.04));border:1px solid rgba(255,255,255,0.05);color:var(--text)}
+    .button{cursor:pointer}
+
+    .top-deals{margin:12px 28px;padding:18px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));display:flex;justify-content:space-between;align-items:center;gap:16px;animation:neon 3s infinite}
+    @keyframes neon{0%{border-left:6px solid transparent}50%{border-left:6px solid var(--accent1)}100%{border-left:6px solid transparent}}
+    .top-deals h2{margin:0;font-size:18px}
+    .top-deals p{margin:4px 0 0;color:rgba(245,247,250,0.7)}
+    .cta-btn{background:linear-gradient(90deg,var(--accent1),#ff9966);padding:10px 16px;border-radius:10px;color:#fff;border:none;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(255,111,97,0.2)}
+
+    main{padding:20px 28px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+
+    .card{background:var(--card-bg);padding:12px;border-radius:12px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 6px 24px rgba(0,0,0,0.5);transform:translateY(30px);opacity:0;animation:fadeInUp .6s forwards}
+    @keyframes fadeInUp{to{transform:none;opacity:1}}
+    .thumb{height:140px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:10px;padding:12px}
+    .thumb img{max-height:110px;max-width:100%;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.6);transition:transform .4s ease}
+    .card:hover .thumb img{transform:scale(1.08)}
+    h3{margin:10px 0 6px;font-size:15px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700}
+    .stock{font-size:12px;color:rgba(245,247,250,0.7)}
+    .actions{display:flex;gap:8px;margin-top:10px}
+    .buy{flex:1;padding:10px;border-radius:8px;background:linear-gradient(90deg,var(--accent3),var(--accent4));color:#fff;border:none;cursor:pointer;font-weight:700}
+    .wish{padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.1);cursor:pointer}
+    .ribbon{position:absolute;left:-38px;top:16px;transform:rotate(-18deg);background:linear-gradient(90deg,var(--accent2),#ff85d0);padding:6px 56px;border-radius:6px;color:#101820;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+
+    .footer{padding:18px 28px;text-align:center;color:rgba(245,247,250,0.65)}
+    @media(max-width:640px){.controls{flex-direction:column;align-items:flex-start}.search{min-width:100%}}
+    .blob{position:fixed;right:-120px;bottom:-120px;width:340px;height:340px;border-radius:50%;filter:blur(60px);opacity:0.12;background:conic-gradient(from 180deg,var(--accent1),var(--accent2),var(--accent3));pointer-events:none}
+  </style>
+</head>
+<body>
+  <div class="blob" aria-hidden></div>
+  <header>
+    <div class="brand">
+      <div class="logo">AS</div>
+      <div>
+        <h1>Accessories Store</h1>
+        <div style="font-size:12px;color:rgba(245,247,250,0.65)">Mobiles • Tablets • Gadgets</div>
+      </div>
+    </div>
+    <div class="controls">
+      <input id="search" class="search" placeholder="Search accessories..." />
+      <select id="sort" class="select">
+        <option value="pop">Sort: Popular</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+      </select>
+      <button id="shuffle" class="button">Shuffle Colors</button>
+    </div>
+  </header>
+
+  <div class="top-deals">
+    <div>
+      <h2>Hot Accessory Deals</h2>
+      <p>Flat upto <strong>40% OFF</strong> • Large stock available • Free shipping</p>
+    </div>
+    <button class="cta-btn" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+  </div>
+
+  <main>
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <div class="footer">Showing <span id="count">0</span> accessories • Plenty of stock (100 each)</div>
+
+  <template id="tpl">
+    <div class="card">
+      <div class="ribbon">HOT</div>
+      <div class="thumb"><img src="" alt="accessory"/></div>
+      <h3 class="title">Accessory</h3>
+      <div class="meta">
+        <div>
+          <div class="price">₹<span class="price-val">0</span></div>
+          <div class="stock">100 in stock</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:rgba(245,247,250,0.6)">4.5 ★</div>
+          <div style="font-size:12px;color:rgba(245,247,250,0.55)">10 reviews</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="buy">Buy Now</button>
+        <button class="wish">♡</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const grid=document.getElementById('grid');
+    const tpl=document.getElementById('tpl');
+    const count=document.getElementById('count');
+    const search=document.getElementById('search');
+    const sort=document.getElementById('sort');
+    const shuffle=document.getElementById('shuffle');
+
+    const items=Array.from({length:100}).map((_,i)=>{
+      const price=200+Math.floor(Math.random()*3000);
+      return{
+        id:i+1,
+        name:`Accessory ${i+1}`,
+        price,
+        rating:(3.5+Math.random()*1.5).toFixed(1),
+        reviews:Math.floor(5+Math.random()*120),
+        colorSeed:Math.floor(Math.random()*360),
+        discount:Math.random()>0.5?Math.floor(5+Math.random()*40):0
+      }
+    });
+
+    function svgImage(name,seed){
+      const c1=`hsl(${seed} 80% 60%)`;
+      const c2=`hsl(${(seed+30)%360} 85% 55%)`;
+      const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='360'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='100%' height='100%' rx='20' fill='url(%23g)'/><text x='40' y='200' font-size='28' font-family='Segoe UI,Roboto,Arial' fill='white'>${name}</text></svg>`;
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+    }
+
+    function render(list){
+      grid.innerHTML='';
+      list.forEach((it,idx)=>{
+        const clone=tpl.content.cloneNode(true);
+        const ribbon=clone.querySelector('.ribbon');
+        if(it.discount>0){
+          ribbon.textContent=`${it.discount}% OFF`;
+        } else ribbon.style.display='none';
+        clone.querySelector('img').src=svgImage(it.name,it.colorSeed);
+        clone.querySelector('.title').textContent=it.name;
+        clone.querySelector('.price-val').textContent=it.price;
+        clone.querySelector('.buy').addEventListener('click',()=>{
+          window.location.href=`buy.html?item=${it.id}&name=${encodeURIComponent(it.name)}&price=${it.price}`;
+        });
+        clone.querySelector('.wish').addEventListener('click',e=>{e.target.textContent='♥';e.target.disabled=true});
+        grid.appendChild(clone);
+      });
+      count.textContent=list.length;
+    }
+
+    render(items);
+
+    search.addEventListener('input',()=>{
+      const q=search.value.toLowerCase();
+      let filtered=items.filter(it=>it.name.toLowerCase().includes(q));
+      applySort(filtered);
+    });
+
+    sort.addEventListener('change',()=>{
+      applySort(items.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase())));
+    });
+
+    function applySort(list){
+      const val=sort.value;
+      const copy=[...list];
+      if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
+      else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
+      else copy.sort((a,b)=>a.id-b.id);
+      render(copy);
+    }
+
+    shuffle.addEventListener('click',()=>{
+      items.forEach(it=>it.colorSeed=Math.floor(Math.random()*360));
+      applySort(items);
+    });
+  </script>
+</body>
+</html>
