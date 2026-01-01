@@ -119,7 +119,7 @@
 
 
 <!-- Sign In Button -->
-<a href="signin.html" class="signin-btn" data-lang="signin">Sign In</a>
+<a href="login.html" class="signin-btn" data-lang="signin">login</a>
 
   </div>
 
@@ -156,7 +156,7 @@
 /* SEARCH BAR */
 .pro-search {
   flex: 1;
-  max-width: 520px;
+  max-width: 650px;
   display: flex;
   align-items: center;
   background: #f1f3f6;
@@ -341,147 +341,6 @@
 
 
 </style>
-<script>
-
-/* ================== PROFILE DROPDOWN ================== */
-document.querySelector(".profile-btn").addEventListener("click", () => {
-  const menu = document.querySelector(".profile-menu");
-  menu.style.display = menu.style.display === "block" ? "none" : "block";
-});
-
-// Close profile menu when clicked outside
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".profile-wrapper")) {
-    document.querySelector(".profile-menu").style.display = "none";
-  }
-});
-
-
-/* ================== DYNAMIC SEARCH RESULTS ================== */
-
-const products = [
-  { name: "iPhone 15 Pro", link: "products.html#iphone15" },
-  { name: "Samsung S24", link: "products.html#samsungs24" },
-  { name: "Smartwatch", link: "products.html#smartwatch" },
-  { name: "Laptop Bag", link: "products.html#laptopbag" },
-  { name: "Boat Airdopes", link: "products.html#airdopes" },
-  { name: "Sony Camera", link: "products.html#sonycamera" }
-];
-
-const searchInput = document.getElementById("searchInput");
-const searchResults = document.getElementById("searchResults");
-
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase().trim();
-  searchResults.innerHTML = "";
-
-  if (!query) {
-    searchResults.style.display = "none";
-    return;
-  }
-
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(query)
-  );
-
-  if (filtered.length === 0) {
-    searchResults.style.display = "none";
-    return;
-  }
-
-  filtered.forEach(item => {
-    const div = document.createElement("div");
-    div.textContent = item.name;
-    div.onclick = () => {
-      searchInput.value = item.name;
-      searchResults.style.display = "none";
-      window.location.href = item.link;
-    };
-    searchResults.appendChild(div);
-  });
-
-  searchResults.style.display = "block";
-});
-
-// Close search results when clicked outside
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".pro-search")) {
-    searchResults.style.display = "none";
-  }
-});
-
-
-/* ================== VOICE SEARCH ================== */
-document.getElementById("voiceBtn").onclick = () => {
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    searchInput.value = event.results[0][0].transcript;
-  };
-};
-
-
-/* ================== LANGUAGE ENGINE ================== */
-
-const dictionary = {
-  en: {
-    brand: "ShopEase",
-    search_placeholder: "Search for products, brands and more...",
-    orders: "My Orders",
-    wishlist: "Wishlist",
-    account: "Account Settings",
-    logout: "Logout",
-    signin: "Sign In"
-  },
-
-  hi: {
-    brand: "शॉपईज़",
-    search_placeholder: "उत्पाद, ब्रांड और अधिक खोजें...",
-    orders: "मेरे ऑर्डर",
-    wishlist: "विशलिस्ट",
-    account: "खाता सेटिंग्स",
-    logout: "लॉग आउट",
-    signin: "साइन इन"
-  },
-
-  te: {
-    brand: "షాప్ ఈజ్",
-    search_placeholder: "ఉత్పత్తులు, బ్రాండ్లు మరియు మరిన్ని శోధించండి...",
-    orders: "నా ఆర్డర్లు",
-    wishlist: "విష్‌లిస్ట్",
-    account: "ఖాతా సెట్టింగ్స్",
-    logout: "లాగ్ అవుట్",
-    signin: "సైన్ ఇన్"
-  },
-
-  ta: {
-    brand: "ஷாப் ஈஸ்",
-    search_placeholder: "பொருட்கள், பிராண்டுகள் மற்றும் பல தேடுங்கள்...",
-    orders: "என் ஆர்டர்கள்",
-    wishlist: "விருப்பப் பட்டியல்",
-    account: "கணக்கு அமைப்புகள்",
-    logout: "லாக் அவுட்",
-    signin: "உள்நுழை"
-  }
-};
-
-document.getElementById("langChange").addEventListener("change", function () {
-  const lang = this.value;
-
-  document.querySelectorAll("[data-lang]").forEach(el => {
-    const key = el.getAttribute("data-lang");
-
-    if (key === "search_placeholder") {
-      el.placeholder = dictionary[lang][key];
-    } else {
-      el.innerText = dictionary[lang][key];
-    }
-  });
-});
-
-</script>
 
 <!-- CATEGORY BAR -->
 <nav class="category-bar">
@@ -511,7 +370,7 @@ document.getElementById("langChange").addEventListener("change", function () {
         </li>
 
         <li class="submenu-item">
-          <a href="funzone.html" class="submenu-link">Tablets</a>
+          <a href="#" class="submenu-link">Tablets</a>
           <ul class="sub-dropdown">
             <li class="title">More in Tablets</li>
             <li><a href="#">All Tablets</a></li>
@@ -1758,51 +1617,6 @@ document.getElementById("langChange").addEventListener("change", function () {
     <!-- Dots -->
     <div class="dots" id="dots"></div>
   </div>
-
-  <script>
-    const slides = document.getElementById("slides");
-    const totalSlides = slides.children.length;
-    let index = 0;
-
-    // Dots
-    const dotsContainer = document.getElementById("dots");
-    for (let i = 0; i < totalSlides; i++) {
-      let dot = document.createElement("span");
-      if (i === 0) dot.classList.add("active");
-      dot.addEventListener("click", () => goToSlide(i));
-      dotsContainer.appendChild(dot);
-    }
-    const dots = dotsContainer.children;
-
-    function updateDots() {
-      [...dots].forEach(dot => dot.classList.remove("active"));
-      dots[index].classList.add("active");
-    }
-
-    function showSlide() {
-      slides.style.transform = `translateX(-${index * 100}%)`;
-      updateDots();
-    }
-
-    function nextSlide() {
-      index = (index + 1) % totalSlides;
-      showSlide();
-    }
-
-    function prevSlide() {
-      index = (index - 1 + totalSlides) % totalSlides;
-      showSlide();
-    }
-
-    function goToSlide(i) {
-      index = i;
-      showSlide();
-    }
-
-    // Auto slide
-    setInterval(nextSlide, 5000);
-  </script>
-
 <!-- 🌟 Floating AI Assistant -->
 <div id="ai-assistant">
   <div id="ai-header">
@@ -1972,69 +1786,6 @@ document.getElementById("langChange").addEventListener("change", function () {
 }
 </style>
 
-<script>
-const ai = document.getElementById("ai-assistant");
-const toggleBtn = document.getElementById("ai-toggle");
-const messagesContainer = document.getElementById("ai-messages");
-const aiInput = document.getElementById("ai-input");
-const aiSend = document.getElementById("ai-send");
-
-function toggleAI() {
-  ai.classList.toggle("show");
-}
-
-// Send message and AI reply
-aiSend.addEventListener("click", sendAIMessage);
-aiInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendAIMessage();
-});
-
-function sendAIMessage() {
-  const text = aiInput.value.trim();
-  if (!text) return;
-
-  // Add user message
-  const userMsg = document.createElement("div");
-  userMsg.classList.add("ai-message", "user");
-  userMsg.textContent = text;
-  messagesContainer.appendChild(userMsg);
-  aiInput.value = "";
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-  // AI Thinking delay
-  setTimeout(() => {
-    const botMsg = document.createElement("div");
-    botMsg.classList.add("ai-message", "bot");
-    botMsg.textContent = getAIResponse(text);
-    messagesContainer.appendChild(botMsg);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }, 700);
-}
-
-// Smarter contextual replies
-function getAIResponse(input) {
-  const msg = input.toLowerCase();
-  if (msg.includes("hello") || msg.includes("hi")) 
-    return "👋 Hello! How can I assist you today on ShopEase?";
-  if (msg.includes("order")) 
-    return "🛒 You can check your orders in the Profile > My Orders section.";
-  if (msg.includes("return") || msg.includes("refund")) 
-    return "↩️ You can return or request a refund under ‘My Orders > Manage Returns’.";
-  if (msg.includes("gift")) 
-    return "🎁 Explore our Gift Cards and Offers section for surprises!";
-  if (msg.includes("payment") || msg.includes("upi")) 
-    return "💳 We support UPI, Cards, Wallets, and NetBanking payments.";
-  if (msg.includes("contact") || msg.includes("help")) 
-    return "📞 You can contact support via the Help Center or call us at 1800-202-5858.";
-  if (msg.includes("discount") || msg.includes("offer")) 
-    return "🔥 Check our homepage banners for ongoing discounts and flash sales!";
-  if (msg.includes("bye")) 
-    return "👋 Goodbye! Come back anytime for your shopping needs!";
-  return "🤖 I’m still learning! Could you please rephrase your question?";
-}
-</script>
-
-
 </body>
 
 
@@ -2061,35 +1812,9 @@ function getAIResponse(input) {
     </div>
   </section>
 
-  <!-- JS -->
-  <script src="js/script.js"></script>
-  <script>
-    // Profile dropdown toggle
-    function toggleProfile() {
-      document.getElementById("profileMenu").classList.toggle("show");
-    }
-    // Close dropdown when clicking outside
-    window.onclick = function(e) {
-      if (!e.target.matches('.profile-btn')) {
-        let dropdown = document.getElementById("profileMenu");
-        if (dropdown.classList.contains('show')) {
-          dropdown.classList.remove('show');
-        }
-      }
-    }
-  </script>
-  <!--feedback password -->
-  <script>
-  document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === "F") {
-      window.open("feedback.html", "_blank");
-    }
-  });
-</script>
-
   
 </body>
-<script src="script.js"></script>
+
 <div class="top-deals">
   <h2>🔥 Top Deals</h2>
   <div class="deals-wrapper">
@@ -2254,22 +1979,7 @@ function getAIResponse(input) {
 }
 
 </style>
-<script>
-function scrollDeals(direction) {
-  const deals = document.getElementById("deals");
-  const scrollAmount = 240; // Adjust for card width
-  deals.scrollBy({
-    left: direction * scrollAmount,
-    behavior: "smooth"
-  });
-}
 
-const ai = document.getElementById("ai-assistant");
-const toggleBtn = document.getElementById("ai-toggle");
-const messagesContainer = document.getElementById("ai-messages");
-const aiInput = document.getElementById("ai-input");
-
-</script>
  <!-- FEEDBACK POPUP -->
 <div id="feedback-popup" class="hidden">
   <div class="feedback-box">
@@ -2407,40 +2117,6 @@ const aiInput = document.getElementById("ai-input");
   100% { transform: translateY(-8px); }
 }
 </style>
-
-<script>
- const popup = document.getElementById('feedback-popup');
-const feedbackBtn = document.getElementById('feedback-btn');
-const closeBtn = document.getElementById('close-feedback');
-const sendBtn = document.getElementById('send-feedback');
-
-feedbackBtn.onclick = () => popup.classList.remove('hidden');
-closeBtn.onclick = () => popup.classList.add('hidden');
-
-sendBtn.onclick = () => {
-  const feedbackInput = document.getElementById('feedback-text');
-  const feedback = feedbackInput.value.trim();
-
-  if (feedback) {
-    // 🧠 Store feedback in localStorage
-    const allFeedback = JSON.parse(localStorage.getItem('feedbackList') || '[]');
-    allFeedback.push({
-      text: feedback,
-      date: new Date().toLocaleString()
-    });
-    localStorage.setItem('feedbackList', JSON.stringify(allFeedback));
-
-    alert('✅ Thanks for your feedback! It has been saved.');
-    feedbackInput.value = '';
-  } else {
-    alert('⚠️ Please enter your feedback before sending.');
-  }
-
-  popup.classList.add('hidden');
-};
-
-</script>
-
 
 <!-- ========== FOOTER START ========== -->
 <footer class="footer">
@@ -2613,24 +2289,5 @@ sendBtn.onclick = () => {
     transform: scale(1.1);
   }
 </style>
-
-<script>
-function toggleProfileMenu() {
-  document.getElementById("profile-menu").style.display =
-    document.getElementById("profile-menu").style.display === "block"
-    ? "none"
-    : "block";
-}
-
-window.onclick = function(event) {
-  if (!event.target.closest(".profile-wrapper")) {
-    document.getElementById("profile-menu").style.display = "none";
-  }
-}
-</script>
-
-<script src="js/data-store.js"></script>
-<script src="js/index.js"></script>
-
 
 </html>
