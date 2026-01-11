@@ -3,73 +3,47 @@ const mysql = require("mysql2");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
+const PORT = 5000;
+const SECRET = "SHOPEASE_SECRET_KEY";
+
+/* ================= MIDDLEWARE ================= */
+
 app.use(cors());
 app.use(express.json());
 
-const SECRET = "SHOPEASE_SECRET_KEY";
+/* 🔥 SERVE FRONTEND (PROJECT ROOT, NOT BACKEND) */
+const ROOT_PATH = path.join(__dirname, "..");
+app.use(express.static(ROOT_PATH));
 
-// DB Connection
+/* ================= DATABASE ================= */
+
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "root",   // change if needed
+  password: "root",
   database: "shopease"
 });
 
 db.connect(err => {
-  if (err) throw err;
-  console.log("MySQL Connected");
+  if (err) {
+    console.error("❌ DB Connection Failed:", err);
+    return;
+  }
+  console.log("✅ MySQL Connected");
 });
 
+/* ================= AUTH MIDDLEWARE ================= */
 
-// ================= SIGNUP =================
-app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-
-  const hash = await bcrypt.hash(password, 10);
-
-  db.query(
-    "INSERT INTO users (email, password) VALUES (?, ?)",
-    [email, hash],
-    (err) => {
-      if (err) return res.status(400).json({ msg: "User exists" });
-      res.json({ msg: "Signup successful" });
-    }
-  );
-});
-
-
-// ================= LOGIN =================
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-
-  db.query(
-    "SELECT * FROM users WHERE email=?",
-    [email],
-    async (err, result) => {
-      if (result.length === 0)
-        return res.status(401).json({ msg: "User not found" });
-
-      const user = result[0];
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch)
-        return res.status(401).json({ msg: "Invalid password" });
-
-      const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "7d" });
-
-      res.json({ token });
-    }
-  );
-});
-
-
-// ================= AUTH MIDDLEWARE =================
 function auth(req, res, next) {
-  const token = req.headers["authorization"];
-  if (!token) return res.status(403).json({ msg: "No token" });
+  const header = req.headers.authorization;
+  if (!header) return res.status(401).json({ msg: "Token missing" });
+
+  const token = header.startsWith("Bearer ")
+    ? header.split(" ")[1]
+    : header;
 
   jwt.verify(token, SECRET, (err, decoded) => {
     if (err) return res.status(401).json({ msg: "Invalid token" });
@@ -78,38 +52,48 @@ function auth(req, res, next) {
   });
 }
 
+/* ================= FRONTEND ROUTES ================= */
 
-// ================= GET USER DATA =================
-app.get("/profile", auth, (req, res) => {
+/* ✅ LOGIN PAGE */
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(ROOT_PATH, "login.html"));
+});
+
+/* ✅ PROFILE PAGE */
+app.get("/profile", (req, res) => {
+  res.sendFile(path.join(ROOT_PATH, "profile.html"));
+});
+
+/* ================= AUTH APIs ================= */
+
+app.post("/api/auth/login", (req, res) => {
+  const { email, password } = req.body;
+
+  db.query("SELECT * FROM users WHERE email=?", [email], async (err, rows) => {
+    if (err) return res.status(500).json({ msg: "DB error" });
+    if (!rows.length) return res.status(401).json({ msg: "User not found" });
+
+    const ok = await bcrypt.compare(password, rows[0].password);
+    if (!ok) return res.status(401).json({ msg: "Wrong password" });
+
+    const token = jwt.sign({ id: rows[0].id }, SECRET, { expiresIn: "7d" });
+    res.json({ token });
+  });
+});
+
+app.get("/api/user/profile", auth, (req, res) => {
   db.query(
-    "SELECT email FROM users WHERE id=?",
+    "SELECT id,name,email,profile_image FROM users WHERE id=?",
     [req.userId],
-    (err, result) => {
-      res.json(result[0]);
+    (err, rows) => {
+      if (err) return res.status(500).json({ msg: "DB error" });
+      res.json(rows[0]);
     }
   );
 });
 
+/* ================= START SERVER ================= */
 
-// ================= CART =================
-app.post("/cart", auth, (req, res) => {
-  const { product_name, qty } = req.body;
-
-  db.query(
-    "INSERT INTO cart (user_id, product_name, qty) VALUES (?, ?, ?)",
-    [req.userId, product_name, qty],
-    () => res.json({ msg: "Added to cart" })
-  );
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
-
-app.get("/cart", auth, (req, res) => {
-  db.query(
-    "SELECT * FROM cart WHERE user_id=?",
-    [req.userId],
-    (err, result) => res.json(result)
-  );
-});
-
-
-// ================= SERVER =================
-app.listen(5000, () => console.log("Server running on port 5000"));

@@ -1,870 +1,357 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ShopEase — Advanced Profile Dashboard</title>
+<meta charset="UTF-8">
+<title>Shopease | Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* ======= DESIGN TOKENS & GLOBAL ======= */
-    :root{
-      --page-bg:#f5f7fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#2874f0;
-      --accent-2:#06b6d4;
-      --danger:#ef4444;
-      --radius:12px;
-      --shadow:0 10px 30px rgba(2,6,23,0.06);
-      --max-width:1300px;
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--page-bg);color:#0b1220}
-    a{color:var(--accent)}
-    .wrap{max-width:var(--max-width);margin:20px auto;padding:18px}
-    .btn{padding:8px 12px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer}
-    .plain{padding:8px 12px;border-radius:10px;border:1px solid #eef3ff;background:#fff;cursor:pointer}
-    .muted{color:var(--muted);font-size:13px}
-    .small{font-size:13px;color:var(--muted)}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
 
-    /* ====== Top bar ====== */
-    .top-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand-logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+<style>
+:root{
+  --primary:#1E40AF;
+  --accent:#3B82F6;
+  --bg:#F4F6FB;
+  --card:#fff;
+  --text:#0F172A;
+  --muted:#64748B;
+  --border:rgba(0,0,0,.06);
+  --radius:18px;
+  --shadow:0 20px 40px rgba(30,64,175,.15);
+}
 
-    /* ====== App shell ====== */
-    .app-shell{display:grid;grid-template-columns:300px 1fr;gap:20px}
-    @media(max-width:1000px){ .app-shell{grid-template-columns:1fr} }
+*{box-sizing:border-box;font-family:Inter}
+body{margin:0;background:var(--bg);color:var(--text)}
 
-    .left-panel{
-      background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);
-      border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);
-      height:calc(100vh - 60px);position:sticky;top:20px;overflow:auto;
-    }
-    .right-panel{min-height:80vh}
+.topbar{
+  height:70px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;background:#fff;border-bottom:1px solid var(--border)
+}
 
-    /* left profile */
-    .profile-summary{display:flex;gap:12px;align-items:center;padding:10px 6px;margin-bottom:12px}
-    .avatar{width:64px;height:64px;border-radius:12px;overflow:hidden;background:#f3f6ff;border:1px solid #eef4ff;display:flex;align-items:center;justify-content:center}
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .user-meta h3{margin:0;font-size:16px}
-    .nav-group{margin-top:12px}
+.logo{font-weight:700;font-size:20px;color:var(--primary)}
 
-    .nav-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;margin-bottom:6px;color:#0b1220;font-weight:700}
-    .nav-item .icon{width:36px;height:36;border-radius:10px;display:grid;place-items:center;background:#f4f7ff}
-    .nav-item.active{background:linear-gradient(90deg,rgba(40,116,240,0.06),rgba(40,116,240,0.02));color:var(--accent)}
+.user-info{display:none;align-items:center;gap:12px}
+.user-info img{width:42px;height:42px;border-radius:50%}
 
-    .left-footer{margin-top:14px;padding-top:12px;border-top:1px dashed #f3f4f6}
-    .left-footer .btn{display:block;width:100%;padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid #eef3ff;background:#fff;text-align:center}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 70px)}
 
-    /* right header + metrics */
-    .panel-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-    .panel-header .title{font-size:20px;font-weight:800}
-    .metrics{display:flex;gap:12px;align-items:center}
-    .metric{background:#fff;padding:10px 12px;border-radius:10px;box-shadow:var(--shadow);min-width:120px;text-align:center}
-    .metric b{display:block;font-size:18px}
-    .card{background:#fff;border-radius:12px;padding:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.sidebar{
+  background:#fff;padding:24px;border-right:1px solid var(--border)
+}
+.sidebar a{
+  display:flex;gap:12px;padding:14px;border-radius:14px;
+  cursor:pointer;margin-bottom:6px
+}
+.sidebar a.active,.sidebar a:hover{background:#eef2ff;color:var(--primary)}
+.sidebar a.locked{opacity:.45;cursor:not-allowed}
 
-    .two-col{display:grid;grid-template-columns:1fr 360px;gap:16px}
-    @media(max-width:1000px){ .two-col{grid-template-columns:1fr} }
+.main{padding:32px}
 
-    /* panels placeholders */
-    .panel { margin-bottom:16px; }
-    .listing{min-height:40px}
-    .info-card{padding:12px;border-radius:10px;background:#fff;border:1px solid #f3f4f6;margin-bottom:10px}
-    input[type="file"]{display:none}
+#greeting{display:none;font-size:28px;font-weight:700;margin-bottom:20px}
 
-    /* small utility classes used across parts */
-    .flex{display:flex;align-items:center;gap:10px}
-    .center{display:flex;align-items:center;justify-content:center}
-    .badge{background:#eef3ff;color:var(--accent);padding:4px 10px;border-radius:20px;font-size:13px}
-    .theme-box{display:inline-block;padding:10px 12px;border-radius:10px;margin:6px;border:1px solid #eef3f8;cursor:pointer}
-    .order-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6}
-    .order-item img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px
+}
+.stat{
+  background:#fff;padding:20px;border-radius:18px;box-shadow:var(--shadow)
+}
 
-    /* analytics canvas */
-    canvas{width:100%;height:140px;border-radius:8px;background:transparent}
-    .muted-note{color:var(--muted);font-size:13px;margin-top:8px}
-  </style>
+.panel{
+  background:#fff;border-radius:18px;padding:30px;box-shadow:var(--shadow)
+}
+.section{display:none}
+.section.active{display:block}
+
+.profile-grid{
+  display:grid;grid-template-columns:150px 1fr;gap:30px
+}
+
+.avatar img{
+  width:120px;height:120px;border-radius:50%;
+  background:#f1f5f9
+}
+
+input{
+  width:100%;padding:14px;border-radius:14px;
+  border:1px solid var(--border);margin-bottom:14px
+}
+
+button{
+  padding:14px 22px;border:none;border-radius:14px;
+  background:var(--primary);color:#fff;cursor:pointer
+}
+
+/* ===== LOGIN MODAL ===== */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.45);
+  display:none;align-items:center;justify-content:center
+}
+.modal{
+  background:#fff;padding:30px;border-radius:18px;width:360px;
+  text-align:center;box-shadow:var(--shadow)
+}
+.modal button{width:100%;margin-top:16px}
+
+.section{
+  animation: fade .35s ease;
+}
+@keyframes fade{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="wrap">
-
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <div class="brand">
-      <div class="brand-logo">SE</div>
-      <div>
-        <div style="font-weight:800">ShopEase — Profile</div>
-        <div class="muted">Advanced user dashboard</div>
-      </div>
-    </div>
-
-    <div style="flex:1;max-width:520px;margin-left:12px">
-      <input id="globalSearch" placeholder="Search profile, orders, activity, products..." style="width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef7;background:#fff">
-    </div>
-
-    <div class="metrics">
-      <div class="metric"><div class="muted">Activity</div><b id="globalActivityCount">0</b></div>
-      <div class="metric"><div class="muted">Orders</div><b id="globalOrdersCount">0</b></div>
-      <button class="btn" id="quick-add-demo">Quick Demo Action</button>
-    </div>
-  </div>
-
-  <!-- APP SHELL -->
-  <div class="app-shell">
-
-    <!-- LEFT PANEL -->
-    <aside class="left-panel" aria-label="Profile navigation">
-      <div class="profile-summary">
-        <div class="avatar" id="leftAvatar"><img id="leftAvatarImg" src="" alt="avatar"></div>
-        <div class="user-meta">
-          <h3 id="leftName">Guest User</h3>
-          <div class="muted" id="leftEmail">you@example.com</div>
-        </div>
-      </div>
-
-      <nav class="nav-group" aria-label="Main sections">
-        <div class="nav-item active" data-target="panel-analytics"><div class="icon">📊</div> Analytics</div>
-        <div class="nav-item" data-target="panel-orders"><div class="icon">🧾</div> Orders</div>
-        <div class="nav-item" data-target="panel-cart"><div class="icon">🛒</div> Cart</div>
-        <div class="nav-item" data-target="panel-wishlist"><div class="icon">💖</div> Wishlist</div>
-        <div class="nav-item" data-target="panel-activity"><div class="icon">⚡</div> Activity Log</div>
-        <div class="nav-item" data-target="panel-security"><div class="icon">🔒</div> Security</div>
-        <div class="nav-item" data-target="panel-addresses"><div class="icon">🏠</div> Address Book</div>
-        <div class="nav-item" data-target="panel-badges"><div class="icon">🏆</div> Badges</div>
-        <div class="nav-item" data-target="panel-referral"><div class="icon">🔗</div> Referrals</div>
-        <div class="nav-item" data-target="panel-notifications"><div class="icon">🔔</div> Notifications</div>
-        <div class="nav-item" data-target="panel-themes"><div class="icon">🎨</div> Themes</div>
-        <div class="nav-item" data-target="panel-sync"><div class="icon">☁️</div> Cloud Sync</div>
-        <div class="nav-item" data-target="panel-multiaccount"><div class="icon">👥</div> Multi-Account</div>
-        <div class="nav-item" data-target="panel-recent"><div class="icon">🕘</div> Recently Viewed</div>
-        <div class="nav-item" data-target="panel-ui-upgrade"><div class="icon">✨</div> UI Upgrades</div>
-      </nav>
-
-      <div class="left-footer">
-        <button id="btn-export-db" class="btn">Export full data</button>
-        <button id="btn-import-db" class="plain">Import data</button>
-        <button id="btn-signout" class="plain">Sign out</button>
-      </div>
-
-      <!-- Multi-Account UI + hidden input for import -->
-      <div class="card" style="padding:12px;margin-top:12px;">
-        <div style="font-weight:700;margin-bottom:6px;">Accounts</div>
-        <div id="accountList" class="muted small">Loading accounts…</div>
-        <button class="plain" id="btn-add-account" style="margin-top:10px;width:100%;">+ Add New Account</button>
-      </div>
-      <input id="importDBPicker" type="file" accept="application/json">
-    </aside>
-
-    <!-- RIGHT PANEL -->
-    <section class="right-panel">
-      <div class="panel-header">
-        <div>
-          <div class="title" id="panelTitle">Analytics</div>
-          <div class="muted" id="panelSubtitle">Overview and user score</div>
-        </div>
-
-        <div class="metrics" id="headerMetrics">
-          <div class="metric"><div class="muted">Total Spent</div><b id="metric-spent">₹0</b></div>
-          <div class="metric"><div class="muted">Wishlist</div><b id="metric-wishlist">0</b></div>
-          <div class="metric"><div class="muted">Cart</div><b id="metric-cart">0</b></div>
-        </div>
-      </div>
-
-      <div id="rightPanels">
-        <!-- ANALYTICS -->
-        <div id="panel-analytics" class="card">
-          <div class="two-col">
-            <div>
-              <div class="section-title">Summary</div>
-              <div id="analytics-summary">Loading analytics…</div>
-              <div style="margin-top:12px" id="analytics-charts"><canvas id="chart-spend"></canvas></div>
-            </div>
-            <aside>
-              <div class="section-title">Quick Insights</div>
-              <div id="insightsList">Loading…</div>
-            </aside>
-          </div>
-        </div>
-
-        <!-- ORDERS -->
-        <div id="panel-orders" class="card" style="display:none">
-          <div class="section-title">Orders</div>
-          <div id="orders-inner">Loading orders…</div>
-        </div>
-
-        <!-- CART -->
-        <div id="panel-cart" class="card" style="display:none">
-          <div class="section-title">Cart</div>
-          <div id="cart-inner">Loading cart…</div>
-        </div>
-
-        <!-- WISHLIST -->
-        <div id="panel-wishlist" class="card" style="display:none">
-          <div class="section-title">Wishlist</div>
-          <div id="wishlist-inner">Loading wishlist…</div>
-        </div>
-
-        <!-- ACTIVITY -->
-        <div id="panel-activity" class="card" style="display:none">
-          <div class="section-title">Activity Log</div>
-          <div id="activity-inner">Loading activity…</div>
-        </div>
-
-        <!-- SECURITY -->
-        <div id="panel-security" class="card" style="display:none">
-          <div class="section-title">Security</div>
-          <div id="security-inner">Loading security panel…</div>
-        </div>
-
-        <!-- ADDRESSES -->
-        <div id="panel-addresses" class="card" style="display:none">
-          <div class="section-title">Address Book</div>
-          <div id="addresses-inner">Loading addresses…</div>
-
-          <h3 style="margin-top:12px">Add New Address</h3>
-          <div style="display:grid;gap:8px;">
-            <input id="addr-name" placeholder="Full Name" class="input">
-            <input id="addr-line" placeholder="Address Line" class="input">
-            <input id="addr-city" placeholder="City" class="input">
-            <input id="addr-pin" placeholder="PIN Code" class="input">
-            <button id="btn-add-address" class="btn">Add Address</button>
-          </div>
-        </div>
-
-        <!-- BADGES -->
-        <div id="panel-badges" class="card" style="display:none">
-          <div class="section-title">Badges & Achievements</div>
-          <div id="badges-inner">Loading badges…</div>
-        </div>
-
-        <!-- REFERRAL -->
-        <div id="panel-referral" class="card" style="display:none">
-          <div class="section-title">Referrals & Rewards</div>
-          <div class="info-card large">
-            <div class="label">Your Referral Code</div>
-            <div class="value" id="ref-code">---</div>
-          </div>
-          <button class="btn" id="btn-copy-ref">Copy Referral Link</button>
-          <div class="panel-box" style="margin-top:12px">
-            <h3>Referred Users</h3>
-            <div id="ref-list"></div>
-          </div>
-        </div>
-
-        <!-- NOTIFICATIONS -->
-        <div id="panel-notifications" class="card" style="display:none">
-          <div class="section-title">Notifications</div>
-          <div id="notifications-inner">Loading notifications…</div>
-        </div>
-
-        <!-- THEMES -->
-        <div id="panel-themes" class="card" style="display:none">
-          <div class="section-title">Themes & Appearance</div>
-          <div id="themes-inner">Loading themes…</div>
-        </div>
-
-        <!-- CLOUD SYNC -->
-        <div id="panel-sync" class="card" style="display:none">
-          <div class="section-title">Cloud Sync</div>
-          <div id="sync-inner">Sync tools…</div>
-        </div>
-
-        <!-- MULTI-ACCOUNT -->
-        <div id="panel-multiaccount" class="card" style="display:none">
-          <div class="section-title">Multi-Account Switcher</div>
-          <div id="multiaccount-inner">Manage accounts…</div>
-        </div>
-
-        <!-- RECENT -->
-        <div id="panel-recent" class="card" style="display:none">
-          <div class="section-title">Recently Viewed</div>
-          <div id="recent-inner">Recently viewed…</div>
-        </div>
-
-        <!-- UI UPGRADES -->
-        <div id="panel-ui-upgrade" class="card" style="display:none">
-          <div class="section-title">UI Upgrades</div>
-          <div id="ui-upgrade-inner">UI options…</div>
-        </div>
-
-      </div>
-    </section>
-
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="logo">Shopease</div>
+  <div class="user-info" id="userBox">
+    <img id="topAvatar">
+    <strong id="topName"></strong>
   </div>
 </div>
 
-<!-- ========================= SCRIPTS (Parts 2,4,5,6 merged) ========================= -->
+<div class="layout">
 
-<!-- PART 2: Left Panel Account Utilities -->
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <a class="active" data-section="profile">Profile</a>
+  <a class="locked" data-section="orders">Orders</a>
+  <a class="locked" data-section="security">Security</a>
+  <a onclick="logout()">Logout</a>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+  <div id="greeting">Hello, <span id="greet"></span> 👋</div>
+
+  <div class="stats">
+    <div class="stat"><strong id="points">--</strong><div class="muted">Points</div></div>
+    <div class="stat"><strong id="ordersCount">--</strong><div class="muted">Orders</div></div>
+    <div class="stat"><strong id="lifetime">--</strong><div class="muted">Lifetime</div></div>
+    <div class="stat"><strong>Guest</strong><div class="muted">Status</div></div>
+  </div>
+
+  <div class="panel">
+
+    <div class="section active" id="profile">
+      <div class="profile-grid">
+        <div class="avatar">
+          <img id="avatar">
+        </div>
+        <div>
+          <input id="name" placeholder="Name" disabled>
+          <input id="email" placeholder="Email" disabled>
+          <button onclick="save()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="orders">
+  <h3>Your Orders</h3>
+  <ul id="ordersList"></ul>
+</div>
+
+
+    <div class="section" id="security">
+  <input id="oldPass" placeholder="Old Password" type="password">
+  <input id="newPass" placeholder="New Password" type="password">
+  <button onclick="changePass()">Update Password</button>
+</div>
+
+
+  </div>
+</main>
+</div>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <h3>Login Required</h3>
+    <p class="muted">Please login to access this feature</p>
+    <button onclick="goLogin()">Go to Login</button>
+  </div>
+</div>
+
+
 <script>
-/* PART 2 — LEFT PANEL & ACCOUNT UTILITIES */
-const GLOBAL_KEY = "SHOP_ADVANCED_DB";
-const ACCOUNTS_KEY = "SHOP_ACCOUNTS_LIST";
+feather.replace();
 
-function loadAccounts(){
-  const raw = localStorage.getItem(ACCOUNTS_KEY);
-  if(!raw){
-    const base = { active:"default", list:{ default:{ name:"Guest User", email:"guest@example.com" } } };
-    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(base));
-    return base;
-  }
-  return JSON.parse(raw);
-}
-function saveAccounts(data){
-  localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(data));
-}
+/* ================= AUTH ================= */
 
-function renderAccountList(){
-  let acc = loadAccounts();
-  let box = document.getElementById("accountList");
-  box.innerHTML = "";
-  Object.keys(acc.list).forEach(id=>{
-    const a = acc.list[id];
-    let el = document.createElement("div");
-    el.style.padding = "6px 0";
-    el.style.display = "flex";
-    el.style.justifyContent = "space-between";
-    el.style.cursor = "pointer";
-    el.style.fontSize = "14px";
-    el.innerHTML = `<span>${a.name}</span>${acc.active === id ? "<span class='badge'>Active</span>" : ""}`;
-    el.onclick = ()=> switchAccount(id);
-    box.appendChild(el);
+const token = localStorage.getItem("token");
+let isLoggedIn = false;
+let USER = null;
+let ordersLoaded = false;
+
+const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
+/* ================= ELEMENTS ================= */
+
+const avatar = document.getElementById("avatar");
+const topAvatar = document.getElementById("topAvatar");
+const topName = document.getElementById("topName");
+const userBox = document.getElementById("userBox");
+const greeting = document.getElementById("greeting");
+
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+
+/* ================= INIT ================= */
+
+if (!token) {
+  guestMode();
+} else {
+  fetch("/api/user/profile", {
+    headers: { Authorization: "Bearer " + token }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Auth failed");
+    return res.json();
+  })
+  .then(user => {
+    USER = user;
+    isLoggedIn = true;
+    renderUser();
+  })
+  .catch(() => {
+    localStorage.removeItem("token");
+    guestMode();
   });
 }
 
-function switchAccount(id){
-  let acc = loadAccounts();
-  acc.active = id;
-  saveAccounts(acc);
-  if(!localStorage.getItem(GLOBAL_KEY + "_" + id)){
-    localStorage.setItem(GLOBAL_KEY + "_" + id, JSON.stringify(window.defaultDB || {}));
-  }
-  localStorage.setItem(GLOBAL_KEY, GLOBAL_KEY + "_" + id);
-  location.reload();
+/* ================= UI MODES ================= */
+
+function guestMode(){
+  isLoggedIn = false;
+
+  avatar.src = defaultAvatar;
+  userBox.style.display = "none";
+  greeting.style.display = "none";
+
+  ["points","ordersCount","lifetime"].forEach(id=>{
+    document.getElementById(id).innerText="--";
+  });
 }
 
-document.getElementById("btn-add-account")?.addEventListener("click", ()=>{
-  const name = prompt("Enter account name:");
-  if(!name) return;
-  let acc = loadAccounts();
-  const id = "acc_" + Math.floor(Math.random()*99999);
-  acc.list[id] = { name, email:name.toLowerCase().replace(/\s+/g,"")+"@mail.com" };
-  acc.active = id;
-  saveAccounts(acc);
-  localStorage.setItem(GLOBAL_KEY + "_" + id, JSON.stringify(window.defaultDB || {}));
-  localStorage.setItem(GLOBAL_KEY, GLOBAL_KEY + "_" + id);
-  location.reload();
-});
+function renderUser(){
+  greeting.style.display="block";
+  document.getElementById("greet").innerText = USER.name || "User";
 
-/* EXPORT / IMPORT / SIGNOUT hooks */
-document.getElementById("btn-export-db")?.addEventListener("click", exportFullDB);
-document.getElementById("btn-import-db")?.addEventListener("click", ()=>{
-  document.getElementById("importDBPicker").click();
-});
-document.getElementById("importDBPicker")?.addEventListener("change", importFullDB);
+  userBox.style.display="flex";
+  topName.innerText = USER.name || "User";
 
-function exportFullDB(){
-  const rawKey = localStorage.getItem(GLOBAL_KEY) || GLOBAL_KEY;
-  const db = localStorage.getItem(rawKey) || "{}";
-  const blob = new Blob([db], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "profile-backup.json";
-  a.click();
+  avatar.src = USER.profile_image || defaultAvatar;
+  topAvatar.src = avatar.src;
+
+  nameInput.value = USER.name || "";
+  emailInput.value = USER.email || "";
+
+  document.getElementById("points").innerText = USER.points ?? 0;
+  document.getElementById("ordersCount").innerText = USER.orders ?? 0;
+  document.getElementById("lifetime").innerText = USER.lifetime ?? "₹0";
 }
-function importFullDB(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev)=>{
-    const json = ev.target.result;
-    try{
-      const parsed = JSON.parse(json);
-      const rawKey = localStorage.getItem(GLOBAL_KEY) || GLOBAL_KEY + "_default";
-      localStorage.setItem(rawKey, JSON.stringify(parsed));
-      alert("Data imported successfully.");
-      location.reload();
-    }catch(err){
-      alert("Invalid JSON file.");
+
+/* ================= SIDEBAR ================= */
+
+document.querySelectorAll(".sidebar a[data-section]").forEach(btn=>{
+  btn.onclick=()=>{
+    if(!isLoggedIn && btn.classList.contains("locked")){
+      showLoginPrompt();
+      return;
     }
-  };
-  reader.readAsText(file);
-}
 
-document.getElementById("btn-signout")?.addEventListener("click", ()=>{
-  const acc = loadAccounts();
-  delete acc.list[acc.active];
-  if(Object.keys(acc.list).length === 0){
-    acc.list = { default:{ name:"Guest User", email:"guest@example.com" } };
-    acc.active = "default";
-  } else {
-    acc.active = Object.keys(acc.list)[0];
-  }
-  saveAccounts(acc);
-  localStorage.setItem(GLOBAL_KEY, GLOBAL_KEY + "_" + acc.active);
-  alert("Signed out.");
-  location.reload();
-});
+    document.querySelectorAll(".sidebar a").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
 
-/* LEFT METRICS UPDATER (exposed) */
-window.updateLeftMetrics = function(db){
-  try{
-    document.getElementById("globalActivityCount").textContent = db.activity.length || 0;
-    document.getElementById("globalOrdersCount").textContent = db.orders.length || 0;
-    document.getElementById("metric-wishlist").textContent = db.wishlist.length || 0;
-    document.getElementById("metric-cart").textContent = db.cart.length || 0;
-    document.getElementById("leftName").textContent = db.profile.name || "User";
-    document.getElementById("leftEmail").textContent = db.profile.email || "";
-    document.getElementById("leftAvatarImg").src = db.profile.avatar || "https://via.placeholder.com/200x200?text=Avatar";
-  }catch(e){}
-};
+    document.querySelectorAll(".section").forEach(sec=>{
+      sec.classList.toggle("active", sec.id===btn.dataset.section);
+    });
 
-/* keyboard nav accessibility for left nav */
-document.querySelectorAll('.nav-item').forEach((item, idx)=>{
-  item.tabIndex = 0;
-  item.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){ item.click(); }
-  });
-});
-
-/* initialize left account list */
-renderAccountList();
-</script>
-
-<!-- PART 4: Database Engine (LocalStorage, multi-account) -->
-<script>
-/* PART 4 — DATABASE ENGINE */
-console.log("PART 4 LOADED");
-
-const MASTER_ACCOUNTS_KEY = "SHOP_ACCOUNTS_LIST";
-const MASTER_POINTER_KEY  = "SHOP_ADVANCED_DB";
-
-window.defaultDB = {
-  profile:{ name:"Guest User", email:"guest@example.com", avatar:"", referralCode:"" },
-  cart:[], wishlist:[], orders:[], addresses:[], devices:[], activity:[], notifications:[], recentlyViewed:[], badges:[], referralList:[], theme:"light",
-  analytics:{ totalSpent:0, monthData:{} }, cloud:{ status:"Not Synced", lastSync:null }
-};
-
-function getActiveDBKey(){
-  let pointer = localStorage.getItem(MASTER_POINTER_KEY);
-  if(!pointer){
-    pointer = MASTER_POINTER_KEY + "_default";
-    localStorage.setItem(MASTER_POINTER_KEY, pointer);
-    if(!localStorage.getItem(pointer)){
-      localStorage.setItem(pointer, JSON.stringify(window.defaultDB));
+    if(btn.dataset.section==="orders" && !ordersLoaded){
+      loadOrders();
+      ordersLoaded=true;
     }
   }
-  return pointer;
+});
+
+/* ================= LOGIN PROMPT ================= */
+
+function showLoginPrompt(){
+  document.getElementById("loginOverlay").style.display="flex";
+}
+function goLogin() {
+  window.location.href = "http://localhost:5000/login";
 }
 
-function loadDB(){
-  const key = getActiveDBKey();
-  const raw = localStorage.getItem(key);
-  if(!raw){ localStorage.setItem(key, JSON.stringify(window.defaultDB)); return JSON.parse(JSON.stringify(window.defaultDB)); }
-  try { return JSON.parse(raw); } catch(e){ alert("DB corrupted. Resetting."); localStorage.setItem(key, JSON.stringify(window.defaultDB)); return JSON.parse(JSON.stringify(window.defaultDB)); }
-}
-function saveDB(db){ const key = getActiveDBKey(); localStorage.setItem(key, JSON.stringify(db)); }
 
-/* ACTIVITY / NOTIF / RECENT */
-function addActivity(action, details=""){ const db = loadDB(); db.activity.unshift({ id: Date.now(), action, details, time: new Date().toLocaleString() }); if(db.activity.length>200) db.activity.pop(); saveDB(db); }
-function addNotification(msg){ const db = loadDB(); db.notifications.unshift({ id: Date.now(), message: msg, time: new Date().toLocaleString(), read:false }); saveDB(db); }
-function addRecentlyViewed(item){ const db = loadDB(); db.recentlyViewed = db.recentlyViewed.filter(x => x.id !== item.id); db.recentlyViewed.unshift(item); if(db.recentlyViewed.length>20) db.recentlyViewed.pop(); saveDB(db); }
+/* ================= PROFILE SAVE ================= */
 
-/* CART / WISHLIST / ORDERS */
-function cartAdd(item){ const db = loadDB(); if(!db.cart.find(x=>x.id===item.id)){ db.cart.push(item); addActivity("Added to Cart", item.name || item.title); addNotification(`Added ${item.name || item.title} to cart`); saveDB(db); } }
-function cartRemove(id){ const db = loadDB(); db.cart = db.cart.filter(x => x.id !== id); saveDB(db); addActivity("Removed from Cart", id); }
-function wishlistAdd(item){ const db = loadDB(); if(!db.wishlist.find(x=>x.id===item.id)){ db.wishlist.push(item); addActivity("Added to Wishlist", item.name || item.title); addNotification(`Wishlisted ${item.name || item.title}`); saveDB(db); } }
-function wishlistRemove(id){ const db=loadDB(); db.wishlist = db.wishlist.filter(x=>x.id!==id); saveDB(db); addActivity("Removed from Wishlist", id); }
-
-function placeOrder(){
-  const db = loadDB();
-  if(db.cart.length===0){ alert("Cart is empty."); return; }
-  const newOrder = { id:"ORD"+Date.now(), items:db.cart, amount: db.cart.reduce((s,x)=> s + (x.price||0),0), status:"Processing", time:new Date().toLocaleString() };
-  db.orders.unshift(newOrder); db.analytics.totalSpent += newOrder.amount; db.cart = []; saveDB(db);
-  addActivity("Order Placed", newOrder.id); addNotification(`Order ${newOrder.id} placed successfully`);
+function save(){
+  if(!isLoggedIn){ showLoginPrompt(); return; }
+  alert("Profile update API can be added next");
 }
 
-/* REFERRAL / BADGES */
-function generateReferralCode(){ const db=loadDB(); if(!db.profile.referralCode){ db.profile.referralCode = "REF"+Math.random().toString(36).substr(2,6).toUpperCase(); saveDB(db); } }
-function addReferralUser(name){ const db=loadDB(); db.referralList.push({ name, time:new Date().toLocaleString() }); saveDB(db); }
-function evaluateBadges(){ const db=loadDB(); const badges = new Set(db.badges); if(db.orders.length >= 1) badges.add("First Purchase"); if(db.orders.length >= 10) badges.add("Shopping Lover"); if(db.wishlist.length >= 5) badges.add("Wishlist Hero"); if(db.activity.length >= 50) badges.add("Active User"); db.badges = [...badges]; saveDB(db); }
+/* ================= LOGOUT ================= */
 
-/* CLOUD SYNC */
-function cloudSync(){ const db = loadDB(); db.cloud.status = "Synced"; db.cloud.lastSync = new Date().toLocaleString(); saveDB(db); addActivity("Cloud Synced"); addNotification("Cloud Sync Completed"); }
-
-/* DEVICE TRACKER */
-function registerDevice(){ const db = loadDB(); const deviceID = "DEV"+Math.random().toString(36).substr(2,8); db.devices.push({ id:deviceID, agent:navigator.userAgent, time:new Date().toLocaleString() }); saveDB(db); }
-
-/* OVERVIEW STATS */
-function updateOverviewStats(){ const db = loadDB(); document.getElementById("ov-orders") && (document.getElementById("ov-orders").textContent = db.orders.length); document.getElementById("ov-wishlist") && (document.getElementById("ov-wishlist").textContent = db.wishlist.length); document.getElementById("ov-cart") && (document.getElementById("ov-cart").textContent = db.cart.length); document.getElementById("ref-code") && (document.getElementById("ref-code").textContent = db.profile.referralCode || "---"); }
-
-/* INIT DB */
-function initDatabase(){ generateReferralCode(); evaluateBadges(); updateOverviewStats(); const db = loadDB(); updateLeftMetrics(db); console.log("DB Initialized", db); }
-initDatabase();
-</script>
-
-<!-- PART 5: UI renderer & event bindings -->
-<script>
-/* PART 5 — UI RENDERER & EVENTS */
-console.log("PART 5 LOADED");
-
-function setHTML(selectorOrEl, html){
-  if(!selectorOrEl) return;
-  if(typeof selectorOrEl === "string"){
-    document.querySelectorAll(selectorOrEl).forEach(el => el.innerHTML = html);
-  } else {
-    selectorOrEl.innerHTML = html;
-  }
+function logout(){
+  localStorage.removeItem("token");
+  location.href="/login";
 }
-function getEl(sel){ return document.querySelector(sel); }
 
-/* Orders rendering */
-function renderOrdersUI(){
-  const db = loadDB();
-  const orders = db.orders || [];
-  const ids = ['#orders-inner', '#ordersList', '#profileOrders'];
-  ids.forEach(containerSel=>{
-    const container = document.querySelector(containerSel);
-    if(!container) return;
-    container.innerHTML = "";
-    if(!orders.length){ container.innerHTML = "<div class='muted'>No orders yet.</div>"; return; }
-    orders.forEach(o=>{
-      const itemsHtml = o.items ? o.items.map(i=>`<div style="display:flex;gap:8px;margin-top:8px;"><img src="${i.img||''}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;"><div><div style="font-weight:700">${i.title||i.name}</div><div class="small">Qty ${i.qty||1} • ₹${i.price||0}</div></div></div>`).join("") : "";
-      container.insertAdjacentHTML('beforeend', `<div style="border:1px solid #eef2f6;padding:12px;border-radius:8px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;align-items:center"><div><strong>${o.id}</strong> <span class="muted">• ${o.time}</span></div><div style="font-weight:800">₹${o.amount || o.total || 0}</div></div>${itemsHtml}<div style="margin-top:8px" class="muted">Status: ${o.status || 'Processing'}</div></div>`);
+/* ================= ORDERS ================= */
+
+function loadOrders(){
+  fetch("/api/orders",{
+    headers:{Authorization:"Bearer "+token}
+  })
+  .then(r=>r.ok?r.json():[])
+  .then(data=>{
+    const list=document.getElementById("ordersList");
+    list.innerHTML="";
+    if(!data.length){
+      list.innerHTML="<p>No orders yet</p>";
+      return;
+    }
+    data.forEach(o=>{
+      list.innerHTML+=`<li>${o.product} • ₹${o.amount} • ${o.status}</li>`;
     });
+  })
+  .catch(()=>{
+    document.getElementById("ordersList").innerHTML="<p>Unable to load orders</p>";
   });
 }
 
-/* Cart rendering */
-function renderCartUI(){
-  const db = loadDB();
-  const cart = db.cart || [];
-  const targets = ['#cart-inner', '#cartList', '#miniCart'];
-  targets.forEach(sel=>{
-    const el = document.querySelector(sel);
-    if(!el) return;
-    el.innerHTML = "";
-    if(!cart.length){ el.innerHTML = "<div class='muted'>Cart is empty</div>"; return; }
-    cart.forEach(item=>{
-      el.insertAdjacentHTML('beforeend', `<div style="display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid #f3f4f6"><img src="${item.img||''}" style="width:64px;height:64px;object-fit:cover;border-radius:8px"><div style="flex:1"><div style="font-weight:700">${item.title||item.name}</div><div class="small">₹${item.price} • Qty: ${item.qty||1}</div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="plain" onclick="uiMoveToWishlist('${item.id}')">Save</button><button class="plain" onclick="uiRemoveFromCart('${item.id}')">Remove</button></div></div>`);
-    });
-  });
-  const total = cart.reduce((s,i)=> s + (Number(i.price||0) * Number(i.qty||1)), 0);
-  document.querySelectorAll('#cartTotal, #checkoutTotal').forEach(el=>{ if(el) el.textContent = '₹' + Number(total).toLocaleString('en-IN'); });
-  updateLeftMetrics(db);
-}
+/* ================= PASSWORD ================= */
 
-/* Wishlist rendering */
-function renderWishlistUI(){
-  const db = loadDB();
-  const wish = db.wishlist || [];
-  const targets = ['#wishlist-inner', '#wishlistList', '#wishList', '#miniWish'];
-  targets.forEach(sel=>{
-    const el = document.querySelector(sel);
-    if(!el) return;
-    el.innerHTML = "";
-    if(!wish.length){ el.innerHTML = "<div class='muted'>No wishlist items</div>"; return; }
-    wish.forEach(w => { el.insertAdjacentHTML('beforeend', `<div style="display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid #f3f4f6"><img src="${w.img||''}" style="width:64px;height:64px;object-fit:cover;border-radius:8px"><div style="flex:1"><div style="font-weight:700">${w.title||w.name}</div><div class="small">₹${w.price||0}</div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn" onclick="uiAddCartFromWish('${w.id}')">Add to cart</button><button class="plain" onclick="uiRemoveFromWish('${w.id}')">Remove</button></div></div>`); });
-  });
-  updateLeftMetrics(db);
-}
+function changePass(){
+  if(!isLoggedIn){ showLoginPrompt(); return; }
 
-/* Activity rendering */
-function renderActivityUI(){
-  const db = loadDB();
-  const act = db.activity || [];
-  const targets = ['#activity-inner', '#activityList', '#profileActivity', '#analytics-summary', '#activityBox'];
-  targets.forEach(sel=>{
-    const el = document.querySelector(sel);
-    if(!el) return;
-    el.innerHTML = "";
-    if(!act.length){ el.innerHTML = "<div class='muted'>No activity yet</div>"; return; }
-    act.forEach(a=> el.insertAdjacentHTML('beforeend', `<div style="padding:8px;border-bottom:1px solid #f3f4f6"><div style="font-weight:700">${a.action || a.event}</div><div class="small">${a.time} • ${a.details || a.meta || ''}</div></div>`));
-  });
-  updateLeftMetrics(db);
-}
-
-/* Security panel */
-function renderSecurityUI(){
-  const db = loadDB();
-  const el = document.getElementById('security-inner');
-  if(!el) return;
-  el.innerHTML = `<div style="margin-bottom:10px;"><label class="muted">Two-Factor Authentication</label><div style="margin-top:6px"><button class="btn" id="enable-2fa-btn">${db._2fa ? 'Disable 2FA' : 'Enable 2FA'}</button></div></div><div><label class="muted">Active Devices</label><div id="sec-devices-render" style="margin-top:8px"></div></div>`;
-  const devBox = document.getElementById('sec-devices-render');
-  devBox.innerHTML = "";
-  (db.devices||[]).forEach((d, idx)=> devBox.insertAdjacentHTML('beforeend', `<div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #f3f4f6"><div><div style="font-weight:700">${d.agent.split('(')[0]}</div><div class="small">${d.time}</div></div><div><button class="plain" onclick="uiRevokeDevice(${idx})">Revoke</button></div></div>`));
-  const btn2fa = document.getElementById('enable-2fa-btn');
-  if(btn2fa) btn2fa.onclick = ()=>{ const db2 = loadDB(); db2._2fa = !db2._2fa; saveDB(db2); addActivity(db2._2fa ? "2FA enabled" : "2FA disabled"); renderSecurityUI(); refreshUI(); toast("Two-factor toggled (mock)"); };
-}
-
-/* Addresses */
-function renderAddressesUI(){
-  const db = loadDB();
-  const el = document.getElementById('addresses-inner') || document.getElementById('addressList');
-  if(!el) return;
-  el.innerHTML = "";
-  if(!(db.addresses || []).length) { el.innerHTML = "<div class='muted'>No addresses saved</div>"; return; }
-  db.addresses.forEach((a, idx)=> el.insertAdjacentHTML('beforeend', `<div style="padding:10px;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:700">${a.name}</div><div class="small">${a.line}, ${a.city} • ${a.pin}</div></div><div><button class="plain" onclick="uiMakeDefaultAddress(${idx})">Make default</button><button class="plain" onclick="uiRemoveAddress(${idx})">Remove</button></div></div>`));
-}
-
-/* Badges */
-function renderBadgesUI(){ const db = loadDB(); const el = document.getElementById('badges-inner'); if(!el) return; el.innerHTML = (db.badges || []).map(b => `<div style="display:inline-block;padding:8px 12px;margin:6px;border-radius:10px;background:#feffef">${b}</div>`).join('') || "<div class='muted'>No badges yet</div>"; }
-
-/* Referrals */
-function renderReferralsUI(){ const db = loadDB(); document.getElementById('ref-code') && (document.getElementById('ref-code').textContent = db.profile.referralCode || '---'); const listEl = document.getElementById('ref-list'); if(listEl){ listEl.innerHTML = (db.referralList||[]).map(r=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6">${r.name}<div class="small">${r.time}</div></div>`).join('') || "<div class='muted'>No referrals</div>"; } }
-
-/* Notifications */
-function renderNotificationsUI(){ const db = loadDB(); const el = document.getElementById('notifications-inner'); if(!el) return; el.innerHTML = (db.notifications || []).map(n=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6">${n.message}<div class="small">${n.time}</div></div>`).join('') || "<div class='muted'>No notifications</div>"; }
-
-/* Themes UI hook */
-function renderThemesUI(){ const db = loadDB(); const el = document.getElementById('themes-inner'); if(!el) return; el.innerHTML = `<div style="display:flex;gap:8px"><button class="plain" onclick="uiSetTheme('light')">Light</button><button class="plain" onclick="uiSetTheme('dark')">Dark</button><button class="plain" onclick="uiSetTheme('neo')">Neo Glass</button><button class="plain" onclick="uiSetTheme('gradient')">Gradient</button></div><div class="muted" style="margin-top:8px">Current: ${db.theme}</div>`; }
-
-/* Cloud UI */
-function renderCloudUI(){ const db = loadDB(); const el = document.getElementById('sync-inner') || document.getElementById('cloud-status'); if(!el) return; const status = db.cloud?.status || 'Not Synced'; if(el.id === 'cloud-status') el.textContent = status; else el.innerHTML = `<div class="info-card"><div class="label">Status</div><div class="value">${status}</div></div><div style="margin-top:8px"><button class="btn" id="ui-cloud-sync">Sync Now</button></div>`; const btn = document.getElementById('ui-cloud-sync') || document.getElementById('btn-cloud-sync'); if(btn) btn.onclick = ()=>{ cloudSync(); refreshUI(); toast('Cloud sync simulated'); }; }
-
-/* Recently viewed */
-function renderRecentlyUI(){ const db = loadDB(); const el = document.getElementById('recent-inner') || document.getElementById('recentList') || document.getElementById('ov-recently-viewed'); if(!el) return; el.innerHTML = (db.recentlyViewed || []).map(i=>`<div style="display:flex;gap:8px;padding:8px;border-bottom:1px solid #f3f4f6"><img src="${i.img||''}" style="width:56px;height:56px;object-fit:cover;border-radius:6px"><div><div style="font-weight:700">${i.title||i.name}</div><div class="small">${i.price ? '₹'+i.price : ''}</div></div></div>`).join('') || "<div class='muted'>No recently viewed</div>"; }
-
-/* Multi-account advanced */
-function renderMultiAccountAdvanced(){ const el = document.getElementById('accounts-advanced'); if(!el) return; const acc = loadAccounts(); el.innerHTML = Object.keys(acc.list).map(id=>`<div style="padding:8px;border:1px solid #f3f4f6;margin-bottom:6px;border-radius:8px;display:flex;justify-content:space-between"><div><strong>${acc.list[id].name}</strong><div class="small">${acc.list[id].email}</div></div><div><button class="plain" onclick="switchAccount('${id}')">Switch</button></div></div>`).join(''); }
-
-/* UI Upgrades placeholder */
-function renderUIUpgrades(){ const el = document.getElementById('ui-upgrade-inner'); if(!el) return; el.innerHTML = `<div class="muted">UI animations and enhancements available — pick a preset</div>`; }
-
-/* UI action helpers (exposed) */
-window.uiRemoveFromCart = function(id){ cartRemove(id); refreshUI(); toast("Removed from cart"); };
-window.uiMoveToWishlist = function(id){ const db=loadDB(); const item=db.cart.find(x=>x.id===id); if(item){ wishlistAdd(item); cartRemove(id); refreshUI(); toast("Saved to wishlist"); } };
-window.uiAddCartFromWish = function(id){ const db=loadDB(); const item=db.wishlist.find(x=>x.id===id); if(item){ cartAdd({ id:item.id, title:item.title, price:item.price, img:item.img, qty:1 }); wishlistRemove(id); refreshUI(); toast("Added to cart"); } };
-window.uiRemoveFromWish = function(id){ wishlistRemove(id); refreshUI(); toast("Removed from wishlist"); };
-window.uiRevokeDevice = function(idx){ const db=loadDB(); if(db.devices && db.devices[idx]){ const d = db.devices.splice(idx,1); saveDB(db); addActivity("Device revoked", d[0]?.id || ""); refreshUI(); toast("Device revoked"); } };
-window.uiMakeDefaultAddress = function(idx){ const db=loadDB(); if(db.addresses && db.addresses[idx]){ db.addresses.unshift(db.addresses.splice(idx,1)[0]); saveDB(db); addActivity("Address set default"); refreshUI(); toast("Default address set"); } };
-window.uiRemoveAddress = function(idx){ const db=loadDB(); db.addresses.splice(idx,1); saveDB(db); addActivity("Address removed"); refreshUI(); };
-
-/* Profile save binding (basic, if profileForm exists) */
-const pfForm = document.getElementById('profileForm');
-if(pfForm){
-  pfForm.addEventListener('submit', (e)=>{ e.preventDefault(); const db=loadDB(); db.profile.name = document.getElementById('pfName').value || db.profile.name; db.profile.email = document.getElementById('pfEmail').value || db.profile.email; db.profile.phone = document.getElementById('pfPhone').value || db.profile.phone; db.profile.bio = document.getElementById('pfBio').value || db.profile.bio; saveDB(db); addActivity("Profile edited", db.profile.email); refreshUI(); toast("Profile saved"); });
-}
-
-/* Address add */
-document.getElementById('btn-add-address')?.addEventListener('click', ()=>{
-  const name = document.getElementById('addr-name').value;
-  const line = document.getElementById('addr-line').value;
-  const city = document.getElementById('addr-city').value;
-  const pin = document.getElementById('addr-pin').value;
-  if(!name || !line) return alert("Name and address required");
-  const db=loadDB(); db.addresses.push({ name, line, city, pin, added:new Date().toLocaleString() }); saveDB(db); addActivity("Address added", name); renderAddressesUI(); toast("Address added");
-});
-
-/* Copy referral */
-document.getElementById('btn-copy-ref')?.addEventListener('click', ()=>{
-  const db = loadDB(); const code = db.profile.referralCode || ''; if(!code) return alert("No referral code"); navigator.clipboard?.writeText(location.origin + "?ref=" + code).then(()=> toast("Referral link copied"));
-});
-
-/* Cloud sync binding */
-document.getElementById('btn-cloud-sync')?.addEventListener('click', ()=>{ cloudSync(); refreshUI(); toast("Cloud sync done (simulated)"); });
-
-/* Quick demo action */
-window.demoAddAction = function(){
-  const demo = { id: "DEMO-" + Date.now(), title: "Demo Product", price: 199, img: "https://via.placeholder.com/120x120.png?text=Demo", qty:1 };
-  cartAdd(demo); addRecentlyViewed(demo); evaluateBadges(); refreshUI(); toast("Demo product added to cart");
-};
-document.getElementById('quick-add-demo')?.addEventListener('click', ()=> demoAddAction());
-
-/* Global search handler */
-window.globalSearchHandler = function(q){
-  q = (q||"").toLowerCase().trim();
-  if(!q){ refreshUI(); return; }
-  const db = loadDB();
-  const actFiltered = (db.activity||[]).filter(a => (a.action + " " + (a.details||"")).toLowerCase().includes(q));
-  const actEl = document.getElementById('activity-inner'); if(actEl) actEl.innerHTML = actFiltered.map(a=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6"><strong>${a.action}</strong><div class="small">${a.time} • ${a.details||''}</div></div>`).join('') || "<div class='muted'>No results</div>";
-  const ordersFiltered = (db.orders||[]).filter(o => (o.id + " " + (o.items||[]).map(i=>i.title||i.name).join(" ")).toLowerCase().includes(q));
-  const ordEl = document.getElementById('orders-inner'); if(ordEl) ordEl.innerHTML = ordersFiltered.map(o=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6"><strong>${o.id}</strong><div class="small">${o.time}</div></div>`).join('') || "<div class='muted'>No results</div>";
-  const wishFiltered = (db.wishlist||[]).filter(w => (w.title||w.name).toLowerCase().includes(q)); const wishEl = document.getElementById('wishlist-inner'); if(wishEl) wishEl.innerHTML = wishFiltered.map(w=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6"><strong>${w.title||w.name}</strong><div class="small">₹${w.price||''}</div></div>`).join('') || "<div class='muted'>No results</div>";
-  const recentFiltered = (db.recentlyViewed||[]).filter(r => (r.title||r.name).toLowerCase().includes(q)); const recentEl = document.getElementById('recent-inner'); if(recentEl) recentEl.innerHTML = recentFiltered.map(r=>`<div style="padding:8px;border-bottom:1px solid #f3f4f6"><strong>${r.title||r.name}</strong></div>`).join('') || "<div class='muted'>No results</div>";
-};
-
-/* Export/import/signout global wrappers (Part2 uses them) */
-window.exportFullDB = function(){ const key = getActiveDBKey(); const raw = localStorage.getItem(key) || "{}"; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([raw], {type:'application/json'})); a.download = 'profile-backup.json'; a.click(); };
-window.importFullDB = function(){ document.getElementById('importDBPicker').click(); };
-window.signOutUser = function(){ alert("Signed out (local simulation)"); location.reload(); };
-
-/* Avatar top input binding */
-const topAvatarInput = document.querySelector('#avatarInput') || document.querySelector('#avatarInputProfile');
-if(topAvatarInput){
-  topAvatarInput.addEventListener('change', (ev)=>{
-    const f = ev.target.files[0];
-    if(!f) return; if(!f.type.startsWith('image/')) return alert('Select an image file');
-    const r = new FileReader();
-    r.onload = (e)=>{ const db = loadDB(); db.profile.avatar = e.target.result; saveDB(db); addActivity("Avatar changed"); refreshUI(); toast("Avatar updated"); };
-    r.readAsDataURL(f);
-  });
-}
-
-/* refreshUI aggregates all renderers */
-function refreshUI(){
-  renderOrdersUI(); renderCartUI(); renderWishlistUI(); renderActivityUI(); renderSecurityUI(); renderAddressesUI(); renderBadgesUI(); renderReferralsUI(); renderNotificationsUI(); renderThemesUI(); renderCloudUI(); renderRecentlyUI(); renderMultiAccountAdvanced(); renderUIUpgrades();
-  const db = loadDB();
-  updateLeftMetrics(db);
-  document.getElementById('metric-spent') && (document.getElementById('metric-spent').textContent = '₹' + Number(db.analytics?.totalSpent || 0).toLocaleString('en-IN'));
-  document.getElementById('metric-wishlist') && (document.getElementById('metric-wishlist').textContent = db.wishlist.length);
-  document.getElementById('metric-cart') && (document.getElementById('metric-cart').textContent = db.cart.length);
-  document.getElementById('globalActivityCount') && (document.getElementById('globalActivityCount').textContent = db.activity.length);
-  document.getElementById('globalOrdersCount') && (document.getElementById('globalOrdersCount').textContent = db.orders.length);
-  updateOverviewStats();
-}
-
-/* Bind global search input to handler */
-document.getElementById('globalSearch')?.addEventListener('input', (e)=> globalSearchHandler(e.target.value));
-
-/* Bind copy referral */
-document.getElementById('btn-copy-ref')?.addEventListener('click', ()=>{ const db=loadDB(); const code=db.profile.referralCode||''; if(!code) return alert("No referral code"); navigator.clipboard?.writeText(location.origin + "?ref=" + code).then(()=> toast("Referral link copied")); });
-
-/* Bind cloud sync (if present) */
-document.getElementById('btn-cloud-sync')?.addEventListener('click', ()=>{ cloudSync(); refreshUI(); toast("Cloud sync done (simulated)"); });
-
-/* Init UI */
-refreshUI();
-
-/* Keep UI in sync across tabs */
-window.addEventListener('storage', (e)=>{ refreshUI(); });
-
-console.log("PART 5 UI bindings completed");
-</script>
-
-<!-- PART 6: Analytics + Theme Engine -->
-<script>
-/* PART 6 — Analytics + Theme Engine */
-console.log("PART 6 LOADED");
-
-function roundRect(ctx,x,y,w,h,r,fill,stroke){ if(r===undefined) r=5; ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); if(fill) ctx.fill(); if(stroke) ctx.stroke(); }
-
-function drawSparklineBar(canvas, values, opts = {}){
-  if(!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 600;
-  const h = canvas.clientHeight || 140;
-  canvas.width = w * dpr; canvas.height = h * dpr;
-  const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0,0,w,h);
-  const pad = opts.padding || 12; const chartW = w - pad*2; const chartH = h - pad*2;
-  const maxV = Math.max(1, ...values); const barGap = 8;
-  const barW = Math.max(8, (chartW - (values.length - 1) * barGap) / values.length);
-  const grad = ctx.createLinearGradient(0,pad,0,pad+chartH); grad.addColorStop(0,'rgba(40,116,240,0.95)'); grad.addColorStop(1,'rgba(6,182,212,0.15)');
-  values.forEach((v,i)=>{ const x = pad + i*(barW + barGap); const hh = (v/maxV)*chartH; const y = pad + (chartH - hh); ctx.fillStyle = grad; roundRect(ctx,x,y,barW,hh,Math.min(6,barW/2), true, false); });
-  if(opts.labels && opts.labels.length){ ctx.fillStyle = "#334155"; ctx.font = "12px Inter, Arial"; ctx.textAlign = "center"; opts.labels.forEach((lab,i)=>{ const x = pad + i*(barW + barGap) + barW/2; ctx.fillText(lab, x, h - pad/2); }); }
-}
-
-function computeMonthlySpend(){
-  const db = loadDB(); const orders = db.orders || [];
-  const months=[]; const now=new Date();
-  for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(), now.getMonth()-i,1); const label=d.toLocaleString('en-IN',{month:'short',year:'2-digit'}); months.push({ key:d.getFullYear()+"-"+(d.getMonth()+1), label, total:0 }); }
-  orders.forEach(o=>{ let t = new Date(o.time || o.date || (parseInt((o.id||"").replace(/\D/g,'')) || Date.now())); const key = t.getFullYear()+"-"+(t.getMonth()+1); const bucket = months.find(m=>m.key===key); if(bucket) bucket.total += Number(o.amount || o.total || 0); });
-  const labels = months.map(m=>m.label), values=months.map(m=>Math.round(m.total)), sum = values.reduce((s,v)=>s+v,0), ordersCount = orders.length;
-  return { labels, values, total: sum, ordersCount };
-}
-
-function renderAnalytics(){
-  const data = computeMonthlySpend();
-  const canvas = document.getElementById('chart-spend');
-  if(canvas) drawSparklineBar(canvas, data.values, { padding:12, labels: data.labels });
-  const summaryEl = document.getElementById('analytics-summary');
-  if(summaryEl){
-    summaryEl.innerHTML = `<div style="display:flex;gap:12px;align-items:center"><div style="font-weight:800;font-size:18px">₹${Number(data.total).toLocaleString('en-IN')}</div><div class="muted">spent across ${data.ordersCount} orders (12 months)</div></div><div style="margin-top:12px" id="analytics-insights"></div>`;
-    const insights = []; if(data.total === 0) insights.push("No purchases yet — try adding items to your cart!"); else { const avg = Math.round(data.total / Math.max(1, data.ordersCount)); insights.push(`Average order value ₹${avg.toLocaleString('en-IN')}`); const peak = Math.max(...data.values); if(peak>0) insights.push(`Peak month spend ₹${peak.toLocaleString('en-IN')}`); }
-    document.getElementById('analytics-insights').innerHTML = insights.map(i=>`<div class="small">• ${i}</div>`).join('');
+  if(!oldPass.value || !newPass.value){
+    alert("Fill all fields");
+    return;
   }
-  const db = loadDB(); document.getElementById('metric-spent') && (document.getElementById('metric-spent').textContent = '₹' + Number(data.total).toLocaleString('en-IN'));
-  document.getElementById('globalActivityCount') && (document.getElementById('globalActivityCount').textContent = db.activity.length);
-  document.getElementById('globalOrdersCount') && (document.getElementById('globalOrdersCount').textContent = db.orders.length);
+
+  fetch("/api/user/password",{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:"Bearer "+token
+    },
+    body:JSON.stringify({
+      oldPass:oldPass.value,
+      newPass:newPass.value
+    })
+  })
+  .then(r=>r.json())
+  .then(d=>alert(d.msg||"Updated"))
+  .catch(()=>alert("Server error"));
 }
-
-/* THEME ENGINE */
-const THEME_KEY = "PROFILE_THEME_SETTING";
-function applyThemeToDOM(themeName){
-  document.documentElement.style.transition = "background-color 240ms ease, color 240ms ease";
-  switch(themeName){
-    case 'dark':
-      document.documentElement.style.setProperty('--page-bg','#0b1220');
-      document.documentElement.style.setProperty('--card','#0d1724');
-      document.documentElement.style.setProperty('--accent','#4f46e5');
-      document.documentElement.style.setProperty('--muted','#94a3b8');
-      document.body.style.background = "linear-gradient(180deg,#071225,#0b1220)";
-      document.body.style.color = "#e6eef8";
-      break;
-    case 'neo':
-      document.documentElement.style.setProperty('--page-bg','linear-gradient(180deg,#f7fbff,#eef6ff)');
-      document.documentElement.style.setProperty('--card','rgba(255,255,255,0.85)');
-      document.documentElement.style.setProperty('--accent','#2563eb');
-      document.documentElement.style.setProperty('--muted','#475569');
-      document.body.style.color = "#0b1220";
-      document.body.style.backdropFilter = "saturate(120%) blur(6px)";
-      break;
-    case 'gradient':
-      document.documentElement.style.setProperty('--page-bg','linear-gradient(135deg,#ff7ab6,#7c3aed)');
-      document.documentElement.style.setProperty('--card','#ffffffcc');
-      document.documentElement.style.setProperty('--accent','#f97316');
-      document.documentElement.style.setProperty('--muted','#fff');
-      document.body.style.color = "#fff";
-      break;
-    default:
-      document.documentElement.style.setProperty('--page-bg','#f5f7fb');
-      document.documentElement.style.setProperty('--card','#ffffff');
-      document.documentElement.style.setProperty('--accent','#2874f0');
-      document.documentElement.style.setProperty('--muted','#6b7280');
-      document.body.style.color = "#0b1220";
-      document.body.style.background = "";
-      break;
-  }
-  const db = loadDB(); db.theme = themeName; saveDB(db); localStorage.setItem(THEME_KEY, themeName);
-  document.querySelectorAll('.theme-box').forEach(el=>{ el.style.outline = (el.dataset.theme === themeName) ? "3px solid rgba(40,116,240,0.18)" : "none"; });
-}
-window.uiSetTheme = function(theme){ applyThemeToDOM(theme); toast("Theme applied: " + theme); refreshUI(); };
-
-function initPart6(){ const db = loadDB(); const saved = db.theme || localStorage.getItem(THEME_KEY) || 'light'; applyThemeToDOM(saved); renderAnalytics(); }
-const _origRefresh = window.refreshUI || function(){};
-window.refreshUI = function(){ try{ _origRefresh(); }catch(e){} try{ renderAnalytics(); }catch(e){} };
-initPart6();
-console.log("PART 6 Initialized");
-</script>
-
-<!-- Small toast helper -->
-<script>
-function toast(msg){ const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(()=> t.style.opacity=0.01,1600); setTimeout(()=> t.remove(),2200); }
-</script>
-
-<!-- NAV behavior (wired after all scripts loaded) -->
-<script>
-/* Left nav panel switching behavior */
-document.querySelectorAll('.nav-item').forEach(item=>{
-  item.addEventListener('click', ()=> {
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    item.classList.add('active');
-    const target = item.dataset.target;
-    document.querySelectorAll('#rightPanels > div').forEach(p=> p.style.display = (p.id === target) ? 'block' : 'none');
-    const titleMap = {
-      'panel-analytics':'Analytics','panel-orders':'Orders','panel-cart':'Cart','panel-wishlist':'Wishlist','panel-activity':'Activity Log',
-      'panel-security':'Security','panel-addresses':'Address Book','panel-badges':'Badges','panel-referral':'Referrals','panel-notifications':'Notifications',
-      'panel-themes':'Themes','panel-sync':'Cloud Sync','panel-multiaccount':'Multi-Account','panel-recent':'Recently Viewed','panel-ui-upgrade':'UI Upgrades'
-    };
-    document.getElementById('panelTitle').textContent = titleMap[target] || 'Profile';
-    document.getElementById('panelSubtitle').textContent = 'Manage ' + (titleMap[target] || 'profile') + ' — advanced controls';
-  });
-});
-
-/* Wire global search to handler */
-document.getElementById('globalSearch').addEventListener('input', (e)=> { if(window.globalSearchHandler) globalSearchHandler(e.target.value); });
-
-/* on load: ensure analytics panel visible */
-document.querySelectorAll('#rightPanels > div').forEach(p=> p.style.display = (p.id === 'panel-analytics') ? 'block' : 'none');
-
-/* initialize small UI elements and refresh final UI */
-updateLeftMetrics(loadDB()); refreshUI();
-/* ensure account list up to date in left panel and advanced account view */
-renderAccountList(); renderMultiAccountAdvanced();
 </script>
 
 </body>

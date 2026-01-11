@@ -135,69 +135,91 @@
 <footer>
   <p>© 2025 ShopEase. All rights reserved.</p>
 </footer>
-
 <script>
   const filters = document.querySelectorAll('.filter');
   const sortSelect = document.getElementById('sort');
   const productsContainer = document.querySelector('.products');
   let products = Array.from(document.querySelectorAll('.product-card'));
 
-  // Apply Filters
+  /* ---------------- FILTERS ---------------- */
   function applyFilters() {
-    let activeFilters = { category: [], price: [], material: [] };
+    let active = { category: [], price: [], material: [] };
 
     filters.forEach(f => {
       if (f.checked) {
-        if (f.dataset.filter) activeFilters.category.push(f.dataset.filter);
-        if (f.dataset.price) activeFilters.price.push(f.dataset.price);
-        if (f.dataset.material) activeFilters.material.push(f.dataset.material);
+        if (f.dataset.filter) active.category.push(f.dataset.filter);
+        if (f.dataset.price) active.price.push(f.dataset.price);
+        if (f.dataset.material) active.material.push(f.dataset.material);
       }
     });
 
-    products.forEach(product => {
-      let categoryMatch = !activeFilters.category.length || activeFilters.category.includes(product.dataset.category);
-      let priceMatch = !activeFilters.price.length || activeFilters.price.includes(product.dataset.price);
-      let materialMatch = !activeFilters.material.length || activeFilters.material.includes(product.dataset.material);
+    products.forEach(p => {
+      const show =
+        (!active.category.length || active.category.includes(p.dataset.category)) &&
+        (!active.price.length || active.price.includes(p.dataset.price)) &&
+        (!active.material.length || active.material.includes(p.dataset.material));
 
-      product.style.display = (categoryMatch && priceMatch && materialMatch) ? "block" : "none";
+      p.style.display = show ? "block" : "none";
     });
   }
 
-  // Sort Products
   function sortProducts(order) {
     let sorted = [...products];
-    if (order === "low-high") {
-      sorted.sort((a, b) => a.dataset.value - b.dataset.value);
-    } else if (order === "high-low") {
-      sorted.sort((a, b) => b.dataset.value - a.dataset.value);
+    if (order === "low-high") sorted.sort((a, b) => a.dataset.value - b.dataset.value);
+    if (order === "high-low") sorted.sort((a, b) => b.dataset.value - a.dataset.value);
+
+    productsContainer.innerHTML = "";
+    sorted.forEach(p => productsContainer.appendChild(p));
+  }
+
+  filters.forEach(f => f.addEventListener("change", applyFilters));
+  sortSelect.addEventListener("change", e => sortProducts(e.target.value));
+
+  /* ---------------- CART BACKEND CONNECTIVITY ---------------- */
+  function addToCart({ name, price, image }) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login first");
+      window.location.href = "login.html";
+      return;
     }
-    productsContainer.innerHTML = '';
-    sorted.forEach(product => productsContainer.appendChild(product));
+
+    fetch("http://localhost:5000/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify({
+        product_name: name,
+        price: price,
+        image: image,
+        qty: 1
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.msg);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Cart server error");
+    });
   }
 
-  filters.forEach(filter => filter.addEventListener('change', applyFilters));
-  sortSelect.addEventListener('change', e => sortProducts(e.target.value));
+  /* Attach Add-to-Cart */
+  document.querySelectorAll(".product-card").forEach(card => {
+    const btn = card.querySelector(".btn");
+    const name = card.querySelector("h3").innerText;
+    const price = Number(card.dataset.value);
+    const image = card.querySelector("img").src;
 
-  // ---- CART FUNCTIONALITY ----
-  function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${product.name} added to cart!`);
-  }
-
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.querySelector('.btn').addEventListener('click', () => {
-      const product = {
-        name: card.querySelector('h3').textContent,
-        price: card.querySelector('p').textContent,
-        image: card.querySelector('img').src
-      };
-      addToCart(product);
+    btn.addEventListener("click", () => {
+      addToCart({ name, price, image });
     });
   });
 </script>
-
 
 </body>
 </html>

@@ -2,36 +2,252 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>ShopEase | Cart</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cart - ShopEase</title>
 
-<link rel="stylesheet" href="cart.css">
+<style>
+body{
+  margin:0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(120deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  background:rgba(0,0,0,0.3);
+  backdrop-filter: blur(6px);
+}
+
+header a{
+  color:#9ad7ff;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.cart-wrapper{
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:20px;
+  padding:24px;
+}
+
+.cart-items{
+  background:rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:20px;
+}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.08);
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:12px;
+  transition:transform .2s;
+}
+
+.cart-item:hover{
+  transform:scale(1.01);
+}
+
+.cart-item h4{
+  margin:0;
+}
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.qty-controls button{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:50%;
+  background:#27a8ff;
+  color:#fff;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.remove-btn{
+  background:none;
+  border:none;
+  color:#ff8080;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.summary{
+  background:rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:20px;
+  height:fit-content;
+}
+
+.summary h3{
+  margin-top:0;
+}
+
+.summary p{
+  display:flex;
+  justify-content:space-between;
+}
+
+.checkout-btn{
+  width:100%;
+  margin-top:14px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#1ea8ff,#2796ff);
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.empty{
+  text-align:center;
+  opacity:0.7;
+  margin-top:40px;
+}
+
+@media(max-width:900px){
+  .cart-wrapper{grid-template-columns:1fr;}
+}
+</style>
 </head>
 
 <body>
 
-<header class="cart-header">
+<header>
   <h2>🛒 Your Cart</h2>
-  <a href="index.html" class="back-btn">← Continue Shopping</a>
+  <a href="index.html">← Continue Shopping</a>
 </header>
 
-<div class="cart-container">
+<div class="cart-wrapper">
 
   <div class="cart-items" id="cartItems">
-    <!-- Items load dynamically -->
+    <!-- dynamic -->
   </div>
 
-  <div class="cart-summary">
+  <div class="summary">
     <h3>Order Summary</h3>
-    <p class="summary-text">Items: <span id="summary-count">0</span></p>
-    <p class="summary-text">Subtotal: ₹<span id="summary-subtotal">0</span></p>
-    <p class="summary-text">Discount: <span id="summary-discount">0%</span></p>
-    <p class="summary-total">Grand Total: ₹<span id="summary-total">0</span></p>
+    <p><span>Items</span><span id="count">0</span></p>
+    <p><span>Subtotal</span><span>₹<span id="subtotal">0</span></span></p>
+    <p><strong>Total</strong><strong>₹<span id="total">0</span></strong></p>
     <button class="checkout-btn">Checkout</button>
   </div>
 
 </div>
+<script>
+/* ================= AUTH CHECK ================= */
+const token = localStorage.getItem("token");
+if (!token) {
+  alert("Please login first");
+  window.location.href = "login.html";
+}
 
-<script src="cart.js"></script>
+/* ================= ELEMENTS ================= */
+const cartItemsDiv = document.getElementById("cartItems");
+const subtotalEl = document.getElementById("subtotal");
+const totalEl = document.getElementById("total");
+const countEl = document.getElementById("count");
+
+let subtotal = 0;
+let count = 0;
+
+/* ================= LOAD CART ================= */
+fetch("http://localhost:5000/api/cart", {
+  headers: {
+    "Authorization": token
+  }
+})
+.then(res => {
+  if (!res.ok) throw new Error("Server error");
+  return res.json();
+})
+.then(items => {
+  cartItemsDiv.innerHTML = "";
+
+  if (!items.length) {
+    cartItemsDiv.innerHTML =
+      '<div class="empty">Your cart is empty 🛍️</div>';
+    return;
+  }
+
+  items.forEach(item => {
+    subtotal += item.price * item.quantity;
+    count += item.quantity;
+
+    cartItemsDiv.innerHTML += `
+      <div class="cart-item">
+        <div>
+          <h4>${item.product_name}</h4>
+          <small>₹${item.price}</small>
+        </div>
+
+        <div class="qty-controls">
+          <button onclick="updateQty(${item.id}, -1)">−</button>
+          <span>${item.quantity}</span>
+          <button onclick="updateQty(${item.id}, 1)">+</button>
+        </div>
+
+        <button class="remove-btn" onclick="removeItem(${item.id})">
+          Remove
+        </button>
+      </div>
+    `;
+  });
+
+  subtotalEl.innerText = subtotal;
+  totalEl.innerText = subtotal;
+  countEl.innerText = count;
+})
+.catch(err => {
+  console.error(err);
+  alert("Cart server error");
+});
+
+/* ================= UPDATE QUANTITY ================= */
+function updateQty(id, change) {
+  fetch("http://localhost:5000/api/cart/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    },
+    body: JSON.stringify({ cartId: id, change })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error();
+    location.reload();
+  })
+  .catch(() => alert("Quantity update failed"));
+}
+
+/* ================= REMOVE ITEM ================= */
+function removeItem(id) {
+  fetch(`http://localhost:5000/api/cart/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": token
+    }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error();
+    location.reload();
+  })
+  .catch(() => alert("Remove failed"));
+}
+</script>
+
 </body>
 </html>
