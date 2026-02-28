@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   if (!token) return res.status(403).json("No token provided");
 
   try {
-    const decoded = jwt.verify(token, "SHOPEASE_SECRET");
+    const decoded = jwt.verify(token, "SHOPEASE_SECRET_KEY");
     req.user = decoded;
     next();
   } catch {

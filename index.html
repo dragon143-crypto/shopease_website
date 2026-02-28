@@ -1,486 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShopEase</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
-<!-- ===================== HEADER START ===================== -->
+  <!-- ===================== HEADER START ===================== -->
 
-<header class="pro-header">
+  <header class="pro-header">
 
-  <!-- LEFT: LOGO -->
-  <div class="pro-logo" data-lang="brand">ShopEase</div>
+    <!-- LEFT: LOGO -->
+    <div class="pro-logo" data-lang="brand">ShopEase</div>
 
-  <!-- CENTER: SEARCH BAR -->
-  <div class="pro-search">
-    <div id="searchResults" class="search-results"></div>
-
-
-    <input id="searchInput" type="text" placeholder="Search products..." data-lang="search_placeholder" />
-
-    <!-- Voice Search Icon (LEFT SIDE OF SEARCH BUTTON) -->
-    <span class="voice-btn" id="voiceBtn">
-      <i class="fas fa-microphone"></i>
-    </span>
-    <button><i class="fas fa-search"></i></button>
-  </div>
-
-  <!-- RIGHT: ACTIONS -->
-  <div class="pro-actions">
-
-    <!-- Multi-language Dropdown -->
-    <select class="lang-select" id="langChange">
-      <option value="en">EN</option>
-      <option value="hi">हिं</option>
-      <option value="te">తెలు</option>
-      <option value="ta">தமி</option>
-    </select>
-
-  <!-- Cart -->
-<div class="pro-icon" onclick="window.location.href='cart.html'">
-  <i class="fas fa-shopping-cart"></i>
- 
-</div>
-
-<!-- Profile Dropdown -->
-<div class="profile-wrapper">
-  <!-- Make the whole icon clickable for profile page -->
-  <a href="profile.html" class="profile-btn pro-icon">
-    <i class="fas fa-user"></i> Profile
-  </a>
-
-  <!-- Dropdown menu -->
-  <div class="profile-menu">
-    <a href="orders.html" data-lang="orders">My Orders</a>
-    <a href="wishlist.html" data-lang="wishlist">Wishlist</a>
-    <a href="account.html" data-lang="account">Account Settings</a>
-    <a href="logout.html" data-lang="logout">Logout</a>
-  </div>
-</div>
+    <!-- CENTER: SEARCH BAR -->
+    <div class="pro-search">
+      <div id="searchResults" class="search-results"></div>
 
 
-<!-- Sign In Button -->
-<a href="login.html" class="signin-btn" data-lang="signin">login</a>
+      <input id="searchInput" type="text" placeholder="Search products..." data-lang="search_placeholder" />
 
-  </div>
+      <!-- Voice Search Icon (LEFT SIDE OF SEARCH BUTTON) -->
+      <span class="voice-btn" id="voiceBtn">
+        <i class="fas fa-microphone"></i>
+      </span>
+      <button><i class="fas fa-search"></i></button>
+    </div>
 
-</header>
+    <!-- RIGHT: ACTIONS -->
+    <div class="pro-actions">
 
-<!-- FONT AWESOME -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <!-- Multi-language Dropdown -->
+      <select class="lang-select" id="langChange">
+        <option value="en">EN</option>
+        <option value="hi">हिं</option>
+        <option value="te">తెలు</option>
+        <option value="ta">தமி</option>
+      </select>
 
-<!-- CATEGORY BAR -->
-<nav class="category-bar">
-  <ul class="main-menu">
+      <!-- Cart -->
+      <div class="pro-icon" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
 
-    <!-- Mobiles & Tablets -->
-    <li class="menu-item mobiles">
-      <a href="#">
-        <img src="https://www.pngmart.com/files/15/Apple-iPhone-11-PNG-Image.png" alt="Mobiles">
-        <span>Mobiles & Tablets</span>
-      </a>
+      </div>
 
-      <ul class="dropdown mobile-dropdown">
+      <!-- Profile Dropdown -->
+      <div class="profile-wrapper">
+        <!-- Make the whole icon clickable for profile page -->
+        <a href="profile.html" class="profile-btn pro-icon">
+          <i class="fas fa-user"></i> Profile
+        </a>
 
-        <li class="submenu-item">
-          <a href="mobile.html" class="submenu-link">Mobiles</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Mobiles</li>
-            <li><a href="mobile-details.html">All Mobile Phones</a></li>
-            <li><a href="#">Smartphones</a></li>
-            <li><a href="#">5G Phones</a></li>
-            <li><a href="#">Feature Phones</a></li>
-            <li><a href="#">Gaming Phones</a></li>
-            <li><a href="#">Refurbished Mobiles</a></li>
-            <li><a href="#">Upcoming Phones</a></li>
-          </ul>
-        </li>
+        <!-- Dropdown menu -->
+        <div class="profile-menu">
+          <a href="orders.html" data-lang="orders">My Orders</a>
+          <a href="wishlist.html" data-lang="wishlist">Wishlist</a>
+          <a href="account.html" data-lang="account">Account Settings</a>
+          <a href="logout.html" data-lang="logout">Logout</a>
+        </div>
+      </div>
 
-        <li class="submenu-item">
-          <a href="#" class="submenu-link">Tablets</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Tablets</li>
-            <li><a href="#">All Tablets</a></li>
-            <li><a href="#">Android Tablets</a></li>
-            <li><a href="#">iPads</a></li>
-            <li><a href="#">Windows Tablets</a></li>
-            <li><a href="#">Kids Tablets</a></li>
-            <li><a href="#">Tablet Accessories</a></li>
-          </ul>
-        </li>
 
-        <li class="submenu-item">
-          <a href="accessories.html" class="submenu-link">Accessories</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Accessories</li>
-            <li><a href="#">Mobile Cases & Covers</a></li>
-            <li><a href="#">Screen Protectors</a></li>
-            <li><a href="#">Chargers</a></li>
-            <li><a href="#">Power Banks</a></li>
-            <li><a href="#">Cables</a></li>
-            <li><a href="#">Adapters</a></li>
-            <li><a href="#">Headphones</a></li>
-            <li><a href="#">Smartwatches</a></li>
-          </ul>
-        </li>
+      <!-- Sign In Button -->
+      <a href="login.html" class="signin-btn" data-lang="signin">login</a>
 
-        <li><a href="#">Wearables</a></li>
-        <li><a href="#">Mobile Cleaning Kits</a></li>
-        <li><a href="#">SIM Cards</a></li>
+    </div>
 
-      </ul>
-    </li>
+  </header>
 
-    <!-- FASHION -->
-    <li class="menu-item fashion">
-      <a href="#">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/050/817/666/small_2x/smiling-young-man-and-woman-pointing-at-camera-standing-isolate-on-transparent-background-png.png" alt="Fashion">
-        <span>Fashion</span>
-      </a>
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-      <ul class="dropdown fashion-dropdown">
+  <!-- CATEGORY BAR -->
+  <nav class="category-bar">
+    <ul class="main-menu">
 
-        <li class="submenu-item">
-          <a href="men-fashion.html" class="submenu-link">Men's Top Wear</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Men's Top Wear</li>
-            <li><a href="#">All</a></li>
-            <li><a href="#">Men's T-Shirts</a></li>
-            <li><a href="#">Men's Casual Shirts</a></li>
-            <li><a href="#">Men's Formal Shirts</a></li>
-            <li><a href="#">Men's Kurtas</a></li>
-            <li><a href="#">Men's Ethnic Sets</a></li>
-            <li><a href="#">Men's Blazers</a></li>
-            <li><a href="#">Men's Raincoat</a></li>
-            <li><a href="#">Men's Windcheaters</a></li>
-            <li><a href="#">Men's Suit</a></li>
-            <li><a href="#">Men's Fabrics</a></li>
-          </ul>
-        </li>
+      <!-- Mobiles & Tablets -->
+      <li class="menu-item mobiles">
+        <a href="#">
+          <img src="https://www.pngmart.com/files/15/Apple-iPhone-11-PNG-Image.png" alt="Mobiles">
+          <span>Mobiles & Tablets</span>
+        </a>
 
-        <li><a href="#">Men's Bottom Wear</a></li>
-        <li><a href="#">Women Ethnic</a></li>
-        <li><a href="#">Men Footwear</a></li>
-        <li><a href="#">Women Footwear</a></li>
-        <li><a href="#">Watches and Accessories</a></li>
-        <li><a href="#">Women Western</a></li>
-        <li><a href="#">Bags, Suitcases & Luggage</a></li>
-        <li><a href="kids-fashion.html">Kids</a></li>
-        <li><a href="#">Essentials</a></li>
-        <li><a href="#">Winter</a></li>
+        <ul class="dropdown mobile-dropdown">
 
-      </ul>
-    </li>
+          <li class="submenu-item">
+            <a href="mobile.html" class="submenu-link">Mobiles</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Mobiles</li>
+              <li><a href="mobile-details.html">All Mobile Phones</a></li>
+              <li><a href="#">Smartphones</a></li>
+              <li><a href="#">5G Phones</a></li>
+              <li><a href="#">Feature Phones</a></li>
+              <li><a href="#">Gaming Phones</a></li>
+              <li><a href="#">Refurbished Mobiles</a></li>
+              <li><a href="#">Upcoming Phones</a></li>
+            </ul>
+          </li>
 
-    <!-- ELECTRONICS -->
-    <li class="menu-item electronics">
-      <a href="#">
-        <img src="https://www.transparentpng.com/download/laptop/9oRuDc-refreshed-pavilion-gaming-series-launching-next-month.png" alt="Electronics">
-        <span>Electronics</span>
-      </a>
+          <li class="submenu-item">
+            <a href="#" class="submenu-link">Tablets</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Tablets</li>
+              <li><a href="#">All Tablets</a></li>
+              <li><a href="#">Android Tablets</a></li>
+              <li><a href="#">iPads</a></li>
+              <li><a href="#">Windows Tablets</a></li>
+              <li><a href="#">Kids Tablets</a></li>
+              <li><a href="#">Tablet Accessories</a></li>
+            </ul>
+          </li>
 
-      <ul class="dropdown electronics-dropdown">
-        
-        <li class="submenu-item">
-          <a href="laptop.html" class="submenu-link">Laptops</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Laptops</li>
-            <li><a href="#">All Laptops</a></li>
-            <li><a href="#">Gaming Laptops</a></li>
-            <li><a href="#">2-in-1 Laptops</a></li>
-            <li><a href="#">Thin & Light Laptops</a></li>
-            <li><a href="#">MacBooks</a></li>
-            <li><a href="#">Laptop Accessories</a></li>
-            <li><a href="#">Laptop Bags</a></li>
-            <li><a href="#">Cooling Pads</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="accessories.html" class="submenu-link">Accessories</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Accessories</li>
+              <li><a href="#">Mobile Cases & Covers</a></li>
+              <li><a href="#">Screen Protectors</a></li>
+              <li><a href="#">Chargers</a></li>
+              <li><a href="#">Power Banks</a></li>
+              <li><a href="#">Cables</a></li>
+              <li><a href="#">Adapters</a></li>
+              <li><a href="#">Headphones</a></li>
+              <li><a href="#">Smartwatches</a></li>
+            </ul>
+          </li>
 
-        <li class="submenu-item">
-          <a href="audio.html" class="submenu-link">Audio</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Audio</li>
-            <li><a href="#">All Headphones</a></li>
-            <li><a href="#">Bluetooth Earphones</a></li>
-            <li><a href="#">True Wireless Buds</a></li>
-            <li><a href="#">Neckbands</a></li>
-            <li><a href="#">Speakers</a></li>
-            <li><a href="#">Soundbars</a></li>
-            <li><a href="#">Home Theatre</a></li>
-            <li><a href="#">Headphone Accessories</a></li>
-          </ul>
-        </li>
+          <li><a href="#">Wearables</a></li>
+          <li><a href="#">Mobile Cleaning Kits</a></li>
+          <li><a href="#">SIM Cards</a></li>
 
-        <li class="submenu-item">
-          <a href="camera.html" class="submenu-link">Cameras</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Cameras</li>
-            <li><a href="#">DSLR Cameras</a></li>
-            <li><a href="#">Mirrorless Cameras</a></li>
-            <li><a href="#">Point & Shoot</a></li>
-            <li><a href="#">Action Cameras</a></li>
-            <li><a href="#">Camera Lenses</a></li>
-            <li><a href="#">Camera Tripods</a></li>
-            <li><a href="#">Camera Bags</a></li>
-            <li><a href="#">Memory Cards</a></li>
-          </ul>
-        </li>
+        </ul>
+      </li>
 
-        <li class="submenu-item">
-          <a href="#" class="submenu-link">Monitors</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Monitors</li>
-            <li><a href="#">Gaming Monitors</a></li>
-            <li><a href="#">Full HD Monitors</a></li>
-            <li><a href="#">Curved Monitors</a></li>
-            <li><a href="#">4K Monitors</a></li>
-            <li><a href="#">Touch Monitors</a></li>
-            <li><a href="#">Monitor Accessories</a></li>
-          </ul>
-        </li>
+      <!-- FASHION -->
+      <li class="menu-item fashion">
+        <a href="#">
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/050/817/666/small_2x/smiling-young-man-and-woman-pointing-at-camera-standing-isolate-on-transparent-background-png.png"
+            alt="Fashion">
+          <span>Fashion</span>
+        </a>
 
-        <li><a href="#">Power Banks</a></li>
-        <li><a href="#">Projectors</a></li>
-        <li><a href="#">Smart Home Devices</a></li>
-      </ul>
-    </li>
+        <ul class="dropdown fashion-dropdown">
 
-    <!-- HOME & FURNITURE -->
-    <li class="menu-item home">
-      <a href="#">
-        <img src="https://pngimg.com/uploads/sofa/sofa_PNG6951.png" alt="Home & Furniture">
-        <span>Home & Furniture</span>
-      </a>
+          <li class="submenu-item">
+            <a href="men-fashion.html" class="submenu-link">Men's Top Wear</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Men's Top Wear</li>
+              <li><a href="#">All</a></li>
+              <li><a href="#">Men's T-Shirts</a></li>
+              <li><a href="#">Men's Casual Shirts</a></li>
+              <li><a href="#">Men's Formal Shirts</a></li>
+              <li><a href="#">Men's Kurtas</a></li>
+              <li><a href="#">Men's Ethnic Sets</a></li>
+              <li><a href="#">Men's Blazers</a></li>
+              <li><a href="#">Men's Raincoat</a></li>
+              <li><a href="#">Men's Windcheaters</a></li>
+              <li><a href="#">Men's Suit</a></li>
+              <li><a href="#">Men's Fabrics</a></li>
+            </ul>
+          </li>
 
-      <ul class="dropdown home-dropdown">
+          <li><a href="#">Men's Bottom Wear</a></li>
+          <li><a href="#">Women Ethnic</a></li>
+          <li><a href="#">Men Footwear</a></li>
+          <li><a href="#">Women Footwear</a></li>
+          <li><a href="#">Watches and Accessories</a></li>
+          <li><a href="#">Women Western</a></li>
+          <li><a href="#">Bags, Suitcases & Luggage</a></li>
+          <li><a href="kids-fashion.html">Kids</a></li>
+          <li><a href="#">Essentials</a></li>
+          <li><a href="#">Winter</a></li>
 
-        <li class="submenu-item">
-          <a href="living.html" class="submenu-link">Living Room</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Living Room</li>
-            <li><a href="#">Sofas & Sofa Beds</a></li>
-            <li><a href="#">Recliners</a></li>
-            <li><a href="#">TV Units</a></li>
-            <li><a href="#">Coffee Tables</a></li>
-            <li><a href="#">Center Tables</a></li>
-            <li><a href="#">Corner Racks</a></li>
-            <li><a href="#">Bookshelves</a></li>
-            <li><a href="#">Wall Shelves</a></li>
-          </ul>
-        </li>
+        </ul>
+      </li>
 
-        <li class="submenu-item">
-          <a href="bedroom.html" class="submenu-link">Bedroom</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Bedroom</li>
-            <li><a href="#">Beds</a></li>
-            <li><a href="#">Mattresses</a></li>
-            <li><a href="#">Wardrobes</a></li>
-            <li><a href="#">Bedside Tables</a></li>
-            <li><a href="#">Dressing Tables</a></li>
-            <li><a href="#">Storage Chests</a></li>
-          </ul>
-        </li>
+      <!-- ELECTRONICS -->
+      <li class="menu-item electronics">
+        <a href="#">
+          <img
+            src="https://www.transparentpng.com/download/laptop/9oRuDc-refreshed-pavilion-gaming-series-launching-next-month.png"
+            alt="Electronics">
+          <span>Electronics</span>
+        </a>
 
-        <li class="submenu-item">
-          <a href="kitchen.html" class="submenu-link">Kitchen & Dining</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Kitchen & Dining</li>
-            <li><a href="#">Cookware</a></li>
-            <li><a href="#">Dining Sets</a></li>
-            <li><a href="#">Storage Containers</a></li>
-            <li><a href="#">Kitchen Tools</a></li>
-            <li><a href="#">Dinnerware</a></li>
-            <li><a href="#">Water Bottles & Flasks</a></li>
-          </ul>
-        </li>
+        <ul class="dropdown electronics-dropdown">
 
-        <li class="submenu-item">
-          <a href="homedecor.html" class="submenu-link">Home Decor</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Home Decor</li>
-            <li><a href="#">Wall Clocks</a></li>
-            <li><a href="#">Photo Frames</a></li>
-            <li><a href="#">Mirrors</a></li>
-            <li><a href="#">Showpieces</a></li>
-            <li><a href="#">Candles & Holders</a></li>
-            <li><a href="#">Wall Art</a></li>
-            <li><a href="#">Table Lamps</a></li>
-            <li><a href="#">Night Lamps</a></li>
-            <li><a href="#">Outdoor Lights</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="laptop.html" class="submenu-link">Laptops</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Laptops</li>
+              <li><a href="#">All Laptops</a></li>
+              <li><a href="#">Gaming Laptops</a></li>
+              <li><a href="#">2-in-1 Laptops</a></li>
+              <li><a href="#">Thin & Light Laptops</a></li>
+              <li><a href="#">MacBooks</a></li>
+              <li><a href="#">Laptop Accessories</a></li>
+              <li><a href="#">Laptop Bags</a></li>
+              <li><a href="#">Cooling Pads</a></li>
+            </ul>
+          </li>
 
-      </ul>
-    </li>
+          <li class="submenu-item">
+            <a href="audio.html" class="submenu-link">Audio</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Audio</li>
+              <li><a href="#">All Headphones</a></li>
+              <li><a href="#">Bluetooth Earphones</a></li>
+              <li><a href="#">True Wireless Buds</a></li>
+              <li><a href="#">Neckbands</a></li>
+              <li><a href="#">Speakers</a></li>
+              <li><a href="#">Soundbars</a></li>
+              <li><a href="#">Home Theatre</a></li>
+              <li><a href="#">Headphone Accessories</a></li>
+            </ul>
+          </li>
 
-    <!-- GROCERY -->
-    <li class="menu-item grocery">
-      <a href="#">
-        <img src="https://png.pngtree.com/png-vector/20241108/ourmid/pngtree-supermarket-shopping-cart-with-fresh-groceries-png-image_14304601.png" alt="Grocery">
-        <span>Grocery</span>
-      </a>
+          <li class="submenu-item">
+            <a href="camera.html" class="submenu-link">Cameras</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Cameras</li>
+              <li><a href="#">DSLR Cameras</a></li>
+              <li><a href="#">Mirrorless Cameras</a></li>
+              <li><a href="#">Point & Shoot</a></li>
+              <li><a href="#">Action Cameras</a></li>
+              <li><a href="#">Camera Lenses</a></li>
+              <li><a href="#">Camera Tripods</a></li>
+              <li><a href="#">Camera Bags</a></li>
+              <li><a href="#">Memory Cards</a></li>
+            </ul>
+          </li>
 
-      <ul class="dropdown grocery-dropdown">
+          <li class="submenu-item">
+            <a href="#" class="submenu-link">Monitors</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Monitors</li>
+              <li><a href="#">Gaming Monitors</a></li>
+              <li><a href="#">Full HD Monitors</a></li>
+              <li><a href="#">Curved Monitors</a></li>
+              <li><a href="#">4K Monitors</a></li>
+              <li><a href="#">Touch Monitors</a></li>
+              <li><a href="#">Monitor Accessories</a></li>
+            </ul>
+          </li>
 
-        <li class="submenu-item">
-          <a href="foodstaple.html" class="submenu-link">Food Staples</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Food Staples</li>
-            <li><a href="#">Atta & Flours</a></li>
-            <li><a href="#">Rice & Grains</a></li>
-            <li><a href="#">Pulses</a></li>
-            <li><a href="#">Salt, Sugar & Jaggery</a></li>
-            <li><a href="#">Edible Oils</a></li>
-            <li><a href="#">Masalas & Spices</a></li>
-          </ul>
-        </li>
+          <li><a href="#">Power Banks</a></li>
+          <li><a href="#">Projectors</a></li>
+          <li><a href="#">Smart Home Devices</a></li>
+        </ul>
+      </li>
 
-        <li class="submenu-item">
-          <a href="beverage.html" class="submenu-link">Beverages</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Beverages</li>
-            <li><a href="#">Tea & Coffee</a></li>
-            <li><a href="#">Soft Drinks</a></li>
-            <li><a href="#">Juices</a></li>
-            <li><a href="#">Energy Drinks</a></li>
-            <li><a href="#">Health Drinks</a></li>
-            <li><a href="#">Water & Soda</a></li>
-          </ul>
-        </li>
+      <!-- HOME & FURNITURE -->
+      <li class="menu-item home">
+        <a href="#">
+          <img src="https://pngimg.com/uploads/sofa/sofa_PNG6951.png" alt="Home & Furniture">
+          <span>Home & Furniture</span>
+        </a>
 
-        <li class="submenu-item">
-          <a href="#" class="submenu-link">Snacks</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Snacks</li>
-            <li><a href="#">Chips & Namkeen</a></li>
-            <li><a href="#">Biscuits & Cookies</a></li>
-            <li><a href="#">Sweets</a></li>
-            <li><a href="#">Dry Fruits</a></li>
-            <li><a href="#">Chocolates & Candies</a></li>
-            <li><a href="#">Ready-to-Eat</a></li>
-          </ul>
-        </li>
+        <ul class="dropdown home-dropdown">
 
-        <li class="submenu-item">
-          <a href="cleaning.html" class="submenu-link">Cleaning Supplies</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Cleaning Supplies</li>
-            <li><a href="#">Detergents</a></li>
-            <li><a href="#">Dishwashers</a></li>
-            <li><a href="#">Floor Cleaners</a></li>
-            <li><a href="#">Bathroom Cleaners</a></li>
-            <li><a href="#">Air Fresheners</a></li>
-            <li><a href="#">Toilet Cleaners</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="living.html" class="submenu-link">Living Room</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Living Room</li>
+              <li><a href="#">Sofas & Sofa Beds</a></li>
+              <li><a href="#">Recliners</a></li>
+              <li><a href="#">TV Units</a></li>
+              <li><a href="#">Coffee Tables</a></li>
+              <li><a href="#">Center Tables</a></li>
+              <li><a href="#">Corner Racks</a></li>
+              <li><a href="#">Bookshelves</a></li>
+              <li><a href="#">Wall Shelves</a></li>
+            </ul>
+          </li>
 
-        <li><a href="babycare.html">Baby Care</a></li>
-        <li><a href="#">Organic Products</a></li>
+          <li class="submenu-item">
+            <a href="bedroom.html" class="submenu-link">Bedroom</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Bedroom</li>
+              <li><a href="#">Beds</a></li>
+              <li><a href="#">Mattresses</a></li>
+              <li><a href="#">Wardrobes</a></li>
+              <li><a href="#">Bedside Tables</a></li>
+              <li><a href="#">Dressing Tables</a></li>
+              <li><a href="#">Storage Chests</a></li>
+            </ul>
+          </li>
 
-      </ul>
-    </li>
+          <li class="submenu-item">
+            <a href="kitchen.html" class="submenu-link">Kitchen & Dining</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Kitchen & Dining</li>
+              <li><a href="#">Cookware</a></li>
+              <li><a href="#">Dining Sets</a></li>
+              <li><a href="#">Storage Containers</a></li>
+              <li><a href="#">Kitchen Tools</a></li>
+              <li><a href="#">Dinnerware</a></li>
+              <li><a href="#">Water Bottles & Flasks</a></li>
+            </ul>
+          </li>
 
-    <!-- BEAUTY, TOYS & MORE -->
-    <li class="menu-item beauty">
-      <a href="#">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/026/539/835/small/tools-and-cosmetics-for-eyelash-extension-and-lamination-with-brushes-tweezers-anemone-flower-and-paint-strokes-watercolor-illustration-hand-drawn-isolated-composition-png.png" alt="Beauty & More">
-        <span>Beauty, Toys & More</span>
-      </a>
+          <li class="submenu-item">
+            <a href="homedecor.html" class="submenu-link">Home Decor</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Home Decor</li>
+              <li><a href="#">Wall Clocks</a></li>
+              <li><a href="#">Photo Frames</a></li>
+              <li><a href="#">Mirrors</a></li>
+              <li><a href="#">Showpieces</a></li>
+              <li><a href="#">Candles & Holders</a></li>
+              <li><a href="#">Wall Art</a></li>
+              <li><a href="#">Table Lamps</a></li>
+              <li><a href="#">Night Lamps</a></li>
+              <li><a href="#">Outdoor Lights</a></li>
+            </ul>
+          </li>
 
-      <ul class="dropdown beauty-dropdown">
+        </ul>
+      </li>
 
-        <li class="submenu-item">
-          <a href="beauty.html" class="submenu-link">Beauty</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Beauty</li>
-            <li><a href="#">Makeup</a></li>
-            <li><a href="facecare.html">Skincare</a></li>
-            <li><a href="#">Hair Care</a></li>
-            <li><a href="#">Fragrances</a></li>
-            <li><a href="mensgrooming.html">Men’s Grooming</a></li>
-            <li><a href="#">Beauty Tools</a></li>
-          </ul>
-        </li>
+      <!-- GROCERY -->
+      <li class="menu-item grocery">
+        <a href="#">
+          <img
+            src="https://png.pngtree.com/png-vector/20241108/ourmid/pngtree-supermarket-shopping-cart-with-fresh-groceries-png-image_14304601.png"
+            alt="Grocery">
+          <span>Grocery</span>
+        </a>
 
-        <li class="submenu-item">
-          <a href="toys.html" class="submenu-link">Toys & Games</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Toys & Games</li>
-            <li><a href="#">Remote Control Toys</a></li>
-            <li><a href="#">Educational Toys</a></li>
-            <li><a href="#">Soft Toys</a></li>
-            <li><a href="#">Outdoor Toys</a></li>
-            <li><a href="#">Board Games</a></li>
-            <li><a href="#">Action Figures</a></li>
-            <li><a href="#">Puzzles</a></li>
-          </ul>
-        </li>
+        <ul class="dropdown grocery-dropdown">
 
-        <li class="submenu-item">
-          <a href="sports.html" class="submenu-link">Sports</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Sports</li>
-            <li><a href="#">Cricket</a></li>
-            <li><a href="#">Badminton</a></li>
-            <li><a href="#">Football</a></li>
-            <li><a href="#">Cycling</a></li>
-            <li><a href="#">Fitness Equipment</a></li>
-            <li><a href="#">Yoga Mats</a></li>
-            <li><a href="#">Sportswear</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="foodstaple.html" class="submenu-link">Food Staples</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Food Staples</li>
+              <li><a href="#">Atta & Flours</a></li>
+              <li><a href="#">Rice & Grains</a></li>
+              <li><a href="#">Pulses</a></li>
+              <li><a href="#">Salt, Sugar & Jaggery</a></li>
+              <li><a href="#">Edible Oils</a></li>
+              <li><a href="#">Masalas & Spices</a></li>
+            </ul>
+          </li>
 
-        <li class="submenu-item">
-          <a href="books.html" class="submenu-link">Books & Stationery</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Books & Stationery</li>
-            <li><a href="#">Fiction & Non-Fiction</a></li>
-            <li><a href="#">Academic Books</a></li>
-            <li><a href="#">Comics</a></li>
-            <li><a href="#">Diaries & Notebooks</a></li>
-            <li><a href="#">Pens & Writing</a></li>
-            <li><a href="#">School Supplies</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="beverage.html" class="submenu-link">Beverages</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Beverages</li>
+              <li><a href="#">Tea & Coffee</a></li>
+              <li><a href="#">Soft Drinks</a></li>
+              <li><a href="#">Juices</a></li>
+              <li><a href="#">Energy Drinks</a></li>
+              <li><a href="#">Health Drinks</a></li>
+              <li><a href="#">Water & Soda</a></li>
+            </ul>
+          </li>
 
-        <li class="submenu-item">
-          <a href="vehicle.html" class="submenu-link">Auto Accessories</a>
-          <ul class="sub-dropdown">
-            <li class="title">More in Auto Accessories</li>
-            <li><a href="#">Car Accessories</a></li>
-            <li><a href="#">Bike Accessories</a></li>
-            <li><a href="#">Helmets</a></li>
-            <li><a href="#">Covers & Mats</a></li>
-            <li><a href="#">Vehicle Cleaning</a></li>
-          </ul>
-        </li>
+          <li class="submenu-item">
+            <a href="#" class="submenu-link">Snacks</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Snacks</li>
+              <li><a href="#">Chips & Namkeen</a></li>
+              <li><a href="#">Biscuits & Cookies</a></li>
+              <li><a href="#">Sweets</a></li>
+              <li><a href="#">Dry Fruits</a></li>
+              <li><a href="#">Chocolates & Candies</a></li>
+              <li><a href="#">Ready-to-Eat</a></li>
+            </ul>
+          </li>
 
-        <li><a href="musical.html">Musical Instruments</a></li>
-        <li><a href="health.html">Health & Nutrition</a></li>
-        <li><a href="giftset.html">Gift Sets</a></li>
+          <li class="submenu-item">
+            <a href="cleaning.html" class="submenu-link">Cleaning Supplies</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Cleaning Supplies</li>
+              <li><a href="#">Detergents</a></li>
+              <li><a href="#">Dishwashers</a></li>
+              <li><a href="#">Floor Cleaners</a></li>
+              <li><a href="#">Bathroom Cleaners</a></li>
+              <li><a href="#">Air Fresheners</a></li>
+              <li><a href="#">Toilet Cleaners</a></li>
+            </ul>
+          </li>
 
-      </ul>
-    </li>
+          <li><a href="babycare.html">Baby Care</a></li>
+          <li><a href="#">Organic Products</a></li>
 
-  </ul>
-</nav>
+        </ul>
+      </li>
+
+      <!-- BEAUTY, TOYS & MORE -->
+      <li class="menu-item beauty">
+        <a href="#">
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/026/539/835/small/tools-and-cosmetics-for-eyelash-extension-and-lamination-with-brushes-tweezers-anemone-flower-and-paint-strokes-watercolor-illustration-hand-drawn-isolated-composition-png.png"
+            alt="Beauty & More">
+          <span>Beauty, Toys & More</span>
+        </a>
+
+        <ul class="dropdown beauty-dropdown">
+
+          <li class="submenu-item">
+            <a href="beauty.html" class="submenu-link">Beauty</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Beauty</li>
+              <li><a href="#">Makeup</a></li>
+              <li><a href="facecare.html">Skincare</a></li>
+              <li><a href="#">Hair Care</a></li>
+              <li><a href="#">Fragrances</a></li>
+              <li><a href="mensgrooming.html">Men’s Grooming</a></li>
+              <li><a href="#">Beauty Tools</a></li>
+            </ul>
+          </li>
+
+          <li class="submenu-item">
+            <a href="toys.html" class="submenu-link">Toys & Games</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Toys & Games</li>
+              <li><a href="#">Remote Control Toys</a></li>
+              <li><a href="#">Educational Toys</a></li>
+              <li><a href="#">Soft Toys</a></li>
+              <li><a href="#">Outdoor Toys</a></li>
+              <li><a href="#">Board Games</a></li>
+              <li><a href="#">Action Figures</a></li>
+              <li><a href="#">Puzzles</a></li>
+            </ul>
+          </li>
+
+          <li class="submenu-item">
+            <a href="sports.html" class="submenu-link">Sports</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Sports</li>
+              <li><a href="#">Cricket</a></li>
+              <li><a href="#">Badminton</a></li>
+              <li><a href="#">Football</a></li>
+              <li><a href="#">Cycling</a></li>
+              <li><a href="#">Fitness Equipment</a></li>
+              <li><a href="#">Yoga Mats</a></li>
+              <li><a href="#">Sportswear</a></li>
+            </ul>
+          </li>
+
+          <li class="submenu-item">
+            <a href="books.html" class="submenu-link">Books & Stationery</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Books & Stationery</li>
+              <li><a href="#">Fiction & Non-Fiction</a></li>
+              <li><a href="#">Academic Books</a></li>
+              <li><a href="#">Comics</a></li>
+              <li><a href="#">Diaries & Notebooks</a></li>
+              <li><a href="#">Pens & Writing</a></li>
+              <li><a href="#">School Supplies</a></li>
+            </ul>
+          </li>
+
+          <li class="submenu-item">
+            <a href="vehicle.html" class="submenu-link">Auto Accessories</a>
+            <ul class="sub-dropdown">
+              <li class="title">More in Auto Accessories</li>
+              <li><a href="#">Car Accessories</a></li>
+              <li><a href="#">Bike Accessories</a></li>
+              <li><a href="#">Helmets</a></li>
+              <li><a href="#">Covers & Mats</a></li>
+              <li><a href="#">Vehicle Cleaning</a></li>
+            </ul>
+          </li>
+
+          <li><a href="musical.html">Musical Instruments</a></li>
+          <li><a href="health.html">Health & Nutrition</a></li>
+          <li><a href="giftset.html">Gift Sets</a></li>
+
+        </ul>
+      </li>
+
+    </ul>
+  </nav>
 
 
   <!-- SCROLLING TEXT -->
   <div class="scrolling-text">
     <div class="scrolling-content">
-      🚀 Big Sale Today! &nbsp; | &nbsp; 🎉 Free Shipping Over $50! &nbsp; | &nbsp; 🛍️ New Arrivals Every Week! &nbsp; | &nbsp; 💳 Easy Payments Available!
+      🚀 Big Sale Today! &nbsp; | &nbsp; 🎉 Free Shipping Over $50! &nbsp; | &nbsp; 🛍️ New Arrivals Every Week! &nbsp;
+      | &nbsp; 💳 Easy Payments Available!
     </div>
   </div>
   <div class="slider">
     <div class="slides" id="slides">
       <!-- Slide 1 -->
       <div class="slide">
-        <img src="https://images.pexels.com/photos/2861655/pexels-photo-2861655.jpeg?cs=srgb&dl=pexels-magda-ehlers-pexels-2861655.jpg&fm=jpg" alt="Slide 1">
+        <img
+          src="https://images.pexels.com/photos/2861655/pexels-photo-2861655.jpeg?cs=srgb&dl=pexels-magda-ehlers-pexels-2861655.jpg&fm=jpg"
+          alt="Slide 1">
         <div class="content">
           <h2>🔥 Big Billion Days</h2>
           <p>Get up to 80% OFF on Furniture & Home Essentials.</p>
@@ -520,166 +533,144 @@
     </div>
 
     <!-- Arrows -->
-    <span class="arrow prev" onclick="prevSlide()">&#10094;</span>
-    <span class="arrow next" onclick="nextSlide()">&#10095;</span>
+    <span class="arrow prev" id="prevArrow" onclick="prevSlide()">&#10094;</span>
+    <span class="arrow next" id="nextArrow" onclick="nextSlide()">&#10095;</span>
 
     <!-- Dots -->
     <div class="dots" id="dots"></div>
   </div>
-<!-- 🌟 Floating AI Assistant -->
-<div id="ai-assistant">
-  <div id="ai-header">
-    🤖 ShopEase AI
-    <span id="ai-close" onclick="toggleAI()">✖</span>
-  </div>
-  <div id="ai-messages"></div>
-  <div id="ai-input-container">
-    <input type="text" id="ai-input" placeholder="Ask me anything..." />
-    <button id="ai-send">Send</button>
-  </div>
-</div>
 
-<!-- Floating Chat Toggle -->
-<div id="ai-toggle" onclick="toggleAI()">💬</div>
+  <!-- HERO SECTION CONVERTED TO APP PROMO (Moved down) -->
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="hero-text">
+
+  <div class="top-deals">
+    <h2>🔥 Top Deals</h2>
+    <div class="deals-wrapper">
+
+      <div class="deals-container" id="deals">
+        <div class="deal-item">
+          <img src="https://www.pngall.com/wp-content/uploads/10/Geyser-Water-Heater-PNG-Images.png"
+            alt="Fans & Geysers">
+          <h3>Fans & Geysers</h3>
+          <p>From ₹999</p>
+        </div>
+        <div class="deal-item">
+          <img
+            src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-smart-home-essentials-appliances-kitchen-gadgets-png-image_20309791.png"
+            alt="Home Essentials">
+          <h3>Home Essentials</h3>
+          <p>Shop Now!</p>
+        </div>
+        <div class="deal-item">
+          <img
+            src="https://mediaserver.goepson.com/ImConvServlet/imconv/299251b80a45ae2bf425160f469fbb5f0de6258a/1200Wx1200H?use=banner&hybrisId=B2C&assetDescr=EB-2265U_03"
+            alt="Projector">
+          <h3>Projectors</h3>
+          <p>From ₹6990</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://pngimg.com/d/audio_speakers_PNG11130.png" alt="Speakers">
+          <h3>Best Selling Speakers</h3>
+          <p>From ₹499*</p>
+        </div>
+        <div class="deal-item">
+          <img src="https://img.freepik.com/free-psd/modern-tv-isolated_23-2151430332.jpg?semt=ais_hybrid&w=740&q=80"
+            alt="Monitors">
+          <h3>Monitors</h3>
+          <p>From ₹6599</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="deals-dots" id="dealsDots"></div>
+  </div>
+
+  <!-- APP PROMO SECTION (Formerly Hero) -->
+  <section class="app-promo">
+    <div class="app-promo-text">
       <h1>Experience a <br> fresh way to <br> <span>manage shopping</span></h1>
       <p>Your one-stop shop for everything you need – fashion, gadgets, home, and more.</p>
       <a href="about.html" class="btn-primary" target="_blank">Learn More</a>
       <div class="store-buttons">
         <a href="https://play.google.com/store/games?device=windows" target="_blank">
-          <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" 
-               alt="Get it on Google Play">
+          <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+            alt="Get it on Google Play">
         </a>
         <a href="https://www.apple.com/in/store" target="_blank">
-          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-               alt="Download on the App Store">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+            alt="Download on the App Store">
         </a>
       </div>
     </div>
 
-    <div class="hero-image">
-      <img src="https://img.freepik.com/free-photo/black-friday-sales-sign-neon-light_23-2151833076.jpg?semt=ais_hybrid&w=740&q=80" alt="Person using app">
+    <div class="app-promo-image">
+      <img
+        src="https://img.freepik.com/free-photo/black-friday-sales-sign-neon-light_23-2151833076.jpg?semt=ais_hybrid&w=740&q=80"
+        alt="Person using app">
     </div>
   </section>
 
-<div class="top-deals">
-  <h2>🔥 Top Deals</h2>
-  <div class="deals-wrapper">
-    <button class="scroll-btn left" onclick="scrollDeals(-1)">&#10094;</button>
-    <div class="deals-container" id="deals">
-      <div class="deal-item">
-        <img src="https://www.pngall.com/wp-content/uploads/10/Geyser-Water-Heater-PNG-Images.png" alt="Fans & Geysers">
-        <h3>Fans & Geysers</h3>
-        <p>From ₹999</p>
+  <!-- ========== FOOTER START ========== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <!-- About -->
+      <div class="footer-col">
+        <h3>ABOUT</h3>
+        <a href="contact.html">Contact Us</a>
+        <a href="about.html">About Us</a>
+        <a href="#">Careers</a>
       </div>
-      <div class="deal-item">
-        <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-smart-home-essentials-appliances-kitchen-gadgets-png-image_20309791.png" alt="Home Essentials">
-        <h3>Home Essentials</h3>
-        <p>Shop Now!</p>
+
+      <!-- Group Companies -->
+      <div class="footer-col">
+        <h3>GROUP COMPANIES</h3>
+        <a href="#">Myntra</a>
+        <a href="#">Flipkart</a>
+        <a href="#">Shopsy</a>
       </div>
-      <div class="deal-item">
-        <img src="https://mediaserver.goepson.com/ImConvServlet/imconv/299251b80a45ae2bf425160f469fbb5f0de6258a/1200Wx1200H?use=banner&hybrisId=B2C&assetDescr=EB-2265U_03" alt="Projector">
-        <h3>Projectors</h3>
-        <p>From ₹6990</p>
+
+      <!-- Help -->
+      <div class="footer-col">
+        <h3>HELP</h3>
+        <a href="#">Payments</a>
+        <a href="#">Shipping</a>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">FAQ</a>
       </div>
-      <div class="deal-item">
-        <img src="https://pngimg.com/d/audio_speakers_PNG11130.png" alt="Speakers">
-        <h3>Best Selling Speakers</h3>
-        <p>From ₹499*</p>
+
+      <!-- Consumer Policy -->
+      <div class="footer-col">
+        <h3>CONSUMER POLICY</h3>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">Terms Of Use</a>
+        <a href="#">Security</a>
+        <a href="#">Privacy</a>
+        <a href="#">Sitemap</a>
       </div>
-      <div class="deal-item">
-        <img src="https://img.freepik.com/free-psd/modern-tv-isolated_23-2151430332.jpg?semt=ais_hybrid&w=740&q=80" alt="Monitors">
-        <h3>Monitors</h3>
-        <p>From ₹6599</p>
+
+      <!-- Mail Us -->
+      <div class="footer-col">
+        <h3>Mail Us:</h3>
+        <p>
+          tech ,<br>
+          Tech Village,<br>
+          Ring Road,machilipatnam <br>
+          krishna, 521001,<br>
+          AP , India
+        </p>
       </div>
     </div>
-    <button class="scroll-btn right" onclick="scrollDeals(1)">&#10095;</button>
-  </div>
-</div>
 
- <!-- FEEDBACK POPUP -->
-<div id="feedback-popup" class="hidden">
-  <div class="feedback-box">
-    <h2>💬 Share Your Feedback</h2>
-    <p>We’d love to hear what you think about your experience!</p>
-    <textarea id="feedback-text" placeholder="Write your feedback here..."></textarea>
-    <div class="feedback-actions">
-      <button id="send-feedback" class="btn-primary">Send</button>
-      <button id="close-feedback">Cancel</button>
+    <!-- Middle Row -->
+    <div class="footer-middle">
+      <a href="seller.html">Become a Seller</a>
+      <a href="#">Advertise</a>
+      <a href="giftcard.html">Gift Cards</a>
+      <a href="helpcentre.html">Help Center</a>
+      <span>©ShopEase.com</span>
     </div>
-  </div>
-</div>
-
-<!-- Floating Feedback Button -->
-<button id="feedback-btn" title="Feedback">💭</button>
-
-<!-- ========== FOOTER START ========== -->
-<footer class="footer">
-  <div class="footer-top">
-    <!-- About -->
-    <div class="footer-col">
-      <h3>ABOUT</h3>
-      <a href="contact.html">Contact Us</a>
-      <a href="about.html">About Us</a>
-      <a href="#">Careers</a>
-      <a href="#">Flipkart Stories</a>
-      <a href="#">Press</a>
-      <a href="#">Corporate Information</a>
-    </div>
-
-    <!-- Group Companies -->
-    <div class="footer-col">
-      <h3>GROUP COMPANIES</h3>
-      <a href="#">Myntra</a>
-      <a href="#">Cleartrip</a>
-      <a href="#">Shopsy</a>
-    </div>
-
-    <!-- Help -->
-    <div class="footer-col">
-      <h3>HELP</h3>
-      <a href="#">Payments</a>
-      <a href="#">Shipping</a>
-      <a href="#">Cancellation & Returns</a>
-      <a href="#">FAQ</a>
-    </div>
-    
-    <!-- Consumer Policy -->
-    <div class="footer-col">
-      <h3>CONSUMER POLICY</h3>
-      <a href="#">Cancellation & Returns</a>
-      <a href="#">Terms Of Use</a>
-      <a href="#">Security</a>
-      <a href="#">Privacy</a>
-      <a href="#">Sitemap</a>
-      <a href="#">Grievance Redressal</a>
-      <a href="#">EPR Compliance</a>
-    </div>
-
-    <!-- Mail Us -->
-    <div class="footer-col">
-      <h3>Mail Us:</h3>
-      <p>
-        ff,<br>
-        Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br>
-        Outer Ring Road, Devarabeesanahalli Village,<br>
-        Bengaluru, 560103,<br>
-        Karnataka, India
-      </p>
-    </div>
-  </div>
-
-  <!-- Middle Row -->
-  <div class="footer-middle">
-    <a href="seller.html">Become a Seller</a>
-    <a href="#">Advertise</a>
-    <a href="giftcard.html">Gift Cards</a>
-    <a href="helpcentre.html">Help Center</a>
-    <span>©ShopEase.com</span>
-  </div>
-</footer>
+  </footer>
+  <script src="script.js"></script>
 </body>
+
 </html>
