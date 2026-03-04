@@ -514,8 +514,8 @@ body {
   gap: 15px;
 }
 
-/* APP PROMO CONTAINER */
-.app-promo {
+/* HERO CONTAINER */
+.hero {
   position: relative;
   display: flex;
   align-items: center;
@@ -526,24 +526,24 @@ body {
 }
 
 /* LEFT TEXT SIDE */
-.app-promo-text {
+.hero-text {
   flex: 1;
   z-index: 2;
   color: #222;
   max-width: 500px;
 }
 
-.app-promo-text h1 {
+.hero-text h1 {
   font-size: 3rem;
   font-weight: bold;
   line-height: 1.2;
 }
 
-.app-promo-text span {
+.hero-text span {
   color: teal;
 }
 
-.app-promo-text p {
+.hero-text p {
   margin: 20px 0;
   font-size: 1.1rem;
   color: #555;
@@ -551,19 +551,17 @@ body {
 
 .btn-primary {
   display: inline-block;
-  background: #2874f0;
+  background: teal;
   color: #fff;
   padding: 12px 25px;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: bold;
   text-decoration: none;
   transition: 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
-  background: #1a5fd1;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background: #008080d9;
 }
 
 /* STORE BUTTONS */
@@ -583,7 +581,7 @@ body {
 }
 
 /* RIGHT IMAGE SIDE (FULL WIDTH BACKGROUND) */
-.app-promo-image {
+.hero-image {
   position: absolute;
   top: 0;
   right: 0;
@@ -592,14 +590,14 @@ body {
   z-index: 1;
 }
 
-.app-promo-image img {
+.hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* WHITE FADE OVERLAY ON PROMO SECTION */
-.app-promo::before {
+/* WHITE FADE OVERLAY ON HERO SECTION */
+.hero::before {
   content: "";
   position: absolute;
   top: 0;
@@ -607,8 +605,7 @@ body {
   width: 100%;
   height: 100%;
   background: linear-gradient(to right,
-      rgba(255, 255, 255, 0.98) 40%,
-      rgba(255, 255, 255, 0.4) 70%,
+      rgba(255, 255, 255, 0.95) 40%,
       rgba(255, 255, 255, 0) 100%);
   z-index: 2;
   pointer-events: none;
@@ -620,7 +617,7 @@ body {
   cursor: pointer;
 }
 
-.app-promo-content {
+.hero-content {
   position: relative;
   z-index: 2;
   max-width: 1000px;
@@ -1019,17 +1016,19 @@ footer {
 }
 
 .top-deals {
-  background: #f1f3f6;
-  /* Subtle grey background like Flipkart */
-  padding: 20px 0;
-  margin-top: -10px;
-  /* pull up closer to slider */
+  background: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  max-width: 1300px;
 }
 
 /* Heading */
 .top-deals h2 {
-  font-size: 1.4rem;
-  margin: 0 5% 15px;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
   color: #212121;
   font-weight: bold;
 }
@@ -1037,47 +1036,49 @@ footer {
 /* Product Carousel */
 .deals-container {
   display: flex;
-  gap: 15px;
+  gap: 18px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 10px 5%;
-  /* padding left/right to align with heading */
+  padding-bottom: 10px;
 }
 
 .deals-container::-webkit-scrollbar {
-  height: 0px;
-  /* Hide scrollbar for cleaner look */
+  height: 8px;
+}
+
+.deals-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
 }
 
 /* Product Card */
 .deal-item {
   background: #fff;
-  border-radius: 6px;
-  flex: 0 0 160px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  flex: 0 0 180px;
   text-align: center;
-  padding: 20px 10px;
-  transition: all 0.2s ease;
+  padding: 15px;
+  transition: all 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  /* Lighter shadow */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .deal-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  /* Pop out on hover */
+  transform: translateY(-8px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .deal-item img {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   transition: transform 0.3s;
 }
 
 .deal-item:hover img {
-  transform: scale(1.05);
-  /* Slight scale */
+  transform: scale(1.1);
 }
 
 .deal-item h3 {
@@ -1359,8 +1360,8 @@ footer {
 .slider {
   position: relative;
   width: 100%;
-  height: 350px;
-  /* Increased banner height */
+  height: 280px;
+  /* ✅ Flipkart-like banner height */
   overflow: hidden;
   background: #fff;
 }
@@ -1382,14 +1383,13 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.05);
-  /* Softer scale, no rotation */
+  transform: scale(1.15) rotate(1deg);
   transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ACTIVE SLIDE ANIMATIONS */
 .slide.active-slide img {
-  transform: scale(1);
+  transform: scale(1) rotate(0deg);
 }
 
 /* CONTENT ON SLIDE */
@@ -2077,37 +2077,31 @@ footer {
     display: none;
   }
 
-  /* ================= APP PROMO ================= */
+  /* ================= HERO ================= */
 
-  .app-promo {
+  .hero {
     flex-direction: column;
-    padding: 20px;
+    padding: 40px 20px;
     min-height: auto;
   }
 
-  .app-promo-text {
+  .hero-text {
     max-width: 100%;
     text-align: center;
-    padding: 20px 0;
-    z-index: 3;
   }
 
-  .app-promo-text h1 {
+  .hero-text h1 {
     font-size: 2rem;
   }
 
-  .app-promo-image {
+  .hero-image {
     position: relative;
-    height: 300px;
+    height: 250px;
     margin-top: 20px;
-    width: 100%;
   }
 
-  .app-promo::before {
-    background: linear-gradient(to bottom,
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0.4) 100%);
+  .hero::before {
+    background: rgba(255, 255, 255, 0.85);
   }
 
   .store-buttons {
@@ -2174,7 +2168,7 @@ footer {
 
 @media (max-width: 480px) {
 
-  .app-promo-text h1 {
+  .hero-text h1 {
     font-size: 1.6rem;
   }
 

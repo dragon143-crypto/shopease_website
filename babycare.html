@@ -3,182 +3,697 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baby Care Shop</title>
+  <title>Baby Care — ShopEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg1:#fffafc;
-      --bg2:#fdfdff;
-      --card:#fff;
-      --text:#333;
-      --accent1:#ffb6c1;
-      --accent2:#87cefa;
-      --accent3:#ffd580;
-      --accent4:#a3d89c;
+    /* ========== BASE ========== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f3f6;
+      color: #212121;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);overflow-x:hidden;}
 
-    header{padding:20px 32px;display:flex;justify-content:space-between;align-items:center;background:#fff;position:sticky;top:0;z-index:1000;box-shadow:0 6px 20px rgba(0,0,0,0.15)}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:20px;animation:bounce 2s infinite}
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .brand h1{font-size:22px;color:var(--accent1)}
-    .controls{display:flex;gap:12px;align-items:center}
-    .search{padding:10px 14px;border-radius:999px;background:#f7f7f7;border:none;min-width:200px}
-    .select,.button{padding:10px 14px;border-radius:10px;background:#f7f7f7;border:none;cursor:pointer}
+    /* ========== HEADER ========== */
+    .top-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 14px 0;
+    }
 
-    .hero{margin:22px 32px;padding:40px;border-radius:20px;background:linear-gradient(135deg,var(--accent3),var(--accent2));color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 12px 30px rgba(0,0,0,0.25);animation:slideIn 1.5s ease forwards;opacity:0}
-    @keyframes slideIn{0%{opacity:0;transform:translateX(-120px)}100%{opacity:1;transform:translateX(0)}}
-    .hero h2{font-size:28px;margin-bottom:10px}
-    .hero p{margin:0;font-size:15px;opacity:.95}
-    .hero img{width:130px;animation:float 4s ease-in-out infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 15px;
+    }
 
-    main{padding:22px 32px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+    .search-bar-top {
+      flex: 1;
+      display: flex;
+    }
 
-    .card{background:var(--card);padding:14px;border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,0.1);transition:transform .3s ease,box-shadow .3s ease;opacity:0;animation:fadeUp .8s ease forwards}
-    @keyframes fadeUp{0%{opacity:0;transform:translateY(40px)}100%{opacity:1;transform:translateY(0)}}
-    .card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 10px 20px rgba(0,0,0,0.15)}
-    .thumb{height:140px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-radius:12px;padding:12px;overflow:hidden}
-    .thumb img{max-height:120px;max-width:100%;transition:transform .6s ease}
-    .card:hover .thumb img{transform:scale(1.15) rotate(6deg)}
-    h3{margin:10px 0 6px;font-size:15px;color:var(--accent2)}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .price{font-weight:700;color:var(--accent1)}
-    .stock{font-size:12px;color:#666}
-    .actions{display:flex;gap:8px;margin-top:10px}
-    .buy{flex:1;padding:9px;border-radius:8px;background:linear-gradient(90deg,var(--accent1),var(--accent3));color:#fff;border:none;cursor:pointer;font-weight:700;transition:all .3s ease}
-    .buy:hover{transform:scale(1.1)}
-    .cart{padding:9px;border-radius:8px;background:#f0f0f0;border:none;cursor:pointer;font-size:15px;color:#333;transition:all .3s ease}
-    .cart:hover{transform:scale(1.2) rotate(-8deg)}
+    .search-bar-top input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-right: none;
+      border-radius: 6px 0 0 6px;
+      font-size: 14px;
+    }
 
-    .footer{padding:20px 32px;text-align:center;color:#666;margin-top:20px}
+    .search-bar-top button {
+      background: #ff6b81;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 15px auto 5px;
+      font-size: 14px;
+      color: #6b7280;
+      display: flex;
+      gap: 8px;
+      padding: 0 15px;
+    }
+
+    .breadcrumb .active {
+      font-weight: 500;
+      color: #212121;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff6b81;
+      text-decoration: none;
+    }
+
+    .cart-btn {
+      position: relative;
+      font-weight: 600;
+      color: #212121;
+      text-decoration: none;
+      font-size: 20px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #ff6161;
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 6px;
+      border-radius: 50%;
+    }
+
+    /* ========== LAYOUT ========== */
+    .page-wrap {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      gap: 15px;
+      padding: 0 15px;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      width: 250px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+
+    .filter-head {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .filter-body label {
+      display: block;
+      font-size: 14px;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    /* ========== PRODUCTS AREA ========== */
+    .products {
+      flex: 1;
+    }
+
+    .page-header {
+      background: #fff;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .page-header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .page-header p {
+      font-size: 13px;
+      color: #777;
+      margin: 5px 0 0;
+    }
+
+    /* Sort Bar */
+    .controls {
+      background: #fff;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .controls select,
+    .controls input {
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    /* ========== PRODUCT GRID ========== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    /* ========== PRODUCT CARD ========== */
+    .card {
+      background: #fff;
+      border-radius: 4px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .thumb {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .thumb img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .category {
+      font-size: 11px;
+      color: #ff6b81;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .rating {
+      display: inline-block;
+      background: #388e3c;
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 6px;
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+
+    .price-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .mrp {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .discount {
+      color: #388e3c;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .extra {
+      font-size: 13px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    .delivery {
+      color: #388e3c;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .stock {
+      font-size: 12px;
+      color: #388e3c;
+      margin-top: 4px;
+    }
+
+    .add-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      background: #ff6b81;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background: #e55a6e;
+    }
+
+    /* Shuffle Button */
+    .shuffle-btn {
+      padding: 6px 12px;
+      border: none;
+      background: #6c5ce7;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .shuffle-btn:hover {
+      background: #5a4ad1;
+    }
+
+    /* Footer */
+    footer {
+      max-width: 1180px;
+      margin: 30px auto;
+      text-align: center;
+      color: #777;
+      padding: 18px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .page-wrap {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo">BC</div>
-      <div>
-        <h1>Baby Care</h1>
-        <div style="font-size:12px;color:#777">Caring essentials • 100 items</div>
+  <!-- ===== TOP NAVBAR ===== -->
+  <header class="top-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">ShopEase</a>
+
+      <div class="search-bar-top">
+        <input type="text" id="searchInput" placeholder="Search baby care products...">
+        <button>🔍</button>
       </div>
-    </div>
-    <div class="controls">
-      <input id="search" class="search" placeholder="Search baby care..." />
-      <select id="sort" class="select">
-        <option value="pop">Sort: Popular</option>
-        <option value="price-asc">Price: Low → High</option>
-        <option value="price-desc">Price: High → Low</option>
-      </select>
-      <button id="shuffle" class="button">Shuffle Colors</button>
+
+      <a class="cart-btn" href="cart.html">
+        🛒
+        <span id="cartCount" class="cart-count">0</span>
+      </a>
     </div>
   </header>
 
-  <div class="hero">
-    <div>
-      <h2>Baby Care Collection</h2>
-      <p>Gentle products for your baby’s comfort and safety • 100 items</p>
-    </div>
-    <img src="https://img.icons8.com/fluency/96/baby.png" alt="baby"/>
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb">
+    <span>🏠</span>
+    <span>Baby Care</span>
+    <span>›</span>
+    <span class="active">Essentials</span>
   </div>
 
-  <main>
-    <section class="grid" id="grid"></section>
-  </main>
+  <div class="page-wrap">
 
-  <div class="footer">Showing <span id="count">0</span> baby care items • All products available</div>
+    <!-- LEFT FILTER SIDEBAR -->
+    <aside class="sidebar" aria-label="Filters">
+      <h3>Refine results</h3>
 
-  <template id="tpl">
-    <div class="card">
-      <div class="thumb"><img src="" alt="baby"/></div>
-      <h3 class="title">Baby Care Item</h3>
-      <div class="meta">
-        <div>
-          <div class="price">₹<span class="price-val">0</span></div>
-          <div class="stock">100 units</div>
+      <div class="filter-group" data-key="category">
+        <div class="filter-head">
+          <strong>Category</strong>
         </div>
-        <div style="text-align:right">
-          <div style="font-size:12px;color:#888">4.8 ★</div>
-          <div style="font-size:12px;color:#aaa">20 reviews</div>
+        <div class="filter-body">
+          <label><input type="checkbox" class="filter category" value="Bath"> Bath</label>
+          <label><input type="checkbox" class="filter category" value="Clothing"> Clothing</label>
+          <label><input type="checkbox" class="filter category" value="Feeding"> Feeding</label>
+          <label><input type="checkbox" class="filter category" value="Sleep"> Sleep</label>
+          <label><input type="checkbox" class="filter category" value="Safety"> Safety</label>
+          <label><input type="checkbox" class="filter category" value="Play"> Play</label>
+          <label><input type="checkbox" class="filter category" value="Travel"> Travel</label>
+          <label><input type="checkbox" class="filter category" value="Skincare"> Skincare</label>
         </div>
       </div>
-      <div class="actions">
-        <button class="buy">Buy Now</button>
-        <button class="cart">🛒</button>
+
+      <div class="filter-group" data-key="price">
+        <div class="filter-head">
+          <strong>Price</strong>
+        </div>
+        <div class="filter-body">
+          <label><input type="radio" name="price" class="price" value="under500"> Under ₹500</label>
+          <label><input type="radio" name="price" class="price" value="500-1500"> ₹500 - ₹1,500</label>
+          <label><input type="radio" name="price" class="price" value="1500-5000"> ₹1,500 - ₹5,000</label>
+          <label><input type="radio" name="price" class="price" value="above5000"> Above ₹5,000</label>
+          <label><input type="radio" name="price" class="price" value="all" checked> All</label>
+        </div>
       </div>
-    </div>
-  </template>
+
+      <div style="margin-top:12px;font-size:13px;color:#777">
+        <div>Showing <span id="count">0</span> results</div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="resetFilters" class="add-btn" style="flex:1">Reset</button>
+        <button id="applyFiltersBtn" class="add-btn" style="flex:1;background:#0b73ff">Apply</button>
+      </div>
+    </aside>
+
+    <!-- PRODUCTS -->
+    <section class="products" aria-labelledby="products">
+      <div class="page-header">
+        <h2>Baby Care Essentials</h2>
+        <p><span id="productCount">0</span> Products | Gentle products for your baby</p>
+      </div>
+      
+      <div class="controls">
+        <div class="search">
+          <input id="searchInput2" placeholder="Search baby products...">
+        </div>
+
+        <div class="sort-wrap">
+          <select id="sortSelect">
+            <option value="popular">Sort by: Popular</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+          <button id="shuffleBtn" class="shuffle-btn">🎨 Shuffle</button>
+        </div>
+      </div>
+
+      <div id="gridWrap">
+        <div class="grid" id="grid"></div>
+      </div>
+
+    </section>
+  </div>
+
+  <footer>© 2025 ShopEase - Baby Care Products</footer>
 
   <script>
-    const grid=document.getElementById('grid');
-    const tpl=document.getElementById('tpl');
-    const count=document.getElementById('count');
-    const search=document.getElementById('search');
-    const sort=document.getElementById('sort');
-    const shuffle=document.getElementById('shuffle');
+    /* ===============================
+       PRODUCT DATA - Real Baby Care Items
+    ================================ */
+    const products = [
+      {id:1,title:"Baby Soft Towel Set",category:"Bath",price:299,rating:4.5},
+      {id:2,title:"Organic Baby Shampoo",category:"Bath",price:189,rating:4.7},
+      {id:3,title:"Baby Cotton Onesie",category:"Clothing",price:349,rating:4.6},
+      {id:4,title:"Silicone Baby Bottle",category:"Feeding",price:450,rating:4.8},
+      {id:5,title:"Baby Diaper Bag",category:"Travel",price:899,rating:4.4},
+      {id:6,title:"Baby Safety Gate",category:"Safety",price:1299,rating:4.3},
+      {id:7,title:"Baby Teether Set",category:"Play",price:199,rating:4.5},
+      {id:8,title:"Cradle Baby Bed",category:"Sleep",price:2499,rating:4.6},
+      {id:9,title:"Baby Stroller Premium",category:"Travel",price:5999,rating:4.9},
+      {id:10,title:"Baby Food Processor",category:"Feeding",price:1499,rating:4.4},
+      {id:11,title:"Baby Monitor Digital",category:"Safety",price:1899,rating:4.7},
+      {id:12,title:"Cotton Baby Bibs Pack",category:"Feeding",price:249,rating:4.5},
+      {id:13,title:"Baby Wipes Natural",category:"Bath",price:129,rating:4.6},
+      {id:14,title:"Baby Cream Moisturizer",category:"Skincare",price:179,rating:4.8},
+      {id:15,title:"Baby Diapers Pack",category:"Bath",price:599,rating:4.7},
+      {id:16,title:"Baby Feeding Spoon Set",category:"Feeding",price:149,rating:4.3},
+      {id:17,title:"Baby High Chair",category:"Feeding",price:2199,rating:4.5},
+      {id:18,title:"Baby Walker Adjustable",category:"Play",price:1799,rating:4.4},
+      {id:19,title:"Baby Musical Toy",category:"Play",price:399,rating:4.6},
+      {id:20,title:"Baby Cot Mobile",category:"Sleep",price:699,rating:4.5},
+      {id:21,title:"Baby Bath Tub",category:"Bath",price:449,rating:4.4},
+      {id:22,title:"Baby Sleep Sack",category:"Sleep",price:299,rating:4.7},
+      {id:23,title:"Baby Nail Clipper Set",category:"Skincare",price:129,rating:4.3},
+      {id:24,title:"Baby Pacifier Set",category:"Play",price:149,rating:4.5}
+    ];
 
-    const items=Array.from({length:100}).map((_,i)=>{
-      const price=80+Math.floor(Math.random()*2000);
-      return{
-        id:i+1,
-        name:`Baby Care Item ${i+1}`,
-        price,
-        colorSeed:Math.floor(Math.random()*360)
+    // Generate SVG images
+    function generateImage(name, seed) {
+      const colors = [
+        ['#ff9a9e', '#fecfef'],
+        ['#a18cd1', '#fbc2eb'],
+        ['#84fab0', '#8fd3f4'],
+        ['#fccb90', '#d57eeb'],
+        ['#e0c3fc', '#8ec5fc'],
+        ['#f093fb', '#f5576c'],
+        ['#4facfe', '#00f2fe'],
+        ['#43e97b', '#38f9d7']
+      ];
+      const [c1, c2] = colors[seed % colors.length];
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='100%' height='100%' rx='20' fill='url(%23g)'/><text x='150' y='155' font-size='16' font-family='Arial' fill='white' text-anchor='middle' font-weight='600'>${name.substring(0,15)}</text></svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    // Add image to products
+    products.forEach((p, i) => {
+      p.img = generateImage(p.title, i);
+    });
+
+    /* ===============================
+       DOM REFERENCES
+    ================================ */
+    const grid = document.getElementById("grid");
+    const searchInput = document.getElementById("searchInput");
+    const searchInput2 = document.getElementById("searchInput2");
+    const sortSelect = document.getElementById("sortSelect");
+    const categoryChecks = document.querySelectorAll(".filter.category");
+    const priceRadios = document.querySelectorAll(".price");
+    const countEls = document.querySelectorAll("#count, #productCount");
+    const resetBtn = document.getElementById("resetFilters");
+    const applyBtn = document.getElementById("applyFiltersBtn");
+    const cartCountEl = document.getElementById("cartCount");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+
+    /* ===============================
+       CART SYSTEM
+    ================================ */
+    function getCart(){
+      return JSON.parse(localStorage.getItem("shop_cart")) || [];
+    }
+
+    function setCart(cart){
+      localStorage.setItem("shop_cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function addToCart(productId){
+      const cart = getCart();
+      const existing = cart.find(item => item.id === productId);
+
+      if(existing){
+        existing.qty++;
+      } else {
+        cart.push({id:productId, qty:1});
       }
-    });
 
-    function svgImage(name,seed){
-      const c1=`hsl(${seed} 70% 70%)`;
-      const c2=`hsl(${(seed+120)%360} 70% 75%)`;
-      const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='420' height='240'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='100%' height='100%' rx='20' fill='url(%23g)'/><text x='30' y='130' font-size='22' font-family='Segoe UI,Roboto,Arial' fill='white'>${name}</text></svg>`;
-      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+      setCart(cart);
+      alert("Item added to cart!");
     }
 
-    function render(list){
-      grid.innerHTML='';
-      list.forEach(it=>{
-        const clone=tpl.content.cloneNode(true);
-        clone.querySelector('img').src=svgImage(it.name,it.colorSeed);
-        clone.querySelector('.title').textContent=it.name;
-        clone.querySelector('.price-val').textContent=it.price.toLocaleString();
-        clone.querySelector('.buy').addEventListener('click',()=>{
-          window.location.href=`buy.html?item=${it.id}&name=${encodeURIComponent(it.name)}&price=${it.price}`;
-        });
-        clone.querySelector('.cart').addEventListener('click',()=>{
-          alert(`${it.name} added to cart!`);
-        });
-        grid.appendChild(clone);
+    function updateCartCount(){
+      const cart = getCart();
+      const total = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCountEl.textContent = total;
+    }
+
+    updateCartCount();
+
+    /* ===============================
+       RENDER PRODUCTS
+    ================================ */
+    function renderProducts(list){
+      grid.innerHTML = "";
+
+      if(list.length === 0){
+        grid.innerHTML = "<p>No products found</p>";
+        countEls.forEach(el => el.textContent = 0);
+        return;
+      }
+
+      list.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const discount = Math.floor(Math.random() * 20) + 10;
+        const mrp = Math.floor(p.price * (100 + discount) / 100);
+
+        card.innerHTML = `
+          <div class="thumb">
+            <img src="${p.img}" alt="${p.title}">
+          </div>
+
+          <div class="category">${p.category}</div>
+
+          <div class="title">${p.title}</div>
+
+          <div class="rating">
+            ⭐ ${p.rating}
+          </div>
+
+          <div class="price-section">
+            <span class="price">₹${p.price.toLocaleString()}</span>
+            <span class="mrp">₹${mrp.toLocaleString()}</span>
+            <span class="discount">${discount}% off</span>
+          </div>
+
+          <div class="stock">
+            In Stock
+          </div>
+
+          <button class="add-btn" data-id="${p.id}">
+            Add to Cart
+          </button>
+        `;
+
+        grid.appendChild(card);
       });
-      count.textContent=list.length;
+
+      countEls.forEach(el => el.textContent = list.length);
+
+      document.querySelectorAll(".add-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          addToCart(Number(btn.dataset.id));
+        });
+      });
     }
 
-    render(items);
+    /* ===============================
+       FILTER + SEARCH + SORT
+    ================================ */
+    function applyFilters(){
+      let filtered = [...products];
 
-    search.addEventListener('input',()=>{
-      const q=search.value.toLowerCase();
-      let filtered=items.filter(it=>it.name.toLowerCase().includes(q));
-      applySort(filtered);
-    });
+      const query = (searchInput.value || searchInput2.value).trim().toLowerCase();
+      if(query){
+        filtered = filtered.filter(p =>
+          p.title.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query)
+        );
+      }
 
-    sort.addEventListener('change',()=>{
-      applySort(items.filter(it=>it.name.toLowerCase().includes(search.value.toLowerCase())));
-    });
+      const selectedCategories = [...categoryChecks]
+        .filter(c => c.checked)
+        .map(c => c.value);
 
-    function applySort(list){
-      const val=sort.value;
-      const copy=[...list];
-      if(val==='price-asc')copy.sort((a,b)=>a.price-b.price);
-      else if(val==='price-desc')copy.sort((a,b)=>b.price-a.price);
-      else copy.sort((a,b)=>a.id-b.id);
-      render(copy);
+      if(selectedCategories.length){
+        filtered = filtered.filter(p =>
+          selectedCategories.includes(p.category)
+        );
+      }
+
+      const priceVal = [...priceRadios].find(r => r.checked)?.value;
+
+      if(priceVal === "under500"){
+        filtered = filtered.filter(p => p.price < 500);
+      }
+      else if(priceVal === "500-1500"){
+        filtered = filtered.filter(p => p.price >= 500 && p.price <= 1500);
+      }
+      else if(priceVal === "1500-5000"){
+        filtered = filtered.filter(p => p.price >= 1500 && p.price <= 5000);
+      }
+      else if(priceVal === "above5000"){
+        filtered = filtered.filter(p => p.price > 5000);
+      }
+
+      const sortVal = sortSelect.value;
+
+      if(sortVal === "price-asc"){
+        filtered.sort((a,b)=>a.price-b.price);
+      }
+      else if(sortVal === "price-desc"){
+        filtered.sort((a,b)=>b.price-a.price);
+      }
+      else if(sortVal === "rating"){
+        filtered.sort((a,b)=>b.rating-a.rating);
+      }
+      else {
+        filtered.sort((a,b)=>a.id-b.id);
+      }
+
+      renderProducts(filtered);
     }
 
-    shuffle.addEventListener('click',()=>{
-      items.forEach(it=>it.colorSeed=Math.floor(Math.random()*360));
-      applySort(items);
+    /* ===============================
+       RESET FILTERS
+    ================================ */
+    function resetFilters(){
+      searchInput.value = "";
+      searchInput2.value = "";
+      categoryChecks.forEach(c => c.checked = false);
+      priceRadios.forEach(r => r.checked = r.value === "all");
+      sortSelect.value = "popular";
+    }
+
+    resetBtn.addEventListener("click", () => {
+      resetFilters();
+      applyFilters();
     });
+
+    applyBtn.addEventListener("click", applyFilters);
+
+    searchInput.addEventListener("input", applyFilters);
+    searchInput2.addEventListener("input", applyFilters);
+    sortSelect.addEventListener("change", applyFilters);
+
+    categoryChecks.forEach(c => c.addEventListener("change", applyFilters));
+    priceRadios.forEach(r => r.addEventListener("change", applyFilters));
+
+    /* ===============================
+       SHUFFLE COLORS
+    ================================ */
+    shuffleBtn.addEventListener("click", () => {
+      products.forEach((p, i) => {
+        p.img = generateImage(p.title, Math.floor(Math.random() * 8));
+      });
+      applyFilters();
+    });
+
+    /* ===============================
+       INITIAL LOAD
+    ================================ */
+    renderProducts(products);
   </script>
 </body>
 </html>

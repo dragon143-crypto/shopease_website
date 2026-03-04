@@ -3,60 +3,321 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout - Secure Payment</title>
+  <title>Checkout - ShopEase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
+    /* =========================================
+       RESET & BASE STYLES
+       ========================================= */
+    * {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f1f3f6;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      overflow-x: hidden;
     }
 
-    .container {
-      background: #fff;
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 800px;
+    /* =========================================
+       ANIMATIONS
+       ========================================= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(40, 116, 240, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(40, 116, 240, 0.6); }
+    }
+
+    /* =========================================
+       HEADER STYLES (Matching Homepage)
+       ========================================= */
+    .pro-header {
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      animation: fadeIn 0.8s ease-out;
+      background: #ffffff;
+      padding: 12px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid #e5e5e5;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: fadeInUp 0.5s ease-out;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 28px;
-      color: #4a00e0;
-      margin-bottom: 25px;
+    .pro-logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #2874f0;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .pro-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .pro-search {
+      flex: 1;
+      max-width: 650px;
+      display: flex;
+      align-items: center;
+      background: #f1f3f6;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pro-search input {
+      width: 100%;
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .pro-search button {
+      background: #2874f0;
+      border: none;
+      padding: 10px 14px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .pro-search button:hover {
+      background: #1a5fd1;
+    }
+
+    .voice-btn {
+      padding: 10px 12px;
+      cursor: pointer;
+      color: #555;
+      transition: color 0.3s ease;
+    }
+
+    .voice-btn:hover {
+      color: #2874f0;
+    }
+
+    .pro-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .pro-icon {
+      font-size: 22px;
+      position: relative;
+      cursor: pointer;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .pro-icon:hover {
+      color: #2874f0;
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #ff3d3d;
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 50%;
+      font-size: 11px;
+    }
+
+    .signin-btn {
+      padding: 8px 18px;
+      background: #ff9f00;
+      color: #fff !important;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .signin-btn:hover {
+      background: #ff6f00;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 159, 0, 0.4);
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 18px;
+      color: #2874f0 !important;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #eef5ff;
+      border: 1px solid #d4e4ff;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .profile-btn:hover {
+      background: #ddecff;
+      transform: scale(1.05);
+    }
+
+    /* =========================================
+       MAIN CONTAINER
+       ========================================= */
+    .main-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 25px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================================
+       LEFT SECTION - PAYMENT METHODS
+       ========================================= */
+    .payment-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: #2874f0;
     }
 
     .methods {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
     }
 
     .method {
-      border: 2px solid transparent;
-      border-radius: 15px;
-      padding: 20px;
-      background: #f9f9f9;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px 15px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
       text-align: center;
-      font-size: 16px;
-      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .method::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .method:hover::before {
+      left: 100%;
     }
 
     .method:hover {
-      border-color: #4a00e0;
-      background: #f0f0ff;
+      border-color: #2874f0;
+      background: #f8fbff;
       transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(74,0,224,0.2);
+      box-shadow: 0 8px 20px rgba(40, 116, 240, 0.2);
     }
 
     .method input {
@@ -64,95 +325,607 @@
     }
 
     .method.selected {
-      border-color: #ee0979;
-      background: linear-gradient(135deg, #ffecd2, #fcb69f);
-      color: #222;
-      box-shadow: 0 10px 25px rgba(238,9,121,0.3);
+      border-color: #ff9f00;
+      background: linear-gradient(135deg, #fff8e1, #ffecb3);
+      box-shadow: 0 8px 25px rgba(255, 159, 0, 0.3);
+      animation: borderGlow 2s ease infinite;
     }
 
-    .method span {
+    .method-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
       display: block;
-      font-size: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    .method:hover .method-icon {
+      transform: scale(1.1);
+    }
+
+    .method.selected .method-icon {
+      animation: float 1s ease infinite;
+    }
+
+    .method-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      display: block;
+    }
+
+    /* =========================================
+       RIGHT SECTION - ORDER SUMMARY
+       ========================================= */
+    .summary-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+      animation: slideInRight 0.6s ease-out;
+    }
+
+    .product-summary {
+      background: linear-gradient(135deg, #f8fbff, #e3f2fd);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .product-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .product-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      padding: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .product-img:hover {
+      transform: scale(1.1);
+    }
+
+    .product-info h3 {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .price-breakdown {
+      border-top: 1px dashed #ddd;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .price-row.total {
+      border-top: 1px solid #ddd;
+      padding-top: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .price-row.savings {
+      color: #388e3c;
+      font-weight: 600;
+    }
+
+    /* =========================================
+       SUBMIT BUTTON
+       ========================================= */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ff9f00, #ff6f00);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 159, 0, 0.3);
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-submit:hover::before {
+      left: 100%;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 159, 0, 0.5);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-submit i {
+      margin-right: 8px;
+    }
+
+    /* =========================================
+       SECURITY BADGES
+       ========================================= */
+    .security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .security-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .security-item i {
+      color: #388e3c;
+    }
+
+    /* =========================================
+       STATUS MESSAGE
+       ========================================= */
+    .status-container {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      animation: scaleIn 0.4s ease-out;
+    }
+
+    .status-container.processing {
+      display: block;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      border: 1px solid #90caf9;
+    }
+
+    .status-container.success {
+      display: block;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      border: 1px solid #a5d6a7;
+    }
+
+    .status-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .status-container.processing .status-icon {
+      color: #1976d2;
+      animation: pulse 1.5s ease infinite;
+    }
+
+    .status-container.success .status-icon {
+      color: #388e3c;
+    }
+
+    .status-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .status-subtext {
+      font-size: 13px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* =========================================
+       EMPTY STATE
+       ========================================= */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-cart i {
+      font-size: 80px;
+      color: #ccc;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .empty-cart h2 {
+      color: #333;
       margin-bottom: 10px;
     }
 
-    .btn {
-      display: block;
-      margin: 30px auto 0;
-      padding: 14px 36px;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #ff6a00, #ee0979);
+    .empty-cart p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .empty-cart .btn-shop {
+      display: inline-block;
+      padding: 12px 30px;
+      background: #2874f0;
       color: #fff;
-      font-weight: bold;
-      font-size: 18px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    .empty-cart .btn-shop:hover {
+      background: #1a5fd1;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(40, 116, 240, 0.4);
     }
 
-    .status {
-      display: none;
-      margin-top: 30px;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      color: green;
-      animation: fadeIn 1s ease-in-out;
+    /* =========================================
+       FOOTER
+       ========================================= */
+    .footer {
+      background: #1a1a1a;
+      color: #ddd;
+      margin-top: 50px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      padding: 40px 6%;
+      border-bottom: 1px solid #333;
+    }
+
+    .footer-col h3 {
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #bbb;
+      font-size: 13px;
+      margin: 6px 0;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-col a:hover {
+      color: #ff9f00;
+    }
+
+    .footer-middle {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 6%;
+      border-top: 1px solid #333;
+      font-size: 13px;
+      color: #bbb;
+    }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+    @media (max-width: 768px) {
+      .pro-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 15px;
+      }
+
+      .pro-search {
+        max-width: 100%;
+      }
+
+      .pro-actions {
+        justify-content: space-between;
+      }
+
+      .methods {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .method {
+        padding: 15px 10px;
+      }
+
+      .method-icon {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .methods {
+        grid-template-columns: 1fr;
+      }
+
+      .pro-logo {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>💳 Choose Your Payment Method</h1>
-    <form id="paymentForm">
-      <div class="methods">
-        <label class="method">
-          <input type="radio" name="payment" value="COD" required>
-          <span>💵</span>
-          Cash on Delivery
-        </label>
-        <label class="method">
-          <input type="radio" name="payment" value="PhonePe">
-          <span>📱</span>
-          PhonePe (UPI)
-        </label>
-        <label class="method">
-          <input type="radio" name="payment" value="GooglePay">
-          <span>📱</span>
-          Google Pay
-        </label>
-        <label class="method">
-          <input type="radio" name="payment" value="Paytm">
-          <span>📱</span>
-          Paytm Wallet / UPI
-        </label>
-        <label class="method">
-          <input type="radio" name="payment" value="Card">
-          <span>💳</span>
-          Credit / Debit Card
-        </label>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="pro-header">
+    <div class="pro-logo" onclick="window.location.href='index.html'">
+      <i class="fas fa-shopping-bag"></i> ShopEase
+    </div>
+
+    <div class="pro-search">
+      <input type="text" placeholder="Search for products, brands and more">
+      <span class="voice-btn">
+        <i class="fas fa-microphone"></i>
+      </span>
+      <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="pro-actions">
+      <a href="login.html" class="signin-btn">Sign In</a>
+      <div class="pro-icon" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cartBadge">0</span>
       </div>
-      <button type="submit" class="btn">Proceed Payment</button>
-    </form>
-    <div class="status" id="statusMsg"></div>
+      <a href="profile.html" class="profile-btn">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <div class="main-container">
+    
+    <!-- LEFT: Payment Methods -->
+    <div class="payment-section">
+      <h2 class="section-title">
+        <i class="fas fa-credit-card"></i> Choose Payment Method
+      </h2>
+
+      <form id="paymentForm">
+        <div class="methods">
+          <label class="method">
+            <input type="radio" name="payment" value="COD" required>
+            <i class="fas fa-money-bill-wave method-icon"></i>
+            <span class="method-name">Cash on Delivery</span>
+          </label>
+          
+          <label class="method">
+            <input type="radio" name="payment" value="PhonePe">
+            <i class="fas fa-mobile-alt method-icon" style="color: #6739b7;"></i>
+            <span class="method-name">PhonePe</span>
+          </label>
+          
+          <label class="method">
+            <input type="radio" name="payment" value="GooglePay">
+            <i class="fab fa-google-pay method-icon" style="color: #4285f4;"></i>
+            <span class="method-name">Google Pay</span>
+          </label>
+          
+          <label class="method">
+            <input type="radio" name="payment" value="Paytm">
+            <i class="fas fa-wallet method-icon" style="color: #00baf2;"></i>
+            <span class="method-name">Paytm Wallet</span>
+          </label>
+          
+          <label class="method">
+            <input type="radio" name="payment" value="Card">
+            <i class="fas fa-credit-card method-icon" style="color: #2874f0;"></i>
+            <span class="method-name">Credit / Debit Card</span>
+          </label>
+          
+          <label class="method">
+            <input type="radio" name="payment" value="NetBanking">
+            <i class="fas fa-university method-icon" style="color: #5f6368;"></i>
+            <span class="method-name">Net Banking</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-lock"></i> Pay Now
+        </button>
+      </form>
+
+      <!-- Status Message -->
+      <div class="status-container" id="statusMsg">
+        <div class="status-icon" id="statusIcon"></div>
+        <div class="status-text" id="statusText"></div>
+        <div class="status-subtext" id="statusSubtext"></div>
+      </div>
+
+      <!-- Security Badges -->
+      <div class="security-badges">
+        <div class="security-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure Payment</span>
+        </div>
+        <div class="security-item">
+          <i class="fas fa-lock"></i>
+          <span>SSL Encrypted</span>
+        </div>
+        <div class="security-item">
+          <i class="fas fa-undo"></i>
+          <span>Easy Returns</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="summary-section">
+      <h2 class="section-title">
+        <i class="fas fa-shopping-bag"></i> Order Summary
+      </h2>
+
+      <!-- Product Summary -->
+      <div class="product-summary" id="productSummary">
+        <div class="product-header">
+          <img id="checkoutProductImg" src="" alt="Product" class="product-img">
+          <div class="product-info">
+            <h3 id="checkoutProductTitle">Product</h3>
+            <div class="product-price" id="checkoutProductPrice">₹0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State (Hidden by default) -->
+      <div class="empty-cart" id="emptyCart" style="display: none;">
+        <i class="fas fa-shopping-cart"></i>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything to your cart yet.</p>
+        <a href="index.html" class="btn-shop">Start Shopping</a>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="price-breakdown" id="priceBreakdown">
+        <div class="price-row">
+          <span>Price</span>
+          <span id="itemPrice">₹0</span>
+        </div>
+        <div class="price-row">
+          <span>Delivery</span>
+          <span style="color: #388e3c;">FREE</span>
+        </div>
+        <div class="price-row">
+          <span>Platform Fee</span>
+          <span>₹0</span>
+        </div>
+        <div class="price-row total">
+          <span>Total Amount</span>
+          <span id="totalPrice">₹0</span>
+        </div>
+        <div class="price-row savings">
+          <i class="fas fa-save"></i>
+          <span>You save ₹0 on this order!</span>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h3>ABOUT</h3>
+        <a href="contact.html">Contact Us</a>
+        <a href="about.html">About Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h3>GROUP COMPANIES</h3>
+        <a href="#">Myntra</a>
+        <a href="#">Flipkart</a>
+        <a href="#">Shopsy</a>
+      </div>
+      <div class="footer-col">
+        <h3>HELP</h3>
+        <a href="#">Payments</a>
+        <a href="#">Shipping</a>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h3>CONSUMER POLICY</h3>
+        <a href="#">Cancellation & Returns</a>
+        <a href="#">Terms Of Use</a>
+        <a href="#">Security</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-middle">
+      <span>© ShopEase.com</span>
+    </div>
+  </footer>
+
   <script>
+    // Load product info from localStorage
+    document.addEventListener("DOMContentLoaded", function() {
+      const productData = localStorage.getItem('checkoutProduct');
+      const summaryDiv = document.getElementById('productSummary');
+      const emptyCart = document.getElementById('emptyCart');
+      const priceBreakdown = document.getElementById('priceBreakdown');
+      
+      if (productData) {
+        const product = JSON.parse(productData);
+        const imgEl = document.getElementById('checkoutProductImg');
+        const titleEl = document.getElementById('checkoutProductTitle');
+        const priceEl = document.getElementById('checkoutProductPrice');
+        
+        imgEl.src = product.image || product.img || 'https://via.placeholder.com/80';
+        titleEl.textContent = product.title || 'Product';
+        const price = product.price || 0;
+        priceEl.textContent = '₹' + price.toLocaleString();
+        
+        // Update price breakdown
+        document.getElementById('itemPrice').textContent = '₹' + price.toLocaleString();
+        document.getElementById('totalPrice').textContent = '₹' + price.toLocaleString();
+        
+        summaryDiv.style.display = 'block';
+        emptyCart.style.display = 'none';
+        priceBreakdown.style.display = 'block';
+      } else {
+        // No product - show empty state
+        summaryDiv.style.display = 'none';
+        emptyCart.style.display = 'block';
+        priceBreakdown.style.display = 'none';
+      }
+    });
+
     const form = document.getElementById("paymentForm");
     const methods = document.querySelectorAll(".method");
     const statusMsg = document.getElementById("statusMsg");
+    const statusIcon = document.getElementById("statusIcon");
+    const statusText = document.getElementById("statusText");
+    const statusSubtext = document.getElementById("statusSubtext");
+    const submitBtn = document.getElementById("submitBtn");
 
+    // Method selection
     methods.forEach(method => {
       method.addEventListener("click", () => {
         methods.forEach(m => m.classList.remove("selected"));
@@ -161,17 +934,49 @@
       });
     });
 
+    // Form submission
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-      const selected = document.querySelector("input[name='payment']:checked").value;
       
-      statusMsg.style.display = "block";
-      statusMsg.style.color = "#555";
-      statusMsg.textContent = "⏳ Processing your " + selected + " payment...";
+      const selected = document.querySelector("input[name='payment']:checked");
+      if (!selected) {
+        alert("Please select a payment method!");
+        return;
+      }
+      
+      const paymentMethod = selected.value;
+      
+      // Show processing status
+      statusMsg.className = "status-container processing";
+      statusIcon.className = "status-icon fas fa-spinner fa-spin";
+      statusText.textContent = "Processing your " + paymentMethod + " payment...";
+      statusSubtext.textContent = "Please wait while we process your request";
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = "0.7";
 
+      // Simulate payment processing
       setTimeout(() => {
-        statusMsg.style.color = "green";
-        statusMsg.textContent = "✅ Payment Successful via " + selected + "! Thank you for shopping with us.";
+        statusMsg.className = "status-container success";
+        statusIcon.className = "status-icon fas fa-check-circle";
+        
+        const successMessages = {
+          'COD': 'Order placed successfully!',
+          'PhonePe': 'Payment successful via PhonePe!',
+          'GooglePay': 'Payment successful via Google Pay!',
+          'Paytm': 'Payment successful via Paytm!',
+          'Card': 'Payment successful via Card!',
+          'NetBanking': 'Payment successful via Net Banking!'
+        };
+        
+        statusText.textContent = successMessages[paymentMethod] || 'Payment Successful!';
+        statusSubtext.textContent = "Thank you for shopping with ShopEase!";
+        
+        // Clear checkout product after successful payment
+        localStorage.removeItem('checkoutProduct');
+        
+        // Change button text
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Payment Done';
+        
       }, 3000);
     });
   </script>

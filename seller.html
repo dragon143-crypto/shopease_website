@@ -1,271 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Become a Seller | YourStore</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    /* --- SELLER PAGE --- */
-    body {
-      background: #f4f7fb;
-      font-family: 'Poppins', sans-serif;
-      color: #222;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Become a Seller - ShopEase</title>
 
-    /* HERO SECTION */
-    .seller-hero {
-      position: relative;
-      height: 80vh;
-      background: linear-gradient(135deg, #004aad, #00bfa6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      overflow: hidden;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    .seller-hero h1 {
-      font-size: 3.2rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
 
-    .seller-hero p {
-      font-size: 1.1rem;
-      max-width: 650px;
-      margin-bottom: 30px;
-      color: #e6e6e6;
-    }
+body{
+  background:linear-gradient(to bottom,#f6f8fc,#eef2fb);
+  color:#333;
+}
 
-    .hero-btn {
-      background: #fff;
-      color: #004aad;
-      padding: 12px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 16px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    }
+/* ================= HEADER ================= */
+.header{
+  background:#fff;
+  padding:18px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+}
 
-    .hero-btn:hover {
-      background: #004aad;
-      color: #fff;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
+.logo{
+  font-size:26px;
+  font-weight:700;
+  color:#2b6df6;
+}
 
-    /* BENEFITS */
-    .benefits {
-      text-align: center;
-      padding: 80px 10%;
-      background: #fff;
-    }
+.search-box{
+  flex:1;
+  margin:0 50px;
+  display:flex;
+}
 
-    .benefits h2 {
-      font-size: 2.2rem;
-      margin-bottom: 50px;
-      color: #004aad;
-    }
+.search-box input{
+  width:100%;
+  padding:12px 15px;
+  border:1px solid #ddd;
+  border-right:none;
+  border-radius:8px 0 0 8px;
+  outline:none;
+}
 
-    .benefit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-    }
+.search-box button{
+  padding:12px 18px;
+  background:#2b6df6;
+  color:#fff;
+  border:none;
+  border-radius:0 8px 8px 0;
+  cursor:pointer;
+}
 
-    .benefit-card {
-      background: #f7faff;
-      padding: 35px 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-    }
+.icons{
+  font-size:20px;
+}
 
-    .benefit-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    }
+/* ================= BREADCRUMB ================= */
 
-    .benefit-card h3 {
-      color: #009688;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+.breadcrumb{
+  padding:15px 6%;
+  font-size:14px;
+  color:#777;
+  background:#f5f7fb;
+}
 
-    .benefit-card p {
-      font-size: 15px;
-      color: #555;
-      line-height: 1.6;
-    }
+.breadcrumb a{
+  text-decoration:none;
+  color:#2b6df6;
+  font-weight:500;
+}
 
-    /* FORM SECTION */
-    .seller-form {
-      padding: 80px 10%;
-      background: #f4f7fb;
-    }
+.breadcrumb span{
+  margin:0 6px;
+}
 
-    .seller-form h2 {
-      text-align: center;
-      font-size: 2.2rem;
-      color: #004aad;
-      margin-bottom: 40px;
-    }
+/* ================= HERO SECTION ================= */
+.hero{
+  text-align:center;
+  padding:60px 6% 30px;
+}
 
-    .seller-form form {
-      max-width: 750px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(6px);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    }
+.hero h1{
+  font-size:42px;
+  font-weight:600;
+  margin-bottom:10px;
+}
 
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
+.hero p{
+  color:#666;
+  font-size:18px;
+  margin-bottom:40px;
+}
 
-    input, select {
-      flex: 1;
-      padding: 12px 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s;
-    }
+.hero-card{
+  background:#fff;
+  border-radius:20px;
+  padding:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 25px 60px rgba(0,0,0,0.08);
+  position:relative;
+}
 
-    input:focus, select:focus {
-      border-color: #009688;
-      box-shadow: 0 0 6px rgba(0, 150, 136, 0.2);
-    }
+/* Left Illustration */
+.hero-left{
+  flex:1;
+}
 
-    .seller-form button {
-      background: linear-gradient(135deg, #009688, #004aad);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 35px;
-      font-size: 16px;
-      cursor: pointer;
-      display: block;
-      margin: 25px auto 0 auto;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
+.hero-left img{
+  width:100%;
+  max-width:1000px;
+  height: 200%;
+}
 
-    .seller-form button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
+/* Right Features */
+.hero-right{
+  flex:1;
+  text-align:left;
+  padding-left:40px;
+}
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: #004aad;
-      color: #fff;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-    }
-  </style>
+.feature{
+  display:flex;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.feature-icon{
+  width:45px;
+  height:45px;
+  background:#eaf1ff;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  color:#2b6df6;
+}
+
+.feature h3{
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.feature p{
+  font-size:14px;
+  color:#666;
+}
+
+.start-btn{
+  margin-top:15px;
+  padding:14px 35px;
+  background:linear-gradient(90deg,#2b6df6,#1b4ed8);
+  border:none;
+  color:#fff;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 20px rgba(43,109,246,0.3);
+}
+
+/* ================= HOW IT WORKS ================= */
+/* ================= HOW IT WORKS ================= */
+.how{
+  padding:80px 6%;
+}
+
+.how-container{
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:40px;
+  align-items:start;
+}
+
+.how-left h2{
+  font-size:30px;
+  margin-bottom:30px;
+}
+
+.steps{
+  display:flex;
+  gap:30px;
+}
+
+.step{
+  flex:1;
+  background:#fff;
+  padding:40px 30px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.05);
+  position:relative;
+}
+
+/* Image */
+.step-img{
+  width:90px;
+  margin-bottom:20px;
+}
+
+/* Number badge */
+.step-number{
+  position:absolute;
+  top:20px;
+  left:20px;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#2b6df6;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  font-size:18px;
+}
+/* APPLY FORM */
+.apply{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.08);
+}
+
+.apply h3{
+  margin-bottom:10px;
+}
+
+.apply input,
+.apply select{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  outline:none;
+  font-size:14px;
+}
+
+.apply button{
+  width:100%;
+  padding:13px;
+  background:linear-gradient(90deg,#2b6df6,#1b4ed8);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1100px){
+
+  .hero-card{
+    flex-direction:column;
+  }
+
+  .hero-right{
+    padding-left:0;
+    margin-top:30px;
+  }
+
+  .steps{
+    flex-direction:column;
+  }
+
+  .apply{
+    position:static;
+    width:100%;
+    margin-top:40px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <!-- HEADER (keep your existing header structure) -->
-  <header>
-    <div class="logo">
-      <span class="brand">YourStore</span>
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">ShopEase</div>
+  <div class="search-box">
+    <input type="text" placeholder="Search products...">
+    <button>🔍</button>
+  </div>
+  <div class="icons">🛒</div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>›</span>
+  <span>Become a Seller</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Become a Seller</h1>
+  <p>Join ShopEase and reach millions of customers!</p>
+
+  <div class="hero-card">
+    
+    <div class="hero-left">
+      <!-- Illustration similar style -->
+      <img src="seller.png">
     </div>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+    <div class="hero-right">
 
-  </header>
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div>
+          <h3>Increase Your Sales</h3>
+          <p>Access millions of potential customers daily.</p>
+        </div>
+      </div>
 
-  <!-- HERO -->
-  <section class="seller-hero">
-    <h1>Start Selling With Confidence</h1>
-    <p>Join India’s fastest-growing online marketplace.  
-       Expand your reach and grow your brand effortlessly.</p>
-    <a href="#register" class="hero-btn">Become a Seller</a>
-  </section>
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-file-lines"></i>
+        </div>
+        <div>
+          <h3>Simple Setup</h3>
+          <p>Easy and fast onboarding process to start selling.</p>
+        </div>
+      </div>
 
-  <!-- BENEFITS -->
-  <section class="benefits">
-    <h2>Why Choose YourStore?</h2>
-    <div class="benefit-grid">
-      <div class="benefit-card">
-        <h3>Simple Onboarding</h3>
-        <p>Register, upload your products, and start selling in minutes.</p>
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <div>
+          <h3>Secure Payments</h3>
+          <p>Timely and guaranteed payments for your sales.</p>
+        </div>
       </div>
-      <div class="benefit-card">
-        <h3>Timely Payments</h3>
-        <p>Get paid securely and on time, directly to your bank account.</p>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div>
+          <h3>Seller Support</h3>
+          <p>Dedicated support team to assist you anytime.</p>
+        </div>
       </div>
-      <div class="benefit-card">
-        <h3>Marketing Boost</h3>
-        <p>We promote your products through campaigns to reach millions.</p>
-      </div>
-      <div class="benefit-card">
-        <h3>Dedicated Support</h3>
-        <p>Our experts guide you through every step of your journey.</p>
-      </div>
+
+      <button class="start-btn">Start Selling Now</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SELLER FORM -->
-  <section class="seller-form" id="register">
-    <h2>Register Your Seller Account</h2>
-    <form>
-      <div class="form-row">
-        <input type="text" placeholder="Full Name" required>
-        <input type="email" placeholder="Business Email" required>
-      </div>
+<!-- HOW IT WORKS -->
+<section class="how">
 
-      <div class="form-row">
-        <input type="text" placeholder="Store Name" required>
-        <input type="tel" placeholder="Phone Number" required>
-      </div>
+  <div class="how-container">
 
-      <div class="form-row">
-        <input type="text" placeholder="Business Address" required>
-      </div>
+    <!-- LEFT SIDE -->
+    <div class="how-left">
+      <h2>How It Works</h2>
 
-      <div class="form-row">
-        <select required>
-          <option value="">Select Product Category</option>
-          <option>Electronics</option>
-          <option>Clothing</option>
-          <option>Home & Kitchen</option>
-          <option>Beauty</option>
-          <option>Sports</option>
-        </select>
-      </div>
+      <div class="steps">
 
-      <div class="form-row">
-        <label>Upload ID Proof:
-          <input type="file" required>
-        </label>
-      </div>
+  <!-- STEP 1 -->
+  <div class="step">
+    <img src="https://media.defense.gov/2025/Sep/29/2003811739/1920/6000/0/250225-D-ZW071-0002.PNG" class="step-img">
+    <div class="step-number">1</div>
+    <h3>Sign Up</h3>
+    <p>Create your seller account in just a few minutes.</p>
+  </div>
 
-      <button type="submit">Submit Application</button>
-    </form>
-  </section>
+  <!-- STEP 2 -->
+  <div class="step">
+    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" class="step-img">
+    <div class="step-number">2</div>
+    <h3>List Your Products</h3>
+    <p>Add your products with ease and set your prices.</p>
+  </div>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2025 YourStore. All rights reserved.
-  </footer>
+</div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="apply">
+      <h3>Apply to Sell</h3>
+      <p style="color:#666; font-size:14px; margin-bottom:15px;">
+        Fill out the form below to get started.
+      </p>
+      <input type="text" placeholder="Your Full Name">
+      <input type="email" placeholder="Your Email Address">
+      <input type="text" placeholder="Your Phone Number">
+      <select>
+        <option>Select Your Business</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Home & Furniture</option>
+      </select>
+      <button>Submit</button>
+    </div>
+
+  </div>
+
+</section>
+<script>
+document.querySelector(".apply button").addEventListener("click",function(){
+  alert("Application Submitted Successfully!");
+});
+</script>
+
 </body>
 </html>

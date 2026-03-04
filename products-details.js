@@ -191,6 +191,22 @@ document.getElementById("wishlist").addEventListener("click", (e) => {
   e.target.textContent = added ? "♥ Wishlisted" : "❤ Wishlist";
 });
 
+// Buy Now button - redirect to checkout
+document.getElementById("buyNow").addEventListener("click", () => {
+  const qty = +document.getElementById("qty").value || 1;
+  const checkoutProduct = {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    image: product.images[0],
+    qty: qty
+  };
+  // Store product in localStorage for checkout page
+  localStorage.setItem('checkoutProduct', JSON.stringify(checkoutProduct));
+  // Redirect to checkout
+  window.location.href = 'buy.html';
+});
+
   // Submit review
   document.getElementById("submitReview").onclick = () => {
     const rating = +document.getElementById("reviewRating").value;
