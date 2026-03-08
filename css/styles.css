@@ -2011,182 +2011,486 @@ footer {
 /* ========================================= */
 /* ============ MOBILE RESPONSIVE ========== */
 /* ========================================= */
+/* Global Responsive Fixes - Applied to all devices */
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-@media (max-width: 992px) {
+body {
+  overflow-x: hidden;
+}
 
-  /* Prevent horizontal scroll */
-  body {
-    overflow-x: hidden;
+/* Touch Optimization - Global */
+button, 
+a.btn-primary, 
+.animated-btn, 
+.edit-btn,
+.signin-btn {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* ========== TABLET (481px - 1024px) ========== */
+@media (min-width: 481px) and (max-width: 1024px) {
+  
+  /* Header */
+  .pro-header {
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    gap: 15px;
   }
+  
+  .pro-search {
+    max-width: 100%;
+    order: 3;
+    width: 100%;
+  }
+  
+  .pro-logo {
+    font-size: 1.5rem;
+  }
+  
+  .pro-actions {
+    gap: 15px;
+  }
+  
+  /* Category Bar */
+  .category-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .main-menu {
+    gap: 25px;
+    min-width: max-content;
+  }
+  
+  .menu-item img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  /* Hero */
+  .hero {
+    padding: 40px 4%;
+    min-height: auto;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-image {
+    height: 300px;
+  }
+  
+  .hero::before {
+    background: linear-gradient(to right, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0) 100%);
+  }
+  
+  /* Slider */
+  .slider {
+    height: 250px;
+  }
+  
+  .content {
+    left: 6%;
+    max-width: 400px;
+  }
+  
+  .content h2 {
+    font-size: 1.6rem;
+  }
+  
+  /* Deals */
+  .deal-item {
+    flex: 0 0 160px;
+  }
+  
+  /* Footer */
+  .footer-top {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 30px 4%;
+    gap: 25px;
+  }
+}
 
+/* ========== MOBILE (max-width: 480px) ========== */
+@media (max-width: 480px) {
+  
+  /* Global */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   /* ================= HEADER ================= */
-
   .pro-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
-    padding: 12px 15px;
+    padding: 10px 15px;
+    gap: 10px;
+    position: relative;
   }
-
+  
+  .pro-logo {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  
   .pro-search {
     max-width: 100%;
     width: 100%;
+    order: 2;
   }
-
+  
+  .pro-search input {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  
+  .pro-search button {
+    padding: 8px 12px;
+  }
+  
+  .voice-btn {
+    padding: 8px 10px;
+  }
+  
   .pro-actions {
-    justify-content: space-between;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
     width: 100%;
+    order: 3;
   }
-
+  
+  .lang-select {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  
+  .pro-icon {
+    font-size: 20px;
+  }
+  
+  .signin-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    min-height: 36px;
+  }
+  
+  .profile-wrapper .profile-btn {
+    font-size: 14px;
+    padding: 6px 10px;
+    min-height: 36px;
+  }
+  
+  /* Profile Dropdown */
   .profile-menu,
   .profile-dropdown {
-    right: 10px;
+    right: 5px;
+    width: 160px;
   }
-
+  
   /* ================= CATEGORY BAR ================= */
-
   .category-bar {
     overflow-x: auto;
-    justify-content: flex-start;
-    padding: 10px;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 8px 10px;
   }
-
+  
+  .category-bar::-webkit-scrollbar {
+    display: none;
+  }
+  
   .main-menu {
-    gap: 20px;
+    display: flex;
+    gap: 15px;
     min-width: max-content;
+    padding: 0 10px;
   }
-
+  
+  .menu-item {
+    flex-shrink: 0;
+  }
+  
+  .menu-item a {
+    font-size: 11px;
+  }
+  
   .menu-item img {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 3px;
   }
-
-  /* Disable hover dropdowns on mobile */
+  
+  /* Hide dropdowns on mobile - show only on tap */
   .dropdown,
   .sub-dropdown {
-    position: static;
-    transform: none !important;
-    box-shadow: none;
-    border-radius: 0;
-    width: 100%;
-    display: none;
+    display: none !important;
   }
-
-  .menu-item:hover .dropdown,
-  .submenu-item:hover .sub-dropdown {
-    display: none;
+  
+  /* ================= SCROLLING TEXT ================= */
+  .scrolling-text {
+    font-size: 0.9rem;
+    padding: 8px 0;
   }
-
-  /* ================= HERO ================= */
-
+  
+  /* ================= SLIDER ================= */
+  .slider {
+    height: 180px;
+  }
+  
+  .slide img {
+    transform: scale(1.2);
+  }
+  
+  .content {
+    left: 4%;
+    top: 50%;
+    transform: translateY(-30%);
+    max-width: 85%;
+  }
+  
+  .content h2 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  
+  .content p {
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+  }
+  
+  .content button {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+  
+  .arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+  
+  /* ================= HERO SECTION ================= */
   .hero {
     flex-direction: column;
-    padding: 40px 20px;
+    padding: 25px 15px;
     min-height: auto;
   }
-
+  
   .hero-text {
     max-width: 100%;
     text-align: center;
+    order: 2;
   }
-
+  
   .hero-text h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    line-height: 1.3;
   }
-
-  .hero-image {
-    position: relative;
-    height: 250px;
-    margin-top: 20px;
+  
+  .hero-text p {
+    font-size: 0.9rem;
+    margin: 12px 0;
   }
-
-  .hero::before {
-    background: rgba(255, 255, 255, 0.85);
+  
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
-
+  
   .store-buttons {
     justify-content: center;
     flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
   }
-
-  /* ================= SLIDER ================= */
-
-  .slider {
+  
+  .store-buttons img {
+    height: 40px;
+    width: 80px;
+    object-fit: contain;
+  }
+  
+  .hero-image {
+    position: relative;
+    width: 100%;
     height: 200px;
+    order: 1;
+    margin-bottom: 15px;
   }
-
-  .content {
-    left: 5%;
-    max-width: 90%;
+  
+  .hero-image img {
+    object-fit: cover;
   }
-
-  .content h2 {
-    font-size: 1.2rem;
+  
+  .hero::before {
+    display: none;
   }
-
-  .content p {
-    font-size: 0.9rem;
-  }
-
-  /* ================= DEALS ================= */
-
+  
+  /* ================= TOP DEALS ================= */
   .top-deals {
-    width: 95%;
+    margin: 15px auto;
     padding: 15px;
+    width: 95%;
   }
-
+  
+  .top-deals h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .deals-container {
+    gap: 12px;
+    padding: 5px;
+  }
+  
   .deal-item {
-    flex: 0 0 150px;
-    padding: 10px;
+    flex: 0 0 140px;
+    padding: 12px 8px;
   }
-
+  
   .deal-item img {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
   }
-
+  
+  .deal-item h3 {
+    font-size: 0.85rem;
+  }
+  
+  .deal-item p {
+    font-size: 0.8rem;
+  }
+  
   .scroll-btn {
     display: none;
   }
-
+  
+  .deals-dots {
+    margin-top: 12px;
+    gap: 6px;
+  }
+  
+  .deals-dots .dot {
+    width: 8px;
+    height: 8px;
+  }
+  
   /* ================= FOOTER ================= */
-
+  .footer-top {
+    display: flex;
+    flex-direction: column;
+    padding: 25px 15px;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .footer-col {
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+  }
+  
+  .footer-col:last-child {
+    border-bottom: none;
+  }
+  
+  .footer-col h3 {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-col a {
+    font-size: 12px;
+    margin: 5px 0;
+  }
+  
+  .footer-col p {
+    font-size: 12px;
+  }
+  
   .footer-middle {
     flex-direction: column;
     text-align: center;
+    padding: 15px;
     gap: 10px;
+    font-size: 12px;
   }
-
-  .footer-bottom {
-    flex-wrap: wrap;
+  
+  .footer-middle a {
+    margin: 5px 8px;
   }
-
-}
-
-
-/* ================= SMALL PHONES ================= */
-
-@media (max-width: 480px) {
-
-  .hero-text h1 {
-    font-size: 1.6rem;
+  
+  /* ================= FLOATING COMPONENTS ================= */
+  .toast-container {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
+    flex-direction: column;
+    align-items: center;
   }
-
-  .content h2 {
-    font-size: 1rem;
-  }
-
-  .content p {
-    font-size: 0.8rem;
-  }
-
-  .pro-logo {
-    font-size: 1.3rem;
-  }
-
-  .signin-btn {
-    padding: 6px 12px;
+  
+  .toast {
+    min-width: auto;
+    width: 100%;
+    max-width: 300px;
     font-size: 13px;
+    padding: 12px 15px;
   }
-
+  
+  /* ================= TOUCH OPTIMIZATION ================= */
+  button,
+  .btn-primary,
+  .animated-btn,
+  .edit-btn,
+  .signin-btn,
+  .profile-btn,
+  a,
+  .pro-icon {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Links that are not buttons */
+  a:not(.btn-primary):not(.signin-btn):not(.animated-btn):not(.edit-btn) {
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  /* Better touch targets */
+  .pro-icon,
+  .lang-select {
+    padding: 8px;
+  }
+  
+  /* Smooth scrolling for mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent text selection on UI elements */
+  .pro-header,
+  .category-bar,
+  .pro-actions {
+    -webkit-user-select: none;
+    user-select: none;
+  }
 }
+
+/* ========== DESKTOP (above 1024px) ========== */
+/* Desktop styles remain unchanged - they are defined above */

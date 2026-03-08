@@ -3,203 +3,1685 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Men's Fashion</title>
+  <title>Men's Fashion - ShopEase</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
   <style>
-    body {
+    /* ================= RESET & BASE ================= */
+    * {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e3f2fd, #fff3e0);
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
       color: #333;
     }
 
-    header {
-      background: linear-gradient(90deg, #ff4081, #2196f3);
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ================= HEADER ================= */
+    .header {
+      background: #fff;
+      padding: 12px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .fashion-container {
-      padding: 40px 5%;
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ff3f6c;
+      cursor: pointer;
     }
 
-    .section-title {
-      font-size: 1.8rem;
-      margin: 30px 0 20px;
-      text-align: center;
-      color: #444;
+    .logo span { color: #333; }
+
+    .search-bar {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 30px;
+      display: flex;
       position: relative;
     }
 
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: #ff4081;
-      margin: 10px auto 0;
-      border-radius: 2px;
+    .search-bar input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 2px solid #eee;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.3s;
     }
 
-    .fashion-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+    .search-bar input:focus {
+      border-color: #ff3f6c;
     }
 
-    .card {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      overflow: hidden;
-      text-align: center;
-      padding: 15px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    .card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .card img:hover {
-      transform: scale(1.05);
-    }
-
-    .card h3 {
-      font-size: 1.2rem;
-      margin: 10px 0;
-      color: #333;
-    }
-
-    .price {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #ff4081;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 8px 14px;
-      margin-top: 10px;
-      font-size: 0.9rem;
+    .search-bar button {
+      padding: 12px 20px;
       border: none;
-      border-radius: 8px;
-      background: #2196f3;
+      background: #ff3f6c;
       color: #fff;
+      border-radius: 0 8px 8px 0;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
+      transition: background 0.3s;
     }
 
-    .btn:hover {
-      background: #1976d2;
+    .search-bar button:hover {
+      background: #e6365c;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 22px;
+      cursor: pointer;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    .cart-icon:hover {
+      color: #ff3f6c;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #ff3f6c;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-badge:empty,
+    .cart-badge[data-count="0"] {
+      display: none;
+    }
+
+    /* ================= BREADCRUMB ================= */
+    .breadcrumb {
+      padding: 15px 5%;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .breadcrumb a {
+      color: #ff3f6c;
+      font-weight: 500;
+    }
+
+    /* ================= HERO ================= */
+    .hero {
+      margin: 0 5% 30px;
+      background: linear-gradient(135deg, #fff5f6 0%, #f0f4ff 100%);
+      border-radius: 20px;
+      padding: 40px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,63,108,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+
+    .hero-text p {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ff3f6c;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .hero-image {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-image img {
+      width: 320px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    /* ================= MAIN LAYOUT ================= */
+    .main-container {
+      display: flex;
+      gap: 30px;
+      padding: 0 5% 50px;
+    }
+
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+      height: fit-content;
+      position: sticky;
+      top: 90px;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .sidebar-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .clear-all-btn {
+      font-size: 13px;
+      color: #ff3f6c;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .clear-all-btn:hover {
+      text-decoration: underline;
+    }
+
+    .filter-section {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 20px;
+    }
+
+    .filter-section:last-child {
+      border-bottom: none;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    .filter-header h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .filter-header i {
+      font-size: 12px;
+      color: #888;
+      transition: transform 0.3s;
+    }
+
+    .filter-header.collapsed i {
+      transform: rotate(-90deg);
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-options.collapsed {
+      display: none;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .filter-option input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #ff3f6c;
+      cursor: pointer;
+    }
+
+    .filter-option span {
+      font-size: 13px;
+      color: #444;
+      transition: color 0.2s;
+    }
+
+    .filter-option:hover span {
+      color: #ff3f6c;
+    }
+
+    .filter-option .count {
+      margin-left: auto;
+      font-size: 11px;
+      color: #999;
+      background: #f5f5f5;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Color filter */
+    .color-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .color-option {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .color-option:hover,
+    .color-option.active {
+      border-color: #ff3f6c;
+      transform: scale(1.1);
+    }
+
+    .color-option.active::after {
+      content: '\2713';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* Rating filter */
+    .rating-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 8px 0;
+    }
+
+    .rating-option .stars {
+      color: #ffb800;
+      font-size: 13px;
+    }
+
+    .rating-option span {
+      font-size: 13px;
+      color: #444;
+    }
+
+    /* ================= PRODUCTS AREA ================= */
+    .products-area {
+      flex: 1;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      background: #fff;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .tab-btn:hover {
+      color: #ff3f6c;
+    }
+
+    .tab-btn.active {
+      background: #ff3f6c;
+      color: #fff;
+    }
+
+    /* Sort Bar */
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .results-count strong {
+      color: #1a1a1a;
+    }
+
+    .sort-options {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .sort-dropdown {
+      padding: 8px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+    }
+
+    .view-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .view-btn:hover,
+    .view-btn.active {
+      border-color: #ff3f6c;
+      color: #ff3f6c;
+      background: #fff5f7;
+    }
+
+    /* ================= PRODUCT GRID ================= */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .product-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .product-card.list-view {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .product-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card.list-view .product-image {
+      width: 200px;
+      flex-shrink: 0;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .product-card.list-view .product-image img {
+      height: 100%;
+    }
+
+    .product-card:hover .product-image img {
       transform: scale(1.05);
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      border: none;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .wishlist-btn:hover {
+      color: #ff3f6c;
+      transform: scale(1.1);
+    }
+
+    .wishlist-btn.active {
+      color: #ff3f6c;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #ff3f6c;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .product-brand {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .product-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-pricing {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .current-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .original-price {
+      font-size: 14px;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .discount {
+      font-size: 12px;
+      color: #ff3f6c;
+      font-weight: 600;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .rating-stars {
+      color: #ffb800;
+      font-size: 13px;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .available-sizes {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .size-chip {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .size-chip:hover {
+      border-color: #ff3f6c;
+      color: #ff3f6c;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #ff3f6c;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #e6365c;
+    }
+
+    .add-to-cart-btn.added {
+      background: #28a745;
+    }
+
+    /* ================= PAGINATION ================= */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+    }
+
+    .page-btn {
+      min-width: 40px;
+      height: 40px;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover {
+      border-color: #ff3f6c;
+      color: #ff3f6c;
+    }
+
+    .page-btn.active {
+      background: #ff3f6c;
+      border-color: #ff3f6c;
+      color: #fff;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .page-ellipsis {
+      padding: 0 5px;
+      color: #888;
+    }
+
+    /* ================= NO RESULTS ================= */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      background: #fff;
+      border-radius: 16px;
+    }
+
+    .no-results i {
+      font-size: 60px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .no-results h3 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .no-results p {
+      color: #888;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1200px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+      }
+      
+      .hero {
+        padding: 30px;
+      }
+      
+      .hero-image img {
+        width: 220px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 4%;
+      }
+      
+      .search-bar {
+        margin: 0 15px;
+      }
+      
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+      }
+      
+      .hero-stats {
+        justify-content: center;
+      }
+      
+      .hero-image img {
+        width: 200px;
+      }
+      
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      
+      .product-image img {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-actions {
+        gap: 15px;
+      }
+      
+      .category-tabs {
+        gap: 8px;
+      }
+      
+      .tab-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+      }
+    }
+
+    /* Active filter badge */
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .active-filter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #fff5f7;
+      border: 1px solid #ff3f6c;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #ff3f6c;
+    }
+
+    .active-filter i {
+      cursor: pointer;
+    }
+
+    .active-filter i:hover {
+      color: #e6365c;
     }
   </style>
 </head>
 <body>
 
-<header>👔 Men's Fashion Collection</header>
-
-<div class="fashion-container">
-
-  <!-- Innerwear -->
-  <h2 class="section-title">Innerwear</h2>
-  <div class="fashion-grid">
-    <div class="card">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRacDGZYNckrB4W90Cw4MZXgvVU__Knw4hv0A&s" alt="Innerwear">
-      <h3>Comfort Fit Innerwear</h3>
-      <p class="price">$15</p>
-      <button class="btn">Add to Cart</button>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo" onclick="window.location.href='index.html'">Shop<span>Ease</span></div>
+    
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for products, brands and more">
+      <button><i class="fas fa-search"></i></button>
     </div>
-    <div class="card">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZbuICq4jWja6ufiTd5mDtvms3bXBQz6mphpYwTX6smqznhUWwCs2ysK650xWywWaQPes&usqp=CAU" alt="Innerwear">
-      <h3>Premium Cotton Vests</h3>
-      <p class="price">$20</p>
-      <button class="btn">Add to Cart</button>
+    
+    <div class="header-actions">
+      <div class="cart-icon" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> 
+    <a href="#">Fashion</a> <i class="fas fa-chevron-right"></i> 
+    <span>Men's Fashion</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Men's Fashion</h2>
+      <p>Discover the latest trends in men's clothing and accessories. Premium quality brands at best prices.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number" id="totalProducts">0</div>
+          <div class="stat-label">Products</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Brands</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">50%</div>
+          <div class="stat-label">Off</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500" alt="Men's Fashion">
     </div>
   </div>
 
-  <!-- Casual Wear -->
-  <h2 class="section-title">Casual Wear</h2>
-  <div class="fashion-grid">
-    <div class="card">
-      <img src="https://images.pexels.com/photos/1337477/pexels-photo-1337477.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Casual Shirt">
-      <h3>Stylish Casual Shirt</h3>
-      <p class="price">$30</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=600&q=80" alt="Jeans">
-      <h3>Denim Jeans</h3>
-      <p class="price">$40</p>
-      <button class="btn">Add to Cart</button>
+  <!-- MAIN CONTAINER -->
+  <div class="main-container">
+    
+    <!-- SIDEBAR FILTERS -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-filter"></i> Filters</h3>
+        <span class="clear-all-btn" onclick="clearAllFilters()">Clear All</span>
+      </div>
+
+      <!-- Active Filters -->
+      <div class="active-filters" id="activeFilters"></div>
+
+      <!-- Category Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Category</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options" id="categoryFilters">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Brand Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Brand</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options" id="brandFilters">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Color Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Color</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options">
+          <div class="color-options" id="colorFilters">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Size</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options" id="sizeFilters">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Rating Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Rating</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options" id="ratingFilters">
+          <div class="rating-option" data-rating="4">
+            <span class="stars">★★★★☆</span>
+            <span>& above</span>
+          </div>
+          <div class="rating-option" data-rating="3">
+            <span class="stars">★★★☆☆</span>
+            <span>& above</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offers Filter -->
+      <div class="filter-section">
+        <div class="filter-header" onclick="toggleFilter(this)">
+          <h4>Offers</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="filter-options" id="offerFilters">
+          <label class="filter-option">
+            <input type="checkbox" value="Free Delivery" onchange="applyFilters()">
+            <span>Free Delivery</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="Buy 1 Get 1" onchange="applyFilters()">
+            <span>Buy 1 Get 1</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox" value="Special Price" onchange="applyFilters()">
+            <span>Special Price</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PRODUCTS AREA -->
+    <div class="products-area">
+      
+      <!-- Category Tabs -->
+      <div class="category-tabs" id="categoryTabs">
+        <button class="tab-btn active" data-category="all">All</button>
+        <button class="tab-btn" data-category="T-Shirts">T-Shirts</button>
+        <button class="tab-btn" data-category="Shirts">Shirts</button>
+        <button class="tab-btn" data-category="Jeans">Jeans</button>
+        <button class="tab-btn" data-category="Trousers">Trousers</button>
+        <button class="tab-btn" data-category="Footwear">Footwear</button>
+        <button class="tab-btn" data-category="Accessories">Accessories</button>
+      </div>
+
+      <!-- Sort Bar -->
+      <div class="sort-bar">
+        <div class="results-count">
+          Showing <strong id="showingStart">0</strong> - <strong id="showingEnd">0</strong> of <strong id="totalResults">0</strong> products
+        </div>
+        <div class="sort-options">
+          <select class="sort-dropdown" id="sortDropdown" onchange="sortProducts()">
+            <option value="popularity">Sort by: Popularity</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Rating</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')">
+              <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" id="listViewBtn" onclick="setView('list')">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid" id="productGrid">
+        <!-- Generated by JS -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <!-- Generated by JS -->
+      </div>
     </div>
   </div>
 
-  <!-- Formal Wear -->
-  <h2 class="section-title">Formal Wear</h2>
-  <div class="fashion-grid">
-    <div class="card">
-      <img src="https://9f8e62d4.delivery.rocketcdn.me/wp-content/uploads/2023/08/How-To-Fold-A-Pocket-Square-9-Different-Ways.jpg" alt="Suit">
-      <h3>Classic Business Suit</h3>
-      <p class="price">$120</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-    <div class="card">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqSv4h5HlLvJAPxu0rKt1hDdUWqdgdzGxHag&s" alt="Blazer">
-      <h3>Premium Blazer</h3>
-      <p class="price">$99</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-  </div>
+  <script>
+    // ================= PRODUCT DATA =================
+    const products = [
+      // T-Shirts
+      { id: 1, brand: "Roadster", title: "Cotton Pure Cotton T-Shirt", category: "T-Shirts", price: 399, originalPrice: 1299, discount: 69, rating: 4.2, reviewCount: 2453, colors: ["Black", "White", "Navy"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", offer: "Free Delivery" },
+      { id: 2, brand: "Levi's", title: "Signature T-Shirt Pack of 2", category: "T-Shirts", price: 799, originalPrice: 1599, discount: 50, rating: 4.5, reviewCount: 1823, colors: ["White", "Grey"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400", offer: "Special Price" },
+      { id: 3, brand: "Puma", title: "Men's Performance T-Shirt", category: "T-Shirts", price: 699, originalPrice: 1499, discount: 53, rating: 4.3, reviewCount: 987, colors: ["Black", "Blue", "Red"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=400", offer: "Free Delivery" },
+      { id: 4, brand: "Adidas", title: "Climacool T-Shirt", category: "T-Shirts", price: 1199, originalPrice: 2499, discount: 52, rating: 4.6, reviewCount: 654, colors: ["White", "Black"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=400", offer: "" },
+      { id: 5, brand: "Roadster", title: "Men's Round Neck T-Shirt", category: "T-Shirts", price: 349, originalPrice: 999, discount: 65, rating: 4.1, reviewCount: 3421, colors: ["Black", "White", "Green"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400", offer: "Buy 1 Get 1" },
+      { id: 6, brand: "Fastrack", title: "Urban Fit T-Shirt", category: "T-Shirts", price: 449, originalPrice: 899, discount: 50, rating: 4.0, reviewCount: 1234, colors: ["Black", "White"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400", offer: "Special Price" },
+      
+      // Shirts
+      { id: 7, brand: "Levi's", title: "Slim Fit Casual Shirt", category: "Shirts", price: 1499, originalPrice: 3499, discount: 57, rating: 4.4, reviewCount: 2134, colors: ["Blue", "White", "Pink"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400", offer: "Free Delivery" },
+      { id: 8, brand: "Louis Philippe", title: "Formal Cotton Shirt", category: "Shirts", price: 1299, originalPrice: 2499, discount: 48, rating: 4.5, reviewCount: 1567, colors: ["White", "Light Blue"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400", offer: "" },
+      { id: 9, brand: "Van Heusen", title: "Slim Fit Formal Shirt", category: "Shirts", price: 1149, originalPrice: 2299, discount: 50, rating: 4.3, reviewCount: 987, colors: ["White", "Blue"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400", offer: "Special Price" },
+      { id: 10, brand: "Arrow", title: "Classic Fit Dress Shirt", category: "Shirts", price: 1799, originalPrice: 3999, discount: 55, rating: 4.6, reviewCount: 765, colors: ["White", "Pink", "Blue"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=400", offer: "Free Delivery" },
+      { id: 11, brand: "Peter England", title: "Casual Printed Shirt", category: "Shirts", price: 999, originalPrice: 1999, discount: 50, rating: 4.2, reviewCount: 2341, colors: ["Blue", "Green", "Red"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", offer: "" },
+      { id: 12, brand: "Roadster", title: "Checked Casual Shirt", category: "Shirts", price: 849, originalPrice: 1699, discount: 50, rating: 4.1, reviewCount: 1876, colors: ["Red", "Blue", "Green"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1589310243389-96ebafb35d09?w=400", offer: "Buy 1 Get 1" },
 
-  <!-- Ethnic Wear -->
-  <h2 class="section-title">Ethnic Wear</h2>
-  <div class="fashion-grid">
-    <div class="card">
-      <img src="https://keevaaexports.b-cdn.net/images/product/2025/06/ynf-cotton-rin223-3125c-mens-wear-wholesale-mens-kurtas-mens-kurta-pyjama-men-wedding-kurta-manufacturer-2025-06-30_17_31_57.jpg" alt="Kurta">
-      <h3>Traditional Kurta</h3>
-      <p class="price">$50</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-    <div class="card">
-      <img src="https://cdn.shopify.com/s/files/1/0566/3804/6391/files/TT-797MSHS-LD08_1_480x480.jpg?v=1724682566" alt="Sherwani">
-      <h3>Royal Sherwani</h3>
-      <p class="price">$150</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-  </div>
+      // Jeans
+      { id: 13, brand: "Levi's", title: "511 Slim Fit Jeans", category: "Jeans", price: 1499, originalPrice: 3999, discount: 62, rating: 4.5, reviewCount: 4532, colors: ["Blue", "Black", "Grey"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?w=400", offer: "Free Delivery" },
+      { id: 14, brand: "Wrangler", title: "Relaxed Fit Jeans", category: "Jeans", price: 1799, originalPrice: 3599, discount: 50, rating: 4.4, reviewCount: 2134, colors: ["Blue", "Black"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400", offer: "" },
+      { id: 15, brand: "Lee", title: "Skinny Fit Jeans", category: "Jeans", price: 1299, originalPrice: 2999, discount: 57, rating: 4.3, reviewCount: 1876, colors: ["Blue", "Black"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1475178626620-a4d074967452?w=400", offer: "Special Price" },
+      { id: 16, brand: "Levi's", title: "510 Slim Taper Fit", category: "Jeans", price: 1999, originalPrice: 4999, discount: 60, rating: 4.6, reviewCount: 3245, colors: ["Blue", "Black", "Dark Blue"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=400", offer: "Free Delivery" },
+      { id: 17, brand: "Roadster", title: "Denim Jeans", category: "Jeans", price: 999, originalPrice: 2499, discount: 60, rating: 4.0, reviewCount: 4532, colors: ["Blue", "Black"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?w=400", offer: "" },
+      { id: 18, brand: "Wrangler", title: "Slim Jeans", category: "Jeans", price: 1599, originalPrice: 3199, discount: 50, rating: 4.2, reviewCount: 1234, colors: ["Blue", "Black", "Grey"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1584370848010-d7dfe6bc767ec?w=400", offer: "Buy 1 Get 1" },
 
-  <!-- Accessories -->
-  <h2 class="section-title">Accessories</h2>
-  <div class="fashion-grid">
-    <div class="card">
-      <img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Watch">
-      <h3>Luxury Watch</h3>
-      <p class="price">$80</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-    <div class="card">
-      <img src="https://st4.depositphotos.com/17369252/25363/i/450/depositphotos_253635644-stock-photo-men-women-sneakers-colored-background.jpg" alt="Shoes">
-      <h3>Stylish Sneakers</h3>
-      <p class="price">$60</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-  </div>
+      // Trousers
+      { id: 19, brand: "Louis Philippe", title: "Formal Trousers", category: "Trousers", price: 1599, originalPrice: 2999, discount: 47, rating: 4.5, reviewCount: 987, colors: ["Black", "Grey", "Navy"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400", offer: "Free Delivery" },
+      { id: 20, brand: "Peter England", title: "Slim Fit Trousers", category: "Trousers", price: 1299, originalPrice: 2499, discount: 48, rating: 4.3, reviewCount: 1543, colors: ["Black", "Grey"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400", offer: "" },
+      { id: 21, brand: "Van Heusen", title: "Executive Trousers", category: "Trousers", price: 1899, originalPrice: 3799, discount: 50, rating: 4.6, reviewCount: 765, colors: ["Black", "Grey", "Blue"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400", offer: "Special Price" },
+      { id: 22, brand: "Arrow", title: "Classic Formal Trousers", category: "Trousers", price: 1799, originalPrice: 3599, discount: 50, rating: 4.4, reviewCount: 654, colors: ["Black", "Grey"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", offer: "" },
 
-</div>
+      // Footwear
+      { id: 23, brand: "Nike", title: "Air Max Running Shoes", category: "Footwear", price: 4999, originalPrice: 9999, discount: 50, rating: 4.7, reviewCount: 3421, colors: ["Black", "White", "Red"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", offer: "Free Delivery" },
+      { id: 24, brand: "Adidas", title: "Ultraboost Running Shoes", category: "Footwear", price: 6999, originalPrice: 12999, discount: 46, rating: 4.8, reviewCount: 2134, colors: ["Black", "White", "Blue"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400", offer: "" },
+      { id: 25, brand: "Puma", title: "Men's Sneakers", category: "Footwear", price: 2999, originalPrice: 5999, discount: 50, rating: 4.5, reviewCount: 4532, colors: ["White", "Black", "Blue"], sizes: ["6", "7", "8", "9", "10"], image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400", offer: "Special Price" },
+      { id: 26, brand: "Reebok", title: "Classic Leather Shoes", category: "Footwear", price: 3499, originalPrice: 6999, discount: 50, rating: 4.4, reviewCount: 1234, colors: ["White", "Black"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400", offer: "Free Delivery" },
+      { id: 27, brand: "Bata", title: "Formal Leather Shoes", category: "Footwear", price: 1999, originalPrice: 3999, discount: 50, rating: 4.2, reviewCount: 2341, colors: ["Black", "Brown"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=400", offer: "" },
+      { id: 28, brand: "Puma", title: "Men's Sports Sandals", category: "Footwear", price: 1299, originalPrice: 2599, discount: 50, rating: 4.1, reviewCount: 876, colors: ["Black", "Brown", "Blue"], sizes: ["6", "7", "8", "9", "10"], image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=400", offer: "Buy 1 Get 1" },
+
+      // Accessories
+      { id: 29, brand: "Fastrack", title: "Analog Watch", category: "Accessories", price: 1499, originalPrice: 2999, discount: 50, rating: 4.3, reviewCount: 5678, colors: ["Black", "Silver", "Gold"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400", offer: "Free Delivery" },
+      { id: 30, brand: "Titan", title: "Men's Analogue Watch", category: "Accessories", price: 3999, originalPrice: 7999, discount: 50, rating: 4.7, reviewCount: 3421, colors: ["Silver", "Gold", "Black"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", offer: "" },
+      { id: 31, brand: "Levi's", title: "Leather Belt", category: "Accessories", price: 699, originalPrice: 1399, discount: 50, rating: 4.2, reviewCount: 2341, colors: ["Black", "Brown"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400", offer: "Special Price" },
+      { id: 32, brand: "Ray-Ban", title: "Wayfarer Sunglasses", category: "Accessories", price: 2499, originalPrice: 4999, discount: 50, rating: 4.6, reviewCount: 1876, colors: ["Black", "Brown"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400", offer: "" },
+      { id: 33, brand: "Wildcraft", title: "Backpack 25 Ltr", category: "Accessories", price: 1299, originalPrice: 2599, discount: 50, rating: 4.4, reviewCount: 3421, colors: ["Black", "Blue", "Grey"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400", offer: "Free Delivery" },
+      { id: 34, brand: "Skybags", title: "Polyester Backpack", category: "Accessories", price: 999, originalPrice: 1999, discount: 50, rating: 4.1, reviewCount: 1234, colors: ["Black", "Blue", "Red"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400", offer: "" },
+
+      // Additional T-Shirts
+      { id: 35, brand: "Tommy Hilfiger", title: "Classic Logo T-Shirt", category: "T-Shirts", price: 1899, originalPrice: 3799, discount: 50, rating: 4.4, reviewCount: 876, colors: ["White", "Navy", "Red"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=400", offer: "" },
+      { id: 36, brand: "HRX", title: "Performance Active T-Shirt", category: "T-Shirts", price: 599, originalPrice: 1199, discount: 50, rating: 4.2, reviewCount: 2134, colors: ["Black", "Grey", "Blue"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", offer: "Free Delivery" },
+      { id: 37, brand: "U.S. Polo Assn.", title: "Printed Round Neck T-Shirt", category: "T-Shirts", price: 749, originalPrice: 1499, discount: 50, rating: 4.1, reviewCount: 1543, colors: ["White", "Black", "Navy"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400", offer: "Special Price" },
+      { id: 38, brand: "Jack & Jones", title: "Solid Cotton T-Shirt", category: "T-Shirts", price: 999, originalPrice: 1999, discount: 50, rating: 4.3, reviewCount: 987, colors: ["White", "Black", "Grey"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400", offer: "" },
+
+      // Additional Shirts
+      { id: 39, brand: "Raymond", title: "Premium Cotton Formal Shirt", category: "Shirts", price: 1899, originalPrice: 3799, discount: 50, rating: 4.6, reviewCount: 654, colors: ["White", "Light Blue", "Pink"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400", offer: "Free Delivery" },
+      { id: 40, brand: "Louis Philippe", title: "Slim Fit Printed Shirt", category: "Shirts", price: 1599, originalPrice: 3199, discount: 50, rating: 4.4, reviewCount: 1234, colors: ["Blue", "White", "Green"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400", offer: "" },
+      { id: 41, brand: "Van Heusen", title: "Slim Fit Checkered Shirt", category: "Shirts", price: 1299, originalPrice: 2599, discount: 50, rating: 4.3, reviewCount: 876, colors: ["Blue", "Red", "Green"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400", offer: "Special Price" },
+      { id: 42, brand: "Peter England", title: "Slim Fit Stripe Shirt", category: "Shirts", price: 1199, originalPrice: 2399, discount: 50, rating: 4.2, reviewCount: 543, colors: ["White", "Blue", "Pink"], sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", offer: "" },
+
+      // Additional Jeans
+      { id: 43, brand: "Levi's", title: "514 Straight Fit Jeans", category: "Jeans", price: 1799, originalPrice: 3999, discount: 55, rating: 4.5, reviewCount: 3210, colors: ["Blue", "Black", "Grey"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?w=400", offer: "Free Delivery" },
+      { id: 44, brand: "Wrangler", title: "Regular Fit Jeans", category: "Jeans", price: 1699, originalPrice: 3399, discount: 50, rating: 4.3, reviewCount: 1876, colors: ["Blue", "Black"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400", offer: "" },
+      { id: 45, brand: "Lee", title: "Regular Fit Jeans", category: "Jeans", price: 1499, originalPrice: 2999, discount: 50, rating: 4.4, reviewCount: 2134, colors: ["Blue", "Black", "Grey"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1475178626620-a4d074967452?w=400", offer: "Special Price" },
+      { id: 46, brand: "Roadster", title: "Slim Fit Jeans", category: "Jeans", price: 1149, originalPrice: 2299, discount: 50, rating: 4.1, reviewCount: 4532, colors: ["Blue", "Black"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=400", offer: "" },
+
+      // Additional Trousers
+      { id: 47, brand: "Louis Philippe", title: "Slim Fit Formal Trousers", category: "Trousers", price: 1699, originalPrice: 3399, discount: 50, rating: 4.5, reviewCount: 876, colors: ["Black", "Grey", "Navy"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400", offer: "Free Delivery" },
+      { id: 48, brand: "Peter England", title: "Regular Fit Trousers", category: "Trousers", price: 1399, originalPrice: 2799, discount: 50, rating: 4.3, reviewCount: 1234, colors: ["Black", "Grey"], sizes: ["28", "30", "32", "34"], image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400", offer: "" },
+      { id: 49, brand: "Van Heusen", title: "Slim Fit Pleated Trousers", category: "Trousers", price: 1999, originalPrice: 3999, discount: 50, rating: 4.6, reviewCount: 543, colors: ["Black", "Grey", "Blue"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400", offer: "Special Price" },
+      { id: 50, brand: "Arrow", title: "Regular Fit Formal Trousers", category: "Trousers", price: 1599, originalPrice: 3199, discount: 50, rating: 4.4, reviewCount: 765, colors: ["Black", "Grey"], sizes: ["28", "30", "32", "34", "36"], image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", offer: "" },
+
+      // Additional Footwear
+      { id: 51, brand: "Nike", title: "Air Force 1 Sneakers", category: "Footwear", price: 6999, originalPrice: 12999, discount: 46, rating: 4.7, reviewCount: 4532, colors: ["White", "Black", "Brown"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", offer: "Free Delivery" },
+      { id: 52, brand: "Adidas", title: "Stan Smith Sneakers", category: "Footwear", price: 5999, originalPrice: 9999, discount: 40, rating: 4.6, reviewCount: 3421, colors: ["White", "Green", "Blue"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400", offer: "" },
+      { id: 53, brand: "Puma", title: "RS-X Casual Shoes", category: "Footwear", price: 4499, originalPrice: 8999, discount: 50, rating: 4.5, reviewCount: 2134, colors: ["White", "Black", "Blue"], sizes: ["6", "7", "8", "9", "10"], image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400", offer: "Special Price" },
+      { id: 54, brand: "Reebok", title: "Club C 85 Shoes", category: "Footwear", price: 3999, originalPrice: 7999, discount: 50, rating: 4.4, reviewCount: 1543, colors: ["White", "Green"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400", offer: "Free Delivery" },
+      { id: 55, brand: "Bata", title: "Casual Loafers", category: "Footwear", price: 1599, originalPrice: 3199, discount: 50, rating: 4.1, reviewCount: 876, colors: ["Black", "Brown"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=400", offer: "" },
+      { id: 56, brand: "Clarks", title: "Leather Formal Shoes", category: "Footwear", price: 4999, originalPrice: 9999, discount: 50, rating: 4.6, reviewCount: 543, colors: ["Black", "Brown"], sizes: ["6", "7", "8", "9", "10", "11"], image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=400", offer: "" },
+
+      // Additional Accessories
+      { id: 57, brand: "Fastrack", title: "Digital Watch", category: "Accessories", price: 1799, originalPrice: 3599, discount: 50, rating: 4.2, reviewCount: 2341, colors: ["Black", "Silver", "Blue"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400", offer: "Free Delivery" },
+      { id: 58, brand: "Fossil", title: "Men's Chronograph Watch", category: "Accessories", price: 6999, originalPrice: 12999, discount: 46, rating: 4.7, reviewCount: 1234, colors: ["Silver", "Black", "Gold"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", offer: "" },
+      { id: 59, brand: "Levi's", title: "Premium Leather Wallet", category: "Accessories", price: 899, originalPrice: 1799, discount: 50, rating: 4.3, reviewCount: 1876, colors: ["Black", "Brown"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400", offer: "Special Price" },
+      { id: 60, brand: "Oakley", title: "Sport Sunglasses", category: "Accessories", price: 2999, originalPrice: 5999, discount: 50, rating: 4.5, reviewCount: 654, colors: ["Black", "Grey", "Red"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400", offer: "" },
+      { id: 61, brand: "American Tourister", title: "Hard Luggage 28 inch", category: "Accessories", price: 3999, originalPrice: 7999, discount: 50, rating: 4.4, reviewCount: 876, colors: ["Black", "Blue", "Red"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400", offer: "Free Delivery" },
+      { id: 62, brand: "Samsonite", title: "Polycarbonate Suitcase", category: "Accessories", price: 5999, originalPrice: 11999, discount: 50, rating: 4.6, reviewCount: 543, colors: ["Black", "Silver", "Blue"], sizes: ["One Size"], image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400", offer: "" }
+    ];
+
+    // ================= STATE =================
+    let filteredProducts = [...products];
+    let currentPage = 1;
+    const productsPerPage = 12;
+    let currentView = 'grid';
+    let activeFilters = {
+      categories: [],
+      brands: [],
+      colors: [],
+      sizes: [],
+      ratings: [],
+      offers: []
+    };
+
+    // ================= CART FUNCTIONS =================
+    function getCart() {
+      try {
+        return JSON.parse(localStorage.getItem('shopease_cart')) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('shopease_cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    function addToCart(product) {
+      const cart = getCart();
+      const existing = cart.find(item => item.id === product.id);
+      
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          title: product.title,
+          brand: product.brand,
+          price: product.price,
+          image: product.image,
+          qty: 1
+        });
+      }
+      
+      saveCart(cart);
+    }
+
+    function updateCartBadge() {
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const badge = document.getElementById('cartBadge');
+      badge.textContent = totalItems;
+      badge.setAttribute('data-count', totalItems);
+    }
+
+    // ================= INITIALIZATION =================
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeFilters();
+      initializeEventListeners();
+      updateCartBadge();
+      renderProducts();
+      document.getElementById('totalProducts').textContent = products.length;
+    });
+
+    // ================= FILTER INITIALIZATION =================
+    function initializeFilters() {
+      // Category filters
+      const categories = [...new Set(products.map(p => p.category))];
+      const categoryHTML = categories.map(cat => {
+        const count = products.filter(p => p.category === cat).length;
+        return '<label class="filter-option"><input type="checkbox" value="' + cat + '" onchange="applyFilters()"><span>' + cat + '</span><span class="count">' + count + '</span></label>';
+      }).join('');
+      document.getElementById('categoryFilters').innerHTML = categoryHTML;
+
+      // Brand filters
+      const brands = [...new Set(products.map(p => p.brand))].sort();
+      const brandHTML = brands.map(brand => {
+        const count = products.filter(p => p.brand === brand).length;
+        return '<label class="filter-option"><input type="checkbox" value="' + brand + '" onchange="applyFilters()"><span>' + brand + '</span><span class="count">' + count + '</span></label>';
+      }).join('');
+      document.getElementById('brandFilters').innerHTML = brandHTML;
+
+      // Color filters
+      const colors = [...new Set(products.flatMap(p => p.colors))].sort();
+      const colorHTML = colors.slice(0, 10).map(color => {
+        const colorCode = getColorCode(color);
+        return '<div class="color-option" style="background: ' + colorCode + '" title="' + color + '" data-color="' + color + '" onclick="toggleColorFilter(\'' + color + '\')"></div>';
+      }).join('');
+      document.getElementById('colorFilters').innerHTML = colorHTML;
+
+      // Size filters
+      const sizes = [...new Set(products.flatMap(p => p.sizes))].sort();
+      const sizeHTML = sizes.map(size => {
+        const count = products.filter(p => p.sizes.includes(size)).length;
+        return '<label class="filter-option"><input type="checkbox" value="' + size + '" onchange="applyFilters()"><span>' + size + '</span><span class="count">' + count + '</span></label>';
+      }).join('');
+      document.getElementById('sizeFilters').innerHTML = sizeHTML;
+
+      // Rating filters
+      document.querySelectorAll('.rating-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          const rating = opt.dataset.rating;
+          const checkbox = opt.querySelector('input[type="checkbox"]');
+          if (!checkbox) {
+            const newCheckbox = document.createElement('input');
+            newCheckbox.type = 'checkbox';
+            newCheckbox.value = rating;
+            newCheckbox.onchange = applyFilters;
+            opt.insertBefore(newCheckbox, opt.firstChild);
+            checkbox = newCheckbox;
+          }
+          checkbox.checked = !checkbox.checked;
+          applyFilters();
+        });
+      });
+    }
+
+    function getColorCode(colorName) {
+      const colors = {
+        'Black': '#000000',
+        'White': '#FFFFFF',
+        'Navy': '#000080',
+        'Blue': '#0000FF',
+        'Red': '#FF0000',
+        'Green': '#008000',
+        'Grey': '#808080',
+        'Silver': '#C0C0C0',
+        'Gold': '#FFD700',
+        'Brown': '#8B4513',
+        'Pink': '#FFC0CB',
+        'Dark Blue': '#00008B',
+        'Yellow': '#FFFF00',
+        'Orange': '#FFA500',
+        'Beige': '#F5F5DC'
+      };
+      return colors[colorName] || '#CCCCCC';
+    }
+
+    // ================= EVENT LISTENERS =================
+    function initializeEventListeners() {
+      // Category tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const category = btn.dataset.category;
+          if (category === 'all') {
+            document.querySelectorAll('#categoryFilters input').forEach(cb => cb.checked = false);
+          } else {
+            document.querySelectorAll('#categoryFilters input').forEach(cb => {
+              cb.checked = cb.value === category;
+            });
+          }
+          applyFilters();
+        });
+      });
+
+      // Search
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        applyFilters();
+      });
+    }
+
+    // ================= FILTER FUNCTIONS =================
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      // Get selected filters
+      activeFilters.categories = [...document.querySelectorAll('#categoryFilters input:checked')].map(i => i.value);
+      activeFilters.brands = [...document.querySelectorAll('#brandFilters input:checked')].map(i => i.value);
+      activeFilters.sizes = [...document.querySelectorAll('#sizeFilters input:checked')].map(i => i.value);
+      activeFilters.offers = [...document.querySelectorAll('#offerFilters input:checked')].map(i => i.value);
+      
+      // Rating filters
+      activeFilters.ratings = [];
+      document.querySelectorAll('#ratingFilters input:checked').forEach(cb => {
+        activeFilters.ratings.push(parseInt(cb.value));
+      });
+
+      // Filter products
+      filteredProducts = products.filter(product => {
+        // Search
+        if (searchTerm && !product.title.toLowerCase().includes(searchTerm) && 
+            !product.brand.toLowerCase().includes(searchTerm)) {
+          return false;
+        }
+
+        // Category
+        if (activeFilters.categories.length > 0 && !activeFilters.categories.includes(product.category)) {
+          return false;
+        }
+
+        // Brand
+        if (activeFilters.brands.length > 0 && !activeFilters.brands.includes(product.brand)) {
+          return false;
+        }
+
+        // Size
+        if (activeFilters.sizes.length > 0 && !product.sizes.some(s => activeFilters.sizes.includes(s))) {
+          return false;
+        }
+
+        // Rating
+        if (activeFilters.ratings.length > 0 && !activeFilters.ratings.some(r => product.rating >= r)) {
+          return false;
+        }
+
+        // Offers
+        if (activeFilters.offers.length > 0 && !activeFilters.offers.includes(product.offer)) {
+          return false;
+        }
+
+        // Colors
+        const selectedColors = [...document.querySelectorAll('.color-option.active')].map(el => el.dataset.color);
+        if (selectedColors.length > 0 && !product.colors.some(c => selectedColors.includes(c))) {
+          return false;
+        }
+
+        return true;
+      });
+
+      currentPage = 1;
+      sortProducts();
+      updateActiveFilters();
+      updateTabSelection();
+      renderProducts();
+    }
+
+    function updateTabSelection() {
+      const activeCategories = [...document.querySelectorAll('#categoryFilters input:checked')].map(i => i.value);
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.category === 'all') {
+          btn.classList.toggle('active', activeCategories.length === 0);
+        } else {
+          btn.classList.toggle('active', activeCategories.includes(btn.dataset.category));
+        }
+      });
+    }
+
+    function toggleColorFilter(color) {
+      const colorEl = document.querySelector(`.color-option[data-color="${color}"]`);
+      if (colorEl) {
+        colorEl.classList.toggle('active');
+        applyFilters();
+      }
+    }
+
+    function clearAllFilters() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.color-option').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('.tab-btn[data-category="all"]').classList.add('active');
+      document.getElementById('searchInput').value = '';
+      activeFilters = {
+        categories: [],
+        brands: [],
+        colors: [],
+        sizes: [],
+        ratings: [],
+        offers: []
+      };
+      filteredProducts = [...products];
+      currentPage = 1;
+      sortProducts();
+      updateActiveFilters();
+      renderProducts();
+    }
+
+    function updateActiveFilters() {
+      const activeContainer = document.getElementById('activeFilters');
+      const filters = [];
+      
+      activeFilters.categories.forEach(cat => {
+        filters.push({ type: 'category', value: cat, label: cat });
+      });
+      
+      activeFilters.brands.forEach(brand => {
+        filters.push({ type: 'brand', value: brand, label: brand });
+      });
+      
+      activeFilters.sizes.forEach(size => {
+        filters.push({ type: 'size', value: size, label: size });
+      });
+      
+      activeFilters.offers.forEach(offer => {
+        filters.push({ type: 'offer', value: offer, label: offer });
+      });
+      
+      const selectedColors = [...document.querySelectorAll('.color-option.active')].map(el => el.dataset.color);
+      selectedColors.forEach(color => {
+        filters.push({ type: 'color', value: color, label: color });
+      });
+      
+      if (filters.length === 0) {
+        activeContainer.innerHTML = '';
+        return;
+      }
+      
+      activeContainer.innerHTML = filters.map(f => `
+        <div class="active-filter">
+          <span>${f.label}</span>
+          <i class="fas fa-times" onclick="removeFilter('${f.type}', '${f.value}')"></i>
+        </div>
+      `).join('');
+    }
+
+    function removeFilter(type, value) {
+      if (type === 'color') {
+        const colorEl = document.querySelector(`.color-option[data-color="${value}"]`);
+        if (colorEl) colorEl.classList.remove('active');
+      } else {
+        const filterKey = type === 'category' ? 'categoryFilters' : 
+                          type === 'brand' ? 'brandFilters' : 
+                          type === 'size' ? 'sizeFilters' : 'offerFilters';
+        const input = document.querySelector(`#${filterKey} input[value="${value}"]`);
+        if (input) input.checked = false;
+      }
+      applyFilters();
+    }
+
+    function toggleFilter(header) {
+      header.classList.toggle('collapsed');
+      const options = header.nextElementSibling;
+      if (options) {
+        options.classList.toggle('collapsed');
+      }
+    }
+
+    // ================= SORT FUNCTION =================
+    function sortProducts() {
+      const sortValue = document.getElementById('sortDropdown').value;
+      
+      switch(sortValue) {
+        case 'price-low':
+          filteredProducts.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          filteredProducts.sort((a, b) => b.price - a.price);
+          break;
+        case 'rating':
+          filteredProducts.sort((a, b) => b.rating - a.rating);
+          break;
+        default: // popularity
+          filteredProducts.sort((a, b) => b.reviewCount - a.reviewCount);
+      }
+      
+      renderProducts();
+    }
+
+    // ================= VIEW TOGGLE =================
+    function setView(view) {
+      currentView = view;
+      const grid = document.getElementById('productGrid');
+      const gridBtn = document.getElementById('gridViewBtn');
+      const listBtn = document.getElementById('listViewBtn');
+      
+      if (view === 'grid') {
+        grid.classList.remove('list-view');
+        gridBtn.classList.add('active');
+        listBtn.classList.remove('active');
+      } else {
+        grid.classList.add('list-view');
+        gridBtn.classList.remove('active');
+        listBtn.classList.add('active');
+      }
+    }
+
+    // ================= RENDER PRODUCTS =================
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      const start = (currentPage - 1) * productsPerPage;
+      const end = start + productsPerPage;
+      const pageProducts = filteredProducts.slice(start, end);
+      
+      // Update showing counts
+      document.getElementById('showingStart').textContent = filteredProducts.length > 0 ? start + 1 : 0;
+      document.getElementById('showingEnd').textContent = Math.min(end, filteredProducts.length);
+      document.getElementById('totalResults').textContent = filteredProducts.length;
+      
+      if (pageProducts.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results" style="grid-column: 1/-1;">
+            <i class="fas fa-search"></i>
+            <h3>No products found</h3>
+            <p>Try adjusting your filters or search term</p>
+          </div>
+        `;
+        renderPagination();
+        return;
+      }
+      
+      grid.innerHTML = pageProducts.map(product => `
+        <div class="product-card ${currentView === 'list' ? 'list-view' : ''}">
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.title}">
+            <button class="wishlist-btn" onclick="toggleWishlist(${product.id})">
+              <i class="far fa-heart"></i>
+            </button>
+            ${product.discount >= 50 ? '<span class="badge">' + product.discount + '% OFF</span>' : ''}
+          </div>
+          <div class="product-info">
+            <div class="product-brand">${product.brand}</div>
+            <h3 class="product-title">${product.title}</h3>
+            <div class="product-pricing">
+              <span class="current-price">₹${product.price.toLocaleString()}</span>
+              <span class="original-price">₹${product.originalPrice.toLocaleString()}</span>
+              <span class="discount">${product.discount}% off</span>
+            </div>
+            <div class="product-rating">
+              <span class="rating-stars">${getStars(product.rating)}</span>
+              <span class="rating-count">(${product.reviewCount.toLocaleString()})</span>
+            </div>
+            <div class="available-sizes">
+              ${product.sizes.slice(0, 5).map(size => `<span class="size-chip">${size}</span>`).join('')}
+            </div>
+            <button class="add-to-cart-btn" onclick="addToCartFromList(${product.id})">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      `).join('');
+      
+      renderPagination();
+    }
+
+    function getStars(rating) {
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5;
+      let stars = '';
+      for (let i = 0; i < fullStars; i++) stars += '★';
+      if (halfStar) stars += '★';
+      for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) stars += '☆';
+      return stars;
+    }
+
+    // ================= PAGINATION =================
+    function renderPagination() {
+      const pagination = document.getElementById('pagination');
+      const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+      
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+      }
+      
+      let html = '';
+      
+      // Previous button
+      html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+        <i class="fas fa-chevron-left"></i>
+      </button>`;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+          html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+          html += `<span class="page-ellipsis">...</span>`;
+        }
+      }
+      
+      // Next button
+      html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+        <i class="fas fa-chevron-right"></i>
+      </button>`;
+      
+      pagination.innerHTML = html;
+    }
+
+    function goToPage(page) {
+      const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+      renderProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ================= WISHLIST =================
+    function toggleWishlist(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      let wishlist = JSON.parse(localStorage.getItem('shopease_wishlist')) || [];
+      const index = wishlist.findIndex(item => item.id === productId);
+      
+      if (index > -1) {
+        wishlist.splice(index, 1);
+      } else {
+        wishlist.push({
+          id: product.id,
+          title: product.title,
+          brand: product.brand,
+          price: product.price,
+          image: product.image
+        });
+      }
+      
+      localStorage.setItem('shopease_wishlist', JSON.stringify(wishlist));
+      
+      // Update UI
+      const btn = document.querySelector(`.wishlist-btn[onclick="toggleWishlist(${productId})"]`);
+      if (btn) {
+        btn.classList.toggle('active');
+        btn.innerHTML = btn.classList.contains('active') ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+      }
+    }
+
+    // ================= ADD TO CART FROM LIST =================
+    function addToCartFromList(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      addToCart(product);
+      
+      const btn = event.target.closest('.add-to-cart-btn');
+      btn.classList.add('added');
+      btn.innerHTML = '<i class="fas fa-check"></i> Added';
+      
+      setTimeout(() => {
+        btn.classList.remove('added');
+        btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
+
