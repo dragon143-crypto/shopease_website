@@ -1,230 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ShopEase — Beauty Shopping</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#fff5f9;
-  --text:#2b2b2b;
-  --muted:#7c7c7c;
-  --accent1:#ff77c2;
-  --accent2:#b97fff;
-  --accent3:#ffa7e3;
-  --panel:#fff;
-}
-*{box-sizing:border-box;}
-body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#fff5f9,#f4ecff);color:var(--text);}
-header{
-  position:sticky;top:0;z-index:100;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 22px;
-  background:rgba(255,255,255,0.8);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.3);
-}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--accent1);}
-.brand img{width:36px;height:36px;border-radius:8px;}
-.chip{border:1px solid rgba(255,255,255,0.3);padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--muted);}
-.hero{
-  position:relative;overflow:hidden;height:380px;display:flex;align-items:center;padding:40px 6%;
-  background:linear-gradient(90deg,#fff0f6,#f9ecff);
-}
-.hero::before{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(800px 400px at 15% 20%,rgba(255,119,194,0.12),transparent 25%),
-             radial-gradient(600px 300px at 85% 70%,rgba(185,127,255,0.15),transparent 30%);
-}
-.hero-left{width:60%;position:relative;z-index:2;}
-.hero-title{font-size:42px;margin:0 0 10px;color:#2a2a2a;}
-.hero-sub{color:var(--muted);}
-.btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;border:none;cursor:pointer;margin-right:10px;box-shadow:0 4px 14px rgba(255,119,194,0.4);}
-.btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.1);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;}
-.hero-right{position:relative;}
-.hero-right img{width:340px;height:240px;border-radius:20px;object-fit:cover;box-shadow:0 20px 50px rgba(0,0,0,0.15);position:relative;z-index:2;}
-.hero-right::after{
-  content:"";position:absolute;inset:-30px;
-  background:radial-gradient(circle,rgba(255,119,194,0.3) 0%,transparent 70%);
-  filter:blur(40px);
-  z-index:1;
-  animation:floatGlow 4s ease-in-out infinite alternate;
-}
-@keyframes floatGlow{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
-.layout{display:flex;gap:22px;padding:28px 6% 80px;}
-.sidebar{width:260px;background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.5);box-shadow:0 5px 25px rgba(255,119,194,0.08);}
-.sidebar h3{margin-bottom:14px;color:var(--accent1);}
-.filter-section{margin-bottom:18px;}
-.filter-section h4{margin:0 0 8px;color:var(--muted);}
-.filter-section label{display:block;margin:6px 0;}
-.area{flex:1;}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
-.search{flex:1;display:flex;align-items:center;background:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.6);padding:8px 12px;border-radius:10px;backdrop-filter:blur(10px);}
-.search input{background:transparent;border:none;outline:none;color:#333;width:100%;}
-.badge{background:#fdf0f6;padding:8px 12px;border-radius:10px;color:var(--muted);font-size:13px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
-.card{
-  background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);
-  border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.5);
-  transition:transform .3s ease,box-shadow .3s ease;
-  position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-.card:hover{transform:translateY(-8px);box-shadow:0 18px 50px rgba(255,119,194,0.2);}
-.imgwrap{height:170px;position:relative;overflow:hidden;}
-.card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
-.card:hover img{transform:scale(1.1);}
-.card::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.3) 50%,transparent 100%);
-  transform:translateX(-100%);
-  transition:transform 0.8s ease;
-}
-.card:hover::after{transform:translateX(100%);}
-.glow{
-  position:absolute;top:10px;left:0;
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  color:#fff;font-weight:500;font-size:11px;padding:4px 10px;border-radius:0 6px 6px 0;
-  letter-spacing:0.3px;text-transform:capitalize;
-}
-.card-body{padding:14px;}
-.title{font-weight:600;font-size:15px;margin-bottom:6px;}
-.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;}
-.price{color:var(--accent1);font-weight:700;}
-.actions{display:flex;gap:8px;margin-top:8px;}
-.actions button{flex:1;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
-.add{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;}
-.wish{background:transparent;border:1px solid rgba(0,0,0,0.1);color:var(--muted);}
-footer{text-align:center;padding:24px;border-top:1px solid rgba(255,255,255,0.4);color:var(--muted);}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beauty & Cosmetics — ShopEase</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #f4f6fb; color: #333; }
+    a { text-decoration: none; color: inherit; }
+
+    .header {
+      background: #fff;
+      padding: 12px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo { font-size: 28px; font-weight: 700; color: #ff3f6c; cursor: pointer; }
+    .logo span { color: #333; }
+    .search-bar { flex: 1; max-width: 500px; margin: 0 30px; display: flex; }
+    .search-bar input { flex: 1; padding: 12px 15px; border: 2px solid #eee; border-radius: 8px 0 0 8px; outline: none; font-size: 14px; transition: border-color 0.3s; }
+    .search-bar input:focus { border-color: #ff3f6c; }
+    .search-bar button { padding: 12px 20px; border: none; background: #ff3f6c; color: #fff; border-radius: 0 8px 8px 0; cursor: pointer; transition: background 0.3s; }
+    .search-bar button:hover { background: #e6365c; }
+    .header-actions { display: flex; align-items: center; gap: 25px; }
+    .cart-icon { position: relative; font-size: 22px; cursor: pointer; color: #333; transition: color 0.3s; }
+    .cart-icon:hover { color: #ff3f6c; }
+    .cart-badge { position: absolute; top: -8px; right: -10px; background: #ff3f6c; color: #fff; font-size: 11px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    .breadcrumb { padding: 15px 5%; font-size: 13px; color: #888; }
+    .breadcrumb a { color: #ff3f6c; font-weight: 500; }
+
+    .hero {
+      margin: 0 5% 30px;
+      background: linear-gradient(135deg, #fff0f6 0%, #fce4ec 100%);
+      border-radius: 20px;
+      padding: 40px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(233,30,99,0.1) 0%, transparent 70%); border-radius: 50%; }
+    .hero-text { position: relative; z-index: 1; }
+    .hero-text h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; }
+    .hero-text p { color: #666; font-size: 15px; margin-bottom: 20px; }
+    .hero-stats { display: flex; gap: 30px; }
+    .stat { text-align: center; }
+    .stat-number { font-size: 24px; font-weight: 700; color: #e91e63; }
+    .stat-label { font-size: 12px; color: #888; }
+    .hero-image { position: relative; z-index: 1; }
+    .hero-image img { width: 320px; height: auto; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+    .main-container { display: flex; gap: 30px; padding: 0 5% 50px; }
+
+    .sidebar {
+      width: 280px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+      height: fit-content;
+      position: sticky;
+      top: 90px;
+    }
+    .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+    .sidebar-header h3 { font-size: 18px; font-weight: 600; }
+    .clear-all-btn { font-size: 13px; color: #ff3f6c; cursor: pointer; font-weight: 500; }
+    .filter-section { margin-bottom: 25px; border-bottom: 1px solid #f0f0f0; padding-bottom: 20px; }
+    .filter-section:last-child { border-bottom: none; }
+    .filter-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 15px; }
+    .filter-header h4 { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+    .filter-options { display: flex; flex-direction: column; gap: 10px; }
+    .filter-option { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .filter-option input[type="checkbox"] { width: 18px; height: 18px; accent-color: #ff3f6c; cursor: pointer; }
+    .filter-option span { font-size: 13px; color: #444; }
+    .filter-option:hover span { color: #ff3f6c; }
+    .filter-option .count { margin-left: auto; font-size: 11px; color: #999; background: #f5f5f5; padding: 2px 8px; border-radius: 10px; }
+
+    .products-area { flex: 1; }
+    .sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+    .results-count { font-size: 14px; color: #666; }
+    .results-count strong { color: #1a1a1a; }
+    .sort-options { display: flex; align-items: center; gap: 15px; }
+    .sort-dropdown { padding: 8px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; color: #333; cursor: pointer; background: #fff; }
+
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .product-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.05); transition: all 0.3s ease; cursor: pointer; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .product-image { position: relative; overflow: hidden; }
+    .product-image img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s; }
+    .product-card:hover .product-image img { transform: scale(1.05); }
+    .wishlist-btn { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s; border: none; font-size: 16px; color: #666; }
+    .wishlist-btn:hover { color: #ff3f6c; transform: scale(1.1); }
+    .wishlist-btn.active { color: #ff3f6c; }
+    .badge { position: absolute; top: 12px; left: 12px; background: #ff3f6c; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .product-info { padding: 18px; }
+    .product-brand { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+    .product-title { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 8px; line-height: 1.4; }
+    .product-pricing { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .current-price { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+    .original-price { font-size: 14px; color: #999; text-decoration: line-through; }
+    .discount { font-size: 12px; color: #ff3f6c; font-weight: 600; }
+    .product-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+    .rating-stars { color: #ffb800; font-size: 13px; }
+    .rating-count { font-size: 12px; color: #888; }
+    .add-to-cart-btn { width: 100%; padding: 12px; border: none; background: #ff3f6c; color: #fff; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .add-to-cart-btn:hover { background: #e6365c; }
+    .add-to-cart-btn.added { background: #28a745; }
+
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
+    .page-btn { min-width: 40px; height: 40px; border: 1px solid #ddd; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; color: #666; transition: all 0.2s; }
+    .page-btn:hover { border-color: #ff3f6c; color: #ff3f6c; }
+    .page-btn.active { background: #ff3f6c; border-color: #ff3f6c; color: #fff; }
+
+    @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 992px) { .main-container { flex-direction: column; } .sidebar { width: 100%; position: static; } .hero { padding: 30px; } .hero-image img { width: 220px; } }
+    @media (max-width: 768px) { .header { padding: 12px 4%; } .search-bar { margin: 0 15px; } .hero { flex-direction: column; text-align: center; gap: 25px; } .hero-stats { justify-content: center; } .hero-image img { width: 200px; } .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
+    @media (max-width: 480px) { .product-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" alt="logo">
-    ShopEase — Beauty
-  </div>
-  <div>
-    <span class="chip">🛒 Cart <b id="cart-num">0</b></span>
-    <span class="chip">💖 Wish <b id="wish-num">0</b></span>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="hero-left">
-    <h1 class="hero-title">Glow, Glam, and Grace — Your Beauty Store 💅</h1>
-    <p class="hero-sub">Luxury skincare, premium cosmetics, and haircare essentials all in one place.</p>
-    <button class="btn-primary">Shop Now</button>
-    <button class="btn-ghost">Discover More</button>
-  </div>
-  <div class="hero-right">
-    <img src="https://images.pexels.com/photos/3737589/pexels-photo-3737589.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="beauty">
-  </div>
-</section>
-
-<div class="layout">
-  <aside class="sidebar">
-    <h3>Filters</h3>
-    <div class="filter-section">
-      <h4>Category</h4>
-      <label><input type="checkbox" class="f" data-filter="skincare"> Skincare</label>
-      <label><input type="checkbox" class="f" data-filter="makeup"> Makeup</label>
-      <label><input type="checkbox" class="f" data-filter="haircare"> Haircare</label>
-      <label><input type="checkbox" class="f" data-filter="fragrance"> Fragrance</label>
-      <label><input type="checkbox" class="f" data-filter="accessory"> Accessories</label>
+  <header class="header">
+    <div class="logo" onclick="window.location.href='index.html'">Shop<span>Ease</span></div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search beauty products...">
+      <button><i class="fas fa-search"></i></button>
     </div>
-    <div class="filter-section">
-      <h4>Type</h4>
-      <label><input type="checkbox" class="f" data-material="organic"> Organic</label>
-      <label><input type="checkbox" class="f" data-material="premium"> Premium</label>
-      <label><input type="checkbox" class="f" data-material="budget"> Budget</label>
-    </div>
-  </aside>
-
-  <main class="area">
-    <div class="topbar">
-      <div class="search"><input id="q" placeholder="Search beauty items..."></div>
-      <div class="badge" id="activeFilters">All items</div>
-    </div>
-    <section id="productsGrid" class="grid"></section>
-    <div id="emptyState" style="display:none;text-align:center;color:var(--muted);padding:30px;">No items found.</div>
-  </main>
-</div>
-
-<footer>© 2025 ShopEase — Beauty Collection</footer>
-
-<script>
-const PRODUCTS=[
-  {id:1,title:"Hydrating Face Serum",category:"skincare",price:1599,material:"premium",img:"https://t4.ftcdn.net/jpg/17/83/46/11/240_F_1783461192_oodFPreT6zIiYsSP5cxEBI0TAtSUW2wo.jpg",badge:"New"},
-  {id:2,title:"Velvet Matte Lipstick",category:"makeup",price:899,material:"organic",img:"https://t3.ftcdn.net/jpg/16/02/70/26/240_F_1602702637_I13NJmfzlUjNEsCs74fBjgx21vSmrDNL.jpg",badge:"Bestseller"},
-  {id:3,title:"Aloe Vera Hair Mask",category:"haircare",price:1199,material:"organic",img:"https://t4.ftcdn.net/jpg/15/58/93/51/240_F_1558935124_79jnpbBLbac3V2LzCzOP0fjeG5FFxg9W.jpg",badge:"Trending"},
-  {id:4,title:"Luxury Perfume Set",category:"fragrance",price:4999,material:"premium",img:"https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1600",badge:"Premium"},
-  {id:5,title:"Makeup Brush Kit",category:"accessory",price:1299,material:"budget",img:"https://t4.ftcdn.net/jpg/18/36/42/85/240_F_1836428517_tDaJVEFgyFp3Q6XG4KEgI4GaH6Lj8nWa.jpg",badge:"Hot"},
-  {id:6,title:"Organic Face Mask Combo",category:"skincare",price:1399,material:"organic",img:"https://t4.ftcdn.net/jpg/13/17/41/53/240_F_1317415302_dIw0XSK6QRi4eKMLkc8YM5Ig0ig9jkam.jpg",badge:"Limited"}
-];
-
-let cart=JSON.parse(localStorage.getItem('beauty_cart')||'[]');
-let wishlist=JSON.parse(localStorage.getItem('beauty_wish')||'[]');
-const grid=document.getElementById('productsGrid');
-const q=document.getElementById('q');
-const emptyState=document.getElementById('emptyState');
-const cartNum=document.getElementById('cart-num');
-const wishNum=document.getElementById('wish-num');
-
-function render(items){
-  grid.innerHTML='';
-  if(!items.length){emptyState.style.display='block';return}
-  emptyState.style.display='none';
-  items.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`
-      <div class="imgwrap">
-        <img src="${p.img}" alt="${p.title}">
-        ${p.badge?`<div class="glow">${p.badge}</div>`:''}
+    <div class="header-actions">
+      <div class="cart-icon" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
       </div>
-      <div class="card-body">
-        <div class="title">${p.title}</div>
-        <div class="meta"><span class="price">₹${p.price.toLocaleString()}</span><span>${p.material}</span></div>
-        <div class="actions">
-          <button class="add" onclick="addToCart(${p.id})">Buy now</button>
-          <button class="wish" onclick="toggleWish(${p.id},this)">${wishlist.includes(p.id)?'♥':'♡'} Wish</button>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> 
+    <a href="#">Beauty</a> <i class="fas fa-chevron-right"></i> 
+    <span>Cosmetics & Skincare</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Beauty & Cosmetics</h2>
+      <p>Glow, Glam, and Grace — Your one-stop destination for luxury skincare, premium cosmetics, and haircare essentials.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number" id="totalProducts">0</div>
+          <div class="stat-label">Products</div>
         </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-}
-function addToCart(id){
-  const product=PRODUCTS.find(p=>p.id===id);
-  cart.push(product);
-  localStorage.setItem('beauty_cart',JSON.stringify(cart));
-  updateCounts();
-}
-function toggleWish(id,btn){
-  const i=wishlist.indexOf(id);
-  if(i===-1){wishlist.push(id);btn.textContent='♥ Wish'}
-  else{wishlist.splice(i,1);btn.textContent='♡ Wish'}
-  localStorage.setItem('beauty_wish',JSON.stringify(wishlist));
-  updateCounts();
-}
-function updateCounts(){cartNum.textContent=cart.length;wishNum.textContent=wishlist.length;}
-function applyFilters(){
-  const term=q.value.toLowerCase();
-  const filters=document.querySelectorAll('.f:checked');
-  const cats=[...filters].filter(f=>f.dataset.filter).map(f=>f.dataset.filter);
-  const mats=[...filters].filter(f=>f.dataset.material).map(f=>f.dataset.material);
-  const items=PRODUCTS.filter(p=>
-    (!cats.length||cats.includes(p.category)) &&
-    (!mats.length||mats.includes(p.material)) &&
-    (!term||p.title.toLowerCase().includes(term))
-  );
-  render(items);
-}
-document.querySelectorAll('.f').forEach(i=>i.addEventListener('change',applyFilters));
-q.addEventListener('input',()=>setTimeout(applyFilters,200));
-updateCounts();
-render(PRODUCTS);
-</script>
+        <div class="stat">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Brands</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">40%</div>
+          <div class="stat-label">Off</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500" alt="Beauty">
+    </div>
+  </div>
+
+  <div class="main-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-filter"></i> Filters</h3>
+        <span class="clear-all-btn" onclick="clearAllFilters()">Clear All</span>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-header"><h4>Category</h4></div>
+        <div class="filter-options" id="categoryFilters"></div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-header"><h4>Brand</h4></div>
+        <div class="filter-options" id="brandFilters"></div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-header"><h4>Price Range</h4></div>
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" value="0-500" onchange="applyFilters()"><span>Under ₹500</span></label>
+          <label class="filter-option"><input type="checkbox" value="500-1500" onchange="applyFilters()"><span>₹500 - ₹1,500</span></label>
+          <label class="filter-option"><input type="checkbox" value="1500-3000" onchange="applyFilters()"><span>₹1,500 - ₹3,000</span></label>
+          <label class="filter-option"><input type="checkbox" value="3000+" onchange="applyFilters()"><span>Above ₹3,000</span></label>
+        </div>
+      </div>
+    </aside>
+
+    <div class="products-area">
+      <div class="sort-bar">
+        <div class="results-count">Showing <strong id="showingStart">0</strong> - <strong id="showingEnd">0</strong> of <strong id="totalResults">0</strong> products</div>
+        <div class="sort-options">
+          <select class="sort-dropdown" id="sortDropdown" onchange="sortProducts()">
+            <option value="popularity">Sort by: Popularity</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {id:1,title:"Hydrating Face Serum",brand:"L'Oreal",category:"Skincare",price:1599,originalPrice:2499,rating:4.5,reviewCount:2341,img:"https://t4.ftcdn.net/jpg/17/83/46/11/240_F_1783461192_oodFPreT6zIiYsSP5cxEBI0TAtSUW2wo.jpg"},
+      {id:2,title:"Velvet Matte Lipstick",brand:"Maybelline",category:"Makeup",price:899,originalPrice:1299,rating:4.6,reviewCount:1876,img:"https://t3.ftcdn.net/jpg/16/02/70/26/240_F_1602702637_I13NJmfzlUjNEsCs74fBjgx21vSmrDNL.jpg"},
+      {id:3,title:"Aloe Vera Hair Mask",brand:"Livon",category:"Haircare",price:1199,originalPrice:1999,rating:4.3,reviewCount:1234,img:"https://t4.ftcdn.net/jpg/15/58/93/51/240_F_1558935124_79jnpbBLbac3V2LzCzOP0fjeG5FFxg9W.jpg"},
+      {id:4,title:"Luxury Perfume Set",brand:"Fogg",category:"Fragrance",price:4999,originalPrice:7999,rating:4.8,reviewCount:3421,img:"https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1600"},
+      {id:5,title:"Makeup Brush Kit",brand:"Vega",category:"Accessories",price:1299,originalPrice:1999,rating:4.2,reviewCount:987,img:"https://t4.ftcdn.net/jpg/18/36/42/85/240_F_1836428517_tDaJVEFgyFp3Q6XG4KEgI4GaH6Lj8nWa.jpg"},
+      {id:6,title:"Organic Face Mask Combo",brand:"Lotus",category:"Skincare",price:1399,originalPrice:2299,rating:4.4,reviewCount:2134,img:"https://t4.ftcdn.net/jpg/13/17/41/53/240_F_1317415302_dIw0XSK6QRi4eKMLkc8YM5Ig0ig9jkam.jpg"},
+      {id:7,title:"Kajal Eyeliner",brand:"Lakme",category:"Makeup",price:450,originalPrice:650,rating:4.7,reviewCount:4532,img:"https://t3.ftcdn.net/jpg/02/97/22/07/240_F_297220714_yffoP0Q6u1p4rF8qNjhxm5Ga0lLmJGYN.jpg"},
+      {id:8,title:"Hair Straightener",brand:"Philips",category:"Haircare",price:2499,originalPrice:3999,rating:4.5,reviewCount:1543,img:"https://t3.ftcdn.net/jpg/04/24/34/77/240_F_424347707_vpB9K2l4l2l4l4l4l4l4l4.jpg"}
+    ];
+
+    let filteredProducts = [...products];
+    let currentPage = 1;
+    const productsPerPage = 12;
+
+    function getCart() { return JSON.parse(localStorage.getItem('shopease_cart')) || []; }
+    function saveCart(cart) { localStorage.setItem('shopease_cart', JSON.stringify(cart)); updateCartBadge(); }
+    function addToCart(product) {
+      const cart = getCart();
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) { existing.qty += 1; } else { cart.push({ id: product.id, title: product.title, brand: product.brand, price: product.price, image: product.img, qty: 1 }); }
+      saveCart(cart);
+    }
+    function updateCartBadge() {
+      const badge = document.getElementById('cartBadge');
+      badge.textContent = getCart().reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeFilters();
+      updateCartBadge();
+      renderProducts();
+      document.getElementById('totalProducts').textContent = products.length;
+    });
+
+    function initializeFilters() {
+      const categories = [...new Set(products.map(p => p.category))].sort();
+      const brands = [...new Set(products.map(p => p.brand))].sort();
+      
+      document.getElementById('categoryFilters').innerHTML = categories.map(cat => {
+        const count = products.filter(p => p.category === cat).length;
+        return '<label class="filter-option"><input type="checkbox" value="' + cat + '" onchange="applyFilters()"><span>' + cat + '</span><span class="count">' + count + '</span></label>';
+      }).join('');
+      
+      document.getElementById('brandFilters').innerHTML = brands.map(brand => {
+        const count = products.filter(p => p.brand === brand).length;
+        return '<label class="filter-option"><input type="checkbox" value="' + brand + '" onchange="applyFilters()"><span>' + brand + '</span><span class="count">' + count + '</span></label>';
+      }).join('');
+    }
+
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const selectedCategories = [...document.querySelectorAll('#categoryFilters input:checked')].map(i => i.value);
+      const selectedBrands = [...document.querySelectorAll('#brandFilters input:checked')].map(i => i.value);
+      const selectedPrices = [...document.querySelectorAll('#priceFilters input:checked')].map(i => i.value);
+
+      filteredProducts = products.filter(product => {
+        if (searchTerm && !product.title.toLowerCase().includes(searchTerm) && !product.brand.toLowerCase().includes(searchTerm)) return false;
+        if (selectedCategories.length > 0 && !selectedCategories.includes(product.category)) return false;
+        if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) return false;
+        if (selectedPrices.length > 0) {
+          const validPrice = selectedPrices.some(range => {
+            if (range === '0-500') return product.price < 500;
+            if (range === '500-1500') return product.price >= 500 && product.price < 1500;
+            if (range === '1500-3000') return product.price >= 1500 && product.price < 3000;
+            if (range === '3000+') return product.price >= 3000;
+            return false;
+          });
+          if (!validPrice) return false;
+        }
+        return true;
+      });
+      currentPage = 1;
+      sortProducts();
+      renderProducts();
+    }
+
+    function clearAllFilters() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.getElementById('searchInput').value = '';
+      filteredProducts = [...products];
+      currentPage = 1;
+      renderProducts();
+    }
+
+    function sortProducts() {
+      const sortValue = document.getElementById('sortDropdown').value;
+      switch(sortValue) {
+        case 'price-low': filteredProducts.sort((a, b) => a.price - b.price); break;
+        case 'price-high': filteredProducts.sort((a, b) => b.price - a.price); break;
+        case 'rating': filteredProducts.sort((a, b) => b.rating - a.rating); break;
+        default: filteredProducts.sort((a, b) => b.reviewCount - a.reviewCount);
+      }
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      const start = (currentPage - 1) * productsPerPage;
+      const end = start + productsPerPage;
+      const pageProducts = filteredProducts.slice(start, end);
+      
+      document.getElementById('showingStart').textContent = filteredProducts.length > 0 ? start + 1 : 0;
+      document.getElementById('showingEnd').textContent = Math.min(end, filteredProducts.length);
+      document.getElementById('totalResults').textContent = filteredProducts.length;
+      
+      if (pageProducts.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;"><i class="fas fa-spa" style="font-size:60px;color:#ddd;margin-bottom:20px;"></i><h3>No products found</h3></div>';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+      }
+      
+      grid.innerHTML = pageProducts.map(product => {
+        const discount = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
+        return '<div class="product-card"><div class="product-image"><img src="' + product.img + '" alt="' + product.title + '"><button class="wishlist-btn" onclick="toggleWishlist(' + product.id + ')"><i class="far fa-heart"></i></button>' + (discount >= 20 ? '<span class="badge">' + discount + '% OFF</span>' : '') + '</div><div class="product-info"><div class="product-brand">' + product.brand + '</div><h3 class="product-title">' + product.title + '</h3><div class="product-pricing"><span class="current-price">₹' + product.price.toLocaleString() + '</span><span class="original-price">₹' + (product.originalPrice || 0).toLocaleString() + '</span></div><div class="product-rating"><span class="rating-stars">' + '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating)) + '</span><span class="rating-count">(' + product.reviewCount + ')</span></div><button class="add-to-cart-btn" onclick="addToCartFromList(' + product.id + ')"><i class="fas fa-shopping-cart"></i> Add to Cart</button></div></div>';
+      }).join('');
+      
+      renderPagination();
+    }
+
+    function renderPagination() {
+      const pagination = document.getElementById('pagination');
+      const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+      if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+      let html = '<button class="page-btn" onclick="goToPage(' + (currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
+      for (let i = 1; i <= totalPages; i++) { html += '<button class="page-btn ' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>'; }
+      html += '<button class="page-btn" onclick="goToPage(' + (currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
+      pagination.innerHTML = html;
+    }
+
+    function goToPage(page) { const totalPages = Math.ceil(filteredProducts.length / productsPerPage); if (page < 1 || page > totalPages) return; currentPage = page; renderProducts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function toggleWishlist(productId) { const btn = document.querySelector('.wishlist-btn[onclick="toggleWishlist(' + productId + ')"]'); if (btn) { btn.classList.toggle('active'); btn.innerHTML = btn.classList.contains('active') ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>'; } }
+    function addToCartFromList(productId) { const product = products.find(p => p.id === productId); if (!product) return; addToCart(product); const btn = event.target.closest('.add-to-cart-btn'); btn.classList.add('added'); btn.innerHTML = '<i class="fas fa-check"></i> Added'; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart'; }, 1500); }
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+  </script>
 </body>
 </html>
+
