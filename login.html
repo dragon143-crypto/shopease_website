@@ -1,216 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Login | Shopease</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | ShopEase</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-/* ===== YOUR STYLES (UNCHANGED) ===== */
-:root{
-  --glass-bg: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.12);
-  --accent: #27a8ff;
-}
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter,system-ui;color:#e9f5fb}
-body{
-  background:url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1920") center/cover;
-  display:flex;align-items:center;justify-content:flex-end;padding:36px;
-}
-body::before{
-  content:"";position:fixed;inset:0;
-  background:linear-gradient(180deg,rgba(0,12,20,.18),rgba(0,0,0,.45));
-}
-.auth-card{
-  width:360px;padding:22px;border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 10px 40px rgba(2,6,20,.55);
-}
-.tabs-wrap{position:relative;padding-bottom:14px}
-.tabs{display:flex;gap:18px}
-.tab{cursor:pointer;font-weight:600;padding:10px 6px}
-.tab.inactive{opacity:.6}
-.underline{position:absolute;bottom:6px;height:3px;background:#27a8ff;border-radius:3px}
-.heading{font-size:18px;margin-bottom:10px}
-.form-area{position:relative;height:320px}
-.form-panel{position:absolute;inset:0}
-.field{margin:12px 0}
-.input{
-  width:100%;padding:12px;border-radius:10px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.06);
-  color:white;
-}
-.btn{
-  width:100%;margin-top:16px;padding:12px;
-  border-radius:12px;border:0;
-  background:linear-gradient(90deg,#1ea8ff,#2796ff);
-  color:white;font-weight:700;cursor:pointer;
-}
-.footer-text{text-align:center;margin-top:10px;font-size:13px}
-.show-hide{position:absolute;right:12px;top:12px;cursor:pointer}
-</style>
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fff5f7 0%, #f8f0f5 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* ===== LOGIN CARD ===== */
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(255, 63, 108, 0.12);
+      overflow: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .card-header {
+      background: linear-gradient(180deg, #ff3f6c 0%, #e6365c 100%);
+      padding: 30px 30px 45px;
+      text-align: center;
+      position: relative;
+    }
+
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: -25px;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #fff;
+      border-radius: 50% 50% 0 0;
+    }
+
+    .brand-logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .brand-logo span {
+      color: #ffe500;
+    }
+
+    .header-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+    }
+
+    /* ===== TABS ===== */
+    .auth-tabs {
+      display: flex;
+      position: relative;
+      background: #fff;
+      padding: 0 30px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 18px 0;
+      text-align: center;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      color: #666;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-tab.active {
+      color: #ff3f6c;
+    }
+
+    .auth-tab:hover:not(.active) {
+      color: #333;
+    }
+
+    .tab-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 3px;
+      background: #ff3f6c;
+      border-radius: 3px 3px 0 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===== CARD BODY ===== */
+    .card-body {
+      padding: 30px;
+      background: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== FORM PANELS ===== */
+    .form-panel {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== FORM GROUPS ===== */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    .input-container i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .input-container input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+
+    .input-container input:focus {
+      outline: none;
+      border-color: #ff3f6c;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255, 63, 108, 0.1);
+    }
+
+    .input-container input:focus + i,
+    .input-container:focus-within i {
+      color: #ff3f6c;
+    }
+
+    .input-container input::placeholder {
+      color: #aaa;
+    }
+
+    /* Password Toggle */
+    .password-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #888;
+      font-size: 14px;
+      padding: 6px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      color: #ff3f6c;
+      background: rgba(255, 63, 108, 0.1);
+    }
+
+    /* ===== PASSWORD STRENGTH ===== */
+    .password-strength {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .password-strength.active {
+      display: block;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background: #e8e8e8;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
+
+    .strength-fill.weak { width: 33%; background: #ff4757; }
+    .strength-fill.medium { width: 66%; background: #ffa502; }
+    .strength-fill.strong { width: 100%; background: #2ed573; }
+
+    .strength-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 6px;
+    }
+
+    /* ===== OPTIONS ROW ===== */
+    .options-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #444;
+    }
+
+    .remember-me input {
+      width: 16px;
+      height: 16px;
+      accent-color: #ff3f6c;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: #ff3f6c;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-link:hover {
+      color: #e6365c;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(180deg, #ff3f6c 0%, #e6365c 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 63, 108, 0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 63, 108, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .btn-login:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Button shine effect */
+    .btn-login::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-login:hover::before {
+      left: 100%;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 25px 0;
+      color: #999;
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e8e8e8;
+    }
+
+    /* ===== SOCIAL LOGIN ===== */
+    .social-login {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .social-btn.google:hover {
+      border-color: #db4437;
+      color: #db4437;
+    }
+
+    .social-btn.facebook:hover {
+      border-color: #4267b2;
+      color: #4267b2;
+    }
+
+    .social-btn.apple:hover {
+      border-color: #333;
+      color: #333;
+    }
+
+    /* ===== MESSAGE ALERTS ===== */
+    .alert-message {
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    .alert-message.show {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .alert-message.error {
+      background: #ffebee;
+      border: 1px solid #ffcdd2;
+      color: #c62828;
+    }
+
+    .alert-message.success {
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      color: #2e7d32;
+    }
+
+    /* ===== FOOTER ===== */
+    .form-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .form-footer a {
+      color: #ff3f6c;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .form-footer a:hover {
+      color: #e6365c;
+    }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== LOADER OVERLAY ===== */
+    #loaderOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .loader-box {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .loader-box .spinner {
+      width: 36px;
+      height: 36px;
+      border-color: rgba(255, 63, 108, 0.3);
+      border-top-color: #ff3f6c;
+      margin: 0 0 15px 0;
+    }
+
+    .loader-box p {
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .login-card {
+        border-radius: 0;
+        box-shadow: none;
+      }
+      
+      .card-body {
+        padding: 25px 20px;
+      }
+      
+      .auth-tabs {
+        padding: 0 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="auth-card">
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <div id="tabSignin" class="tab active">Sign in</div>
-      <div id="tabSignup" class="tab inactive">Sign up</div>
-    </div>
-    <div id="underline" class="underline"></div>
-  </div>
-
-  <div id="headingText" class="heading">
-    Welcome back! Please login to your account
-  </div>
-
-  <div class="form-area">
-
-    <!-- SIGN IN -->
-    <div id="panelSignin" class="form-panel">
-      <div class="field">
-        <input id="si_email" class="input" type="email" placeholder="Email">
-      </div>
-      <div class="field" style="position:relative">
-        <input id="si_password" class="input" type="password" placeholder="Password">
-        <span id="si_toggle" class="show-hide"><i class="fa fa-eye-slash"></i></span>
-      </div>
-      <button id="btnSignin" class="btn">Login</button>
-      <div class="footer-text">
-        Don’t have an account? <a href="#" id="toSignup">Sign up</a>
-      </div>
+  <div class="login-card">
+    <!-- Header -->
+    <div class="card-header">
+      <div class="brand-logo">Shop<span>Ease</span></div>
+      <p class="header-subtitle" id="headerText">Login to your account</p>
     </div>
 
-    <!-- SIGN UP -->
-    <form id="signupForm" class="form-panel" style="display:none">
-      <div class="field">
-        <input id="su_name" class="input" placeholder="Full Name">
-      </div>
-      <div class="field">
-        <input id="su_email" class="input" type="email" placeholder="Email">
-      </div>
-      <div class="field" style="position:relative">
-        <input id="su_pass" class="input" type="password" placeholder="Password">
-        <span id="su_toggle" class="show-hide"><i class="fa fa-eye-slash"></i></span>
-      </div>
-      <button class="btn">Sign up</button>
-      <div class="footer-text">
-        Already have an account? <a href="#" id="toSignin">Sign in</a>
-      </div>
-    </form>
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="signin">Login</div>
+      <div class="auth-tab" data-tab="signup">Sign Up</div>
+      <div class="tab-indicator" id="tabIndicator"></div>
+    </div>
 
+    <!-- Body -->
+    <div class="card-body">
+      
+      <!-- SIGN IN -->
+      <div id="signinPanel" class="form-panel active">
+        <div id="signinAlert" class="alert-message">
+          <i class="fas"></i>
+          <span></span>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <div class="input-container">
+            <input type="email" id="si_email" placeholder="Enter your email">
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-container">
+            <input type="password" id="si_password" placeholder="Enter your password">
+            <i class="fas fa-lock"></i>
+            <span class="password-toggle" data-target="si_password">
+              <i class="fas fa-eye-slash"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="options-row">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <button id="btnSignin" class="btn-login">Login</button>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-login">
+          <button type="button" class="social-btn google" title="Google">
+            <i class="fab fa-google"></i>
+          </button>
+          <button type="button" class="social-btn facebook" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+          <button type="button" class="social-btn apple" title="Apple">
+            <i class="fab fa-apple"></i>
+          </button>
+        </div>
+
+        <div class="form-footer">
+          Don't have an account? <a href="#" id="toSignup">Sign up</a>
+        </div>
+      </div>
+
+      <!-- SIGN UP -->
+      <div id="signupPanel" class="form-panel">
+        <div id="signupAlert" class="alert-message">
+          <i class="fas"></i>
+          <span></span>
+        </div>
+
+        <div class="form-group">
+          <label>Full Name</label>
+          <div class="input-container">
+            <input type="text" id="su_name" placeholder="Enter your name">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <div class="input-container">
+            <input type="email" id="su_email" placeholder="Enter your email">
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-container">
+            <input type="password" id="su_pass" placeholder="Create a password">
+            <i class="fas fa-lock"></i>
+            <span class="password-toggle" data-target="su_pass">
+              <i class="fas fa-eye-slash"></i>
+            </span>
+          </div>
+          <div class="password-strength" id="passwordStrength">
+            <div class="strength-bar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <span class="strength-text" id="strengthText">Password strength</span>
+          </div>
+        </div>
+
+        <button id="btnSignup" class="btn-login">Create Account</button>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-login">
+          <button type="button" class="social-btn google" title="Google">
+            <i class="fab fa-google"></i>
+          </button>
+          <button type="button" class="social-btn facebook" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+          <button type="button" class="social-btn apple" title="Apple">
+            <i class="fab fa-apple"></i>
+          </button>
+        </div>
+
+        <div class="form-footer">
+          Already have an account? <a href="#" id="toSignin">Login</a>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<!-- LOADER -->
-<div id="loaderOverlay" style="
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.55);
-  display:none;align-items:center;justify-content:center;
-">
-  <div style="
-    width:60px;height:60px;border-radius:50%;
-    border:4px solid rgba(255,255,255,.3);
-    border-top-color:#27a8ff;
-    animation:spin 1s linear infinite">
+  <!-- Loader -->
+  <div id="loaderOverlay">
+    <div class="loader-box">
+      <div class="spinner"></div>
+      <p>Please wait...</p>
+    </div>
   </div>
-</div>
 
-<script>
-const tabSignin = document.getElementById("tabSignin");
-const tabSignup = document.getElementById("tabSignup");
-const panelSignin = document.getElementById("panelSignin");
-const signupForm = document.getElementById("signupForm");
-const underline = document.getElementById("underline");
-const headingText = document.getElementById("headingText");
-const loader = document.getElementById("loaderOverlay");
+  <script>
+    // ===== DOM ELEMENTS =====
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const tabIndicator = document.getElementById('tabIndicator');
+    const signinPanel = document.getElementById('signinPanel');
+    const signupPanel = document.getElementById('signupPanel');
+    const headerText = document.getElementById('headerText');
+    const loader = document.getElementById('loaderOverlay');
 
-/* underline */
-function moveUnderline(tab){
-  const r = tab.getBoundingClientRect();
-  const p = tab.parentElement.getBoundingClientRect();
-  underline.style.left = (r.left - p.left) + "px";
-  underline.style.width = r.width + "px";
-}
+    // ===== TAB INDICATOR =====
+    function updateIndicator(tab) {
+      const rect = tab.getBoundingClientRect();
+      const parent = tab.parentElement.getBoundingClientRect();
+      tabIndicator.style.left = (rect.left - parent.left) + 'px';
+      tabIndicator.style.width = rect.width + 'px';
+    }
 
-/* switch */
-function showSignin(){
-  panelSignin.style.display="block";
-  signupForm.style.display="none";
-  headingText.textContent="Welcome back! Please login to your account";
-  moveUnderline(tabSignin);
-}
-function showSignup(){
-  panelSignin.style.display="none";
-  signupForm.style.display="block";
-  headingText.textContent="Create your account to start shopping";
-  moveUnderline(tabSignup);
-}
+    // Tab click handlers
+    authTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        // Update tab active state
+        authTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        updateIndicator(tab);
+        
+        // Show/hide panels
+        if (tabName === 'signin') {
+          signinPanel.classList.add('active');
+          signupPanel.classList.remove('active');
+          headerText.textContent = 'Login to your account';
+        } else {
+          signupPanel.classList.add('active');
+          signinPanel.classList.remove('active');
+          headerText.textContent = 'Create your account';
+        }
+      });
+    });
 
-tabSignin.onclick=showSignin;
-tabSignup.onclick=showSignup;
-toSignup.onclick=e=>{e.preventDefault();showSignup()}
-toSignin.onclick=e=>{e.preventDefault();showSignin()}
+    // Link handlers
+    document.getElementById('toSignup').addEventListener('click', (e) => {
+      e.preventDefault();
+      authTabs[1].click();
+    });
 
-/* password toggle */
-function toggle(inp,btn){
-  btn.onclick=()=>inp.type=inp.type==="password"?"text":"password";
-}
-toggle(si_password,si_toggle);
-toggle(su_pass,su_toggle);
+    document.getElementById('toSignin').addEventListener('click', (e) => {
+      e.preventDefault();
+      authTabs[0].click();
+    });
 
-/* loader */
-const showLoader=()=>loader.style.display="flex";
-const hideLoader=()=>loader.style.display="none";
+    // ===== PASSWORD TOGGLE =====
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const inputId = toggle.dataset.target;
+        const input = document.getElementById(inputId);
+        const icon = toggle.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        }
+      });
+    });
 
-/* LOGIN */
-btnSignin.onclick=async()=>{
-  showLoader();
-  const res=await fetch("http://localhost:5000/api/auth/login",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({email:si_email.value,password:si_password.value})
-  });
-  const d=await res.json();
-  hideLoader();
-  if(!res.ok) return alert(d.msg);
-  localStorage.setItem("token",d.token);
-  location.href="profile.html";
-};
+    // ===== PASSWORD STRENGTH =====
+    const suPass = document.getElementById('su_pass');
+    const passwordStrength = document.getElementById('passwordStrength');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
 
-/* SIGNUP + AUTO LOGIN */
-signupForm.onsubmit=async e=>{
-  e.preventDefault();
-  showLoader();
-  await fetch("http://localhost:5000/api/auth/signup",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      name:su_name.value,
-      email:su_email.value,
-      password:su_pass.value
-    })
-  });
-  const r=await fetch("http://localhost:5000/api/auth/login",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({email:su_email.value,password:su_pass.value})
-  });
-  const d=await r.json();
-  hideLoader();
-  localStorage.setItem("token",d.token);
-  location.href="profile.html";
-};
+    suPass.addEventListener('input', () => {
+      const password = suPass.value;
+      
+      if (password.length > 0) {
+        passwordStrength.classList.add('active');
+        
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-window.onload=()=>moveUnderline(tabSignin);
-</script>
+        strengthFill.className = 'strength-fill';
+        
+        if (strength <= 1) {
+          strengthFill.classList.add('weak');
+          strengthText.textContent = 'Weak password';
+        } else if (strength <= 2) {
+          strengthFill.classList.add('medium');
+          strengthText.textContent = 'Medium password';
+        } else {
+          strengthFill.classList.add('strong');
+          strengthText.textContent = 'Strong password';
+        }
+      } else {
+        passwordStrength.classList.remove('active');
+      }
+    });
+
+    // ===== UTILITY FUNCTIONS =====
+    function showLoader() {
+      loader.style.display = 'flex';
+    }
+
+    function hideLoader() {
+      loader.style.display = 'none';
+    }
+
+    function showAlert(elementId, message, type) {
+      const alert = document.getElementById(elementId);
+      const icon = alert.querySelector('i');
+      const text = alert.querySelector('span');
+      
+      alert.className = 'alert-message ' + type + ' show';
+      icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+      text.textContent = message;
+
+      setTimeout(() => alert.classList.remove('show'), 4000);
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // ===== LOGIN =====
+    const btnSignin = document.getElementById('btnSignin');
+    const siEmail = document.getElementById('si_email');
+    const siPassword = document.getElementById('si_password');
+
+    btnSignin.addEventListener('click', async () => {
+      // Validate
+      if (!siEmail.value || !siPassword.value) {
+        showAlert('signinAlert', 'Please fill in all fields', 'error');
+        return;
+      }
+      if (!validateEmail(siEmail.value)) {
+        showAlert('signinAlert', 'Please enter a valid email', 'error');
+        return;
+      }
+
+      // Show loading
+      btnSignin.disabled = true;
+      btnSignin.innerHTML = '<span class="spinner"></span>Logging in...';
+      showLoader();
+
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: siEmail.value,
+            password: siPassword.value
+          })
+        });
+        
+        const d = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(d.msg || 'Login failed');
+        }
+
+        // Save token
+        localStorage.setItem('token', d.token);
+        
+        // Remember me
+        if (document.getElementById('rememberMe').checked) {
+          localStorage.setItem('rememberEmail', siEmail.value);
+        }
+
+        // Redirect
+        location.href = 'profile.html';
+
+      } catch (error) {
+        showAlert('signinAlert', error.message, 'error');
+        btnSignin.disabled = false;
+        btnSignin.textContent = 'Login';
+        hideLoader();
+      }
+    });
+
+    // ===== SIGNUP =====
+    const btnSignup = document.getElementById('btnSignup');
+    const suName = document.getElementById('su_name');
+    const suEmail = document.getElementById('su_email');
+
+    btnSignup.addEventListener('click', async () => {
+      // Validate
+      if (!suName.value || !suEmail.value || !suPass.value) {
+        showAlert('signupAlert', 'Please fill in all fields', 'error');
+        return;
+      }
+      if (!validateEmail(suEmail.value)) {
+        showAlert('signupAlert', 'Please enter a valid email', 'error');
+        return;
+      }
+      if (suPass.value.length < 6) {
+        showAlert('signupAlert', 'Password must be at least 6 characters', 'error');
+        return;
+      }
+
+      // Show loading
+      btnSignup.disabled = true;
+      btnSignup.innerHTML = '<span class="spinner"></span>Creating...';
+      showLoader();
+
+      try {
+        // Signup
+        const signupRes = await fetch('http://localhost:5000/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: suName.value,
+            email: suEmail.value,
+            password: suPass.value
+          })
+        });
+
+        const signupData = await signupRes.json();
+
+        if (!signupRes.ok) {
+          throw new Error(signupData.msg || 'Signup failed');
+        }
+
+        // Auto login
+        const loginRes = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: suEmail.value,
+            password: suPass.value
+          })
+        });
+
+        const loginData = await loginRes.json();
+
+        if (!loginRes.ok) {
+          throw new Error(loginData.msg || 'Auto login failed');
+        }
+
+        // Save token
+        localStorage.setItem('token', loginData.token);
+
+        // Redirect
+        location.href = 'profile.html';
+
+      } catch (error) {
+        showAlert('signupAlert', error.message, 'error');
+        btnSignup.disabled = false;
+        btnSignup.textContent = 'Create Account';
+        hideLoader();
+      }
+    });
+
+    // ===== SOCIAL LOGIN HANDLERS =====
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        showAlert('signinAlert', 'Social login coming soon!', 'error');
+      });
+    });
+
+    // ===== CHECK REMEMBERED EMAIL =====
+    const rememberedEmail = localStorage.getItem('rememberEmail');
+    if (rememberedEmail) {
+      siEmail.value = rememberedEmail;
+      document.getElementById('rememberMe').checked = true;
+    }
+
+    // ===== INIT =====
+    window.addEventListener('load', () => {
+      updateIndicator(authTabs[0]);
+    });
+  </script>
 
 </body>
 </html>
+
